@@ -1,0 +1,9 @@
+{
+  "version": "1",
+  "name": "RenoConnect",
+  "type": "collection",
+  "ignore": [
+    "node_modules",
+    ".git"
+  ]
+}
