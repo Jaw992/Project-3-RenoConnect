@@ -3,9 +3,12 @@ const router = express.Router();
 const bcrypt = require("bcrypt");
 const Customer = require("../models/Customer");
 const jwt = require("jsonwebtoken");
+const verifyTokenCustomer = require('../middleware/verifyTokenCustomer');
+
 
 const SALT_LENGTH = 12;
 
+// sign up
 router.post("/signup", async (req, res) => {
     try {
         // check if username is taken
@@ -25,6 +28,7 @@ router.post("/signup", async (req, res) => {
     }
 });
 
+// log in
 router.post("/login", async (req, res) => {
     try {
         const customer = await Customer.findOne({ username: req.body.username });
@@ -36,6 +40,27 @@ router.post("/login", async (req, res) => {
         }
     } catch (error) {
         res.status(400).json({ error: error.message });
+    }
+});
+
+// get customer profile
+router.get("/:customerId", verifyTokenCustomer, async (req, res) => {
+    try {
+        if (req.customer._id !== req.params.customerId) {
+            return res.status(401).json({ error: "Unauthorized" })
+        }
+        const customer = await Customer.findById(req.customer._id);
+        if (!customer) {
+            res.status(404)
+            throw new Error("Profile not found.");
+        }
+        res.json({ customer });
+    } catch (error) {
+        if (res.statusCode === 404) {
+            res.status(404).json({ error: error.message });
+        } else {
+        res.status(500).json({ error: error.message });
+        }
     }
 });
 
