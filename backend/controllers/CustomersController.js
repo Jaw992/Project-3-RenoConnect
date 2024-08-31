@@ -4,7 +4,7 @@ const bcrypt = require("bcrypt");
 const Customer = require("../models/Customer");
 const jwt = require("jsonwebtoken");
 const verifyTokenCustomer = require('../middleware/verifyTokenCustomer');
-
+const ChangeLog = require("../models/Phase");
 
 const SALT_LENGTH = 12;
 

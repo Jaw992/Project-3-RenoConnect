@@ -3,9 +3,12 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import ContractorBar from "./components/ContractorBar";
 import CustomerBar from "./components/CustomerBar";
 import NavBar from "./components/NavBar";
+import { Route, Routes } from "react-router-dom";
+import CustomerLoginPage from "./pages/CustomerLoginPage";
 
 function App() {
   return (
+    <>
     <div className="app-gradient">
       <ContractorBar />
       <CustomerBar />
@@ -25,6 +28,10 @@ function App() {
         </div>
       </Container>
     </div>
+    <Routes>
+      <Route path="/customers/login" element={<CustomerLoginPage />} />
+    </Routes>
+    </>
   );
 }
 
