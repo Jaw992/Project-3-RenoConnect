@@ -1,0 +1,21 @@
+meta {
+  name: Update a phase and add a change log entry
+  type: http
+  seq: 4
+}
+
+put {
+  url: http://localhost:3000/api/phases/update/66d2ca3369efd8d7b9dad2b5
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "phaseName": "1",
+    "task": "Painting",
+    "taskDescription": "Paint living room",
+    "startDate": "2024-09-20",
+    "endDate": "2024-10-01"
+  }
+}
