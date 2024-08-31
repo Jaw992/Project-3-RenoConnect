@@ -1,0 +1,21 @@
+meta {
+  name: Create Phase
+  type: http
+  seq: 2
+}
+
+post {
+  url: http://localhost:3000/api/phases/
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "phaseName": "1",
+    "task": "Painting",
+    "taskDescription": "Paint living room",
+    "startDate": "2024-09-20",
+    "endDate": "2024-10-01"
+  }
+}
