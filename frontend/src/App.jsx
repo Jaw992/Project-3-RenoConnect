@@ -9,6 +9,7 @@ import ContractorLogin from "./pages/ContractorLogin";
 import CustomerLogin from "./pages/CustomerLogin";
 import ContractorSignup from "./pages/ContractorSignup";
 import CustomerSignup from "./pages/CustomerSignup";
+import ContractorDashboard from "./pages/ContractorDashboard";
 import bgImage from "./assets/b1.jpg";
 import { Link } from "react-router-dom";
 import "./css/styles.css";
@@ -64,6 +65,7 @@ function App() {
         <Route path="/customer/login" element={<CustomerLogin />} />
         <Route path="/contractor/signup" element={<ContractorSignup />} />
         <Route path="/customer/signup" element={<CustomerSignup />} />
+        <Route path="/contractor" element={<ContractorDashboard />} />
       </Routes>
       <Footer />
     </div>

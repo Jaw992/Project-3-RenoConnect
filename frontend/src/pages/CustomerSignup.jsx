@@ -6,7 +6,7 @@ const CustomerSignup = () => {
     <div className="customer-bg">
       <Container className="login-container">
         <h3 className="h3-custom">Customer Sign Up</h3>
-        <Form className="formLabel mt-4  border p-3 ">
+        <Form className="formLabel mt-4  pages-box-shadow p-3 ">
           <h4>Personal Particulars</h4>
           <Form.Group controlId="formName">
             <Form.Label>Name</Form.Label>
@@ -35,7 +35,7 @@ const CustomerSignup = () => {
             />
           </Form.Group>
         </Form>
-        <Form className="formLabel mt-4  border p-3 ">
+        <Form className="formLabel mt-4  pages-box-shadow p-3 ">
           <h4>Account Details</h4>
           <Form.Group controlId="formProjectId">
             <Form.Label>Project ID</Form.Label>
