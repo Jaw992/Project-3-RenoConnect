@@ -1,0 +1,96 @@
+@import url("https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap");
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Source Sans 3", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  font-optical-sizing: auto;
+  background-color: #f8f9fa;
+  background-color: #343a40;
+  background-color: #edf2fa;
+  /* padding-top: 3rem; */
+}
+
+* {
+  box-sizing: border-box;
+}
+.app-gradient {
+  background: linear-gradient(135deg, #e8cbc0, #636fa4);
+  min-height: 100vh;
+}
+.paragraph {
+  max-width: 600px;
+  color: #ebe9e1;
+}
+.spaced-left-container {
+  margin-left: 16rem;
+  width: 50%;
+}
+.h1Bold {
+  font-weight: 900;
+  color: #ff8a84;
+  color: #212f3c;
+}
+.margin-top {
+  margin-top: 5rem;
+  color: #ebe9e1;
+  font-weight: 700;
+}
+.custom-button-primary {
+  background-color: transparent;
+  color: #ebe9e1;
+  border: solid #ebe9e1 1px;
+}
+
+.custom-button-secondary {
+  background-color: #ebe9e1;
+  color: white;
+  border: none;
+  color: grey;
+}
+.custom-button-secondary:hover {
+  background-color: #ff8a84;
+  border: solid #ebe9e1 1px; /* Remove default border */
+}
+
+.custom-button-primary:hover {
+  background-color: #ff8a84;
+  border: solid #ebe9e1 1px; /* Remove default border */
+}
+/* CustomerBar, ContractorBar Styling */
+.bg-primary {
+  background: linear-gradient(135deg, #16222a, #3a6073);
+  background: linear-gradient(90deg, #16222a, #2e3f52);
+  background: linear-gradient(90deg, #16222a, #2e3f52);
+  color: white !important;
+}
+.navbar-brand {
+  font-weight: bold;
+  color: #ff8a84;
+}
+.bg-body-tertiary-contractor {
+  background: rgba(23, 32, 42, 0.6) !important;
+  color: #ebe9e1 !important;
+}
+.bg-body-tertiary-customer {
+  background: rgba(236, 112, 99, 0.5) !important;
+  color: #ebe9e1 !important;
+}
+.navLink {
+  color: #ebe9e1 !important;
+}
+.navLink .dropdown-toggle {
+  color: #ebe9e1 !important;
+}
+.navLink .dropdown-menu {
+  background-color: rgba(23, 32, 42, 0.6);
+}
+.navLink .dropdown-item {
+  color: #ebe9e1 !important;
+}
+.navLink .dropdown-item:hover {
+  background-color: rgba(23, 32, 42, 0.6);
+  color: #ebe9e1 !important;
+}
