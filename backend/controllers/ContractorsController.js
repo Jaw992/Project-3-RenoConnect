@@ -39,7 +39,7 @@ router.post("/login", async (req, res) => {
     try {
         const contractorUser = await Contractor.findOne({ username });
         if (!contractorUser) {
-            return res.status(401).json({ error: "No such User"});
+            return res.status(401).json({ error: "Invalid Username & Password"});
         }
 
         const match = await bcrypt.compare(password, contractorUser.hashedPassword);
@@ -47,9 +47,29 @@ router.post("/login", async (req, res) => {
             const token = createJWT(contractorUser);
             return res.status(200).json({ token });
         }
-        res.status(401).json({ error: "Wrong Password!"});
+        res.status(401).json({ error: "Invalid Username & Password"});
     } catch (error) {
         res.status(500).json({ error: error.message });
+    }
+});
+
+router.get("/:contractorId", verifyToken, async (req, res) => {
+    try {
+        if (req.contractor._id !== req.params.contractorId) {
+            return res.status(401).json({ error: "Unauthorized to enter."})
+        }
+        const contractorUser = await Contractor.findById(req.contractor._id);
+        if (!contractorUser) {
+            res.status(404);
+            throw new Error("Profile Invalid, please try again.");
+        }
+        res.json({contractorUser});
+    } catch (error) {
+        if (res.statusCode === 404) {
+            res.status(404).json({ error: error.message });
+        } else {
+            res.status(500).json({ error: error.message });
+          }
     }
 });
 
