@@ -6,7 +6,7 @@ const ContractorSignup = () => {
     <div className="contractor-bg">
       <Container className="login-container">
         <h3 className="h3-custom">Contractor Sign Up</h3>
-        <Form className="formLabel mt-4 border p-3">
+        <Form className="formLabel mt-4 pages-box-shadow p-3">
           <h4>Company Details</h4>
           <Form.Group controlId="formCompanyName" className="mt-3">
             <Form.Label>Company Name</Form.Label>
@@ -56,7 +56,7 @@ const ContractorSignup = () => {
             />
           </Form.Group>
         </Form>
-        <Form className="formLabel mt-4  border p-3 ">
+        <Form className="formLabel mt-4  pages-box-shadow p-3 ">
           <h4>Account Details</h4>
 
           <Form.Group controlId="formUsername" className="mt-3">

@@ -54,11 +54,13 @@ body {
 }
 .custom-button-secondary:hover {
   background-color: #ff8a84;
+  background-color: #2e3f52 !important;
   border: solid #ebe9e1 1px;
 }
 
 .custom-button-primary:hover {
   background-color: #ff8a84;
+  background-color: #2e3f52 !important;
   border: solid #ebe9e1 1px;
 }
 
@@ -171,6 +173,7 @@ body {
 
 .contractor-bg {
   background: #16222a;
+  /* background: pink; */
 }
 
 /* .customer-bg {
@@ -181,4 +184,23 @@ body {
 
 .customer-bg {
   background: #16222a;
+  /* background: pink; */
+}
+.pages-pad {
+  padding-top: 5rem;
+  padding-bottom: 5rem;
+}
+.pages-form-labels {
+  color: white;
+}
+
+.pages-custom-container {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+.pages-box-shadow {
+  background-color: rgba(56, 56, 56, 0.3); /* Dark background color */
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+  border-radius: 5px; /* Optional: to round the corners */
+  padding: 20px; /* Adjust padding if needed */
 }
