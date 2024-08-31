@@ -3,27 +3,30 @@ import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 
 function CustomerBar() {
-  const userName = "Jared";
-  const projectId = "Project #Owen";
+  const userName = "Bob";
+  const projectId = "#123";
+  const address = "Street 123";
 
   return (
-    <>
-      <Navbar expand="lg" className="bg-primary">
+    <div className="bg-primary-fixed">
+      <Navbar className="bg-primary-color bar-control">
         <Container>
-          <Navbar.Brand href="#home">renoConnect</Navbar.Brand>
+          <Navbar.Brand href="/">renoConnect</Navbar.Brand>
         </Container>
       </Navbar>
 
-      <Navbar expand="lg" className="bg-body-tertiary-customer">
+      <Navbar className="bg-body-tertiary">
         <Container>
           <div>
-            <Navbar.Brand style={{ fontWeight: "600", color: "#2E3F52" }}>
+            <div style={{ fontWeight: "600", fontSize: "1.2rem" }}>
               Your Dream Space
-            </Navbar.Brand>
-            <div style={{ fontWeight: "400", color: "#2E3F52" }}>
+            </div>
+            <div style={{ fontWeight: "300" }}>
               <span>{userName}</span>
               <span> | </span>
               <span>{projectId}</span>
+              <span> | </span>
+              <span>Address: {address}</span>
             </div>
           </div>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
@@ -45,7 +48,7 @@ function CustomerBar() {
           </Navbar.Collapse>
         </Container>
       </Navbar>
-    </>
+    </div>
   );
 }
 

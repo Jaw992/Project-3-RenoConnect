@@ -4,24 +4,24 @@ import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
 
 function ContractorBar() {
-  const userName = "Jared";
-  const projectId = "Project #Owen";
+  const userName = "Bob";
+  const projectId = "Project #123";
 
   return (
-    <>
-      <Navbar expand="lg" className="bg-primary">
+    <div className="bg-primary-fixed">
+      <Navbar className="bg-primary-color bar-control">
         <Container>
-          <Navbar.Brand href="#home">renoConnect</Navbar.Brand>
+          <Navbar.Brand href="/">renoConnect</Navbar.Brand>
         </Container>
       </Navbar>
 
-      <Navbar expand="lg" className="bg-body-tertiary-contractor">
+      <Navbar className="bg-body-tertiary">
         <Container>
           <div>
-            <Navbar.Brand style={{ fontWeight: "600", color: "#EBE9E1" }}>
+            <div style={{ fontWeight: "600", fontSize: "1.2rem" }}>
               Contractor Workspace
-            </Navbar.Brand>
-            <div style={{ fontWeight: "400" }}>
+            </div>
+            <div style={{ fontWeight: "300" }}>
               <span>{userName}</span>
               <span> | </span>
               <span>{projectId}</span>
@@ -55,7 +55,7 @@ function ContractorBar() {
           </Navbar.Collapse>
         </Container>
       </Navbar>
-    </>
+    </div>
   );
 }
 
