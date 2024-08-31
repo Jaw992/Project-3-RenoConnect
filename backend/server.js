@@ -5,7 +5,9 @@ const debug = require("debug")("hoot:server");
 const mongoose = require("mongoose");
 // import routers
 const customersRouter = require("./controllers/CustomersController");
+const contractorsRouter = require("./controllers/ContractorsController");
 const phasesRouter = require("./controllers/PhasesController");
+
 
 mongoose.connect(process.env.MONGODB_URI);
 
@@ -26,7 +28,7 @@ app.get("/api", (req, res) => {
 });
 
 app.use("/api/customers", customersRouter);
-// app.use("/api/contractors", contractorsRouter);
+app.use("/api/contractors", contractorsRouter);
 app.use("/api/phases", phasesRouter);
 // app.use("/api/changeLog", changeLogRouter);
 // app.use("/api/projects", projectRouter);
