@@ -1,0 +1,24 @@
+meta {
+  name: Customer Login-incorrect
+  type: http
+  seq: 7
+}
+
+post {
+  url: http://localhost:3000/api/customers/login
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "username": "testing fail",
+    "password": "456"
+  }
+}
+
+script:post-response {
+  bru.setVar("token",res.body.token)
+    const payload = JSON.parse(atob(res.body.token.split(".")[1]))
+    bru.setVar("customer",payload._id)
+}
