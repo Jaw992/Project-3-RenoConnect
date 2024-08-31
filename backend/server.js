@@ -7,6 +7,7 @@ const mongoose = require("mongoose");
 const customersRouter = require("./controllers/CustomersController");
 const contractorsRouter = require("./controllers/ContractorsController");
 const phasesRouter = require("./controllers/PhasesController");
+const projectRouter = require("./controllers/ProjectsController");
 
 
 mongoose.connect(process.env.MONGODB_URI);
@@ -31,7 +32,7 @@ app.use("/api/customers", customersRouter);
 app.use("/api/contractors", contractorsRouter);
 app.use("/api/phases", phasesRouter);
 // app.use("/api/changeLog", changeLogRouter);
-// app.use("/api/projects", projectRouter);
+app.use("/api/projects", projectRouter);
 
 app.listen(port, () => {
   debug(`Example app listening on port ${port}`);
