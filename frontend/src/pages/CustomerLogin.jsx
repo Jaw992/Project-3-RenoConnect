@@ -5,7 +5,7 @@ import { useState } from "react";
 
 // login data
 async function customerLogin(data) {
-  const url = "http://localhost:3000/api/customers/login";
+  const url = "http://localhost:3000/api/customers/login"; //can change
   try {
     const response = await fetch(url, {
       method: "POST",
