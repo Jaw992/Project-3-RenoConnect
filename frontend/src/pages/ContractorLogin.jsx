@@ -3,7 +3,7 @@ import { Container, Form, Button } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 
-// login data contractor
+// login data contractor (to be moved to service file)
 async function contractorLogin(data) {
   const url = "http://localhost:3000/api/contractors/login"; // can change
   try {
