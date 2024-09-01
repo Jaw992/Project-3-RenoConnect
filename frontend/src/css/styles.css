@@ -167,17 +167,11 @@ body {
 
 .contractor-bg {
   background: #16222a;
-  /* background: pink; */
-}
-
-.contractor-bg {
-  background: #16222a;
   background: -webkit-linear-gradient(to right, #3a6073, #16222a);
   background: linear-gradient(to right, #3a6073, #16222a);
 }
-
-.customer-bg {
-  background: #16222a;
+.contractor-bg {
+  background: #2f5f7f;
   /* background: pink; */
 }
 
@@ -186,8 +180,13 @@ body {
   background: -webkit-linear-gradient(to right, #ff9472, #f2709c);
   background: linear-gradient(to right, #ff9472, #f2709c);
 }
+
+.customer-bg {
+  background: #b45a8f;
+  /* background: pink; */
+}
 .pages-pad {
-  padding-top: 5rem;
+  padding-top: 8rem;
   padding-bottom: 5rem;
 }
 .pages-form-labels {
@@ -195,15 +194,30 @@ body {
 }
 
 .pages-custom-container {
-  max-width: 1000px;
+  max-width: 900px;
   margin: 0 auto;
 }
 .pages-box-shadow {
-  background-color: rgba(20, 20, 20, 0.7);
+  background-color: rgb(31, 31, 31, 0.8);
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
   border-radius: 5px;
   padding: 20px;
 }
 .changes-text-thin {
   font-weight: 400;
+}
+.h2-projectTracking {
+  /* color: #ebe9e1;*/
+  color: white;
+  font-weight: 600;
+  font-size: 5em;
+}
+.p-projectTracking {
+  /* color: #ebe9e1;*/
+  color: white;
+  font-weight: 600;
+  font-size: 1em;
+}
+.gantt-chart-pad {
+  padding-top: 3rem;
 }

@@ -1,6 +1,7 @@
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
+import { Link } from "react-router-dom";
 
 function CustomerBar() {
   const userName = "Bob";
@@ -35,14 +36,15 @@ function CustomerBar() {
             className="justify-content-end"
           >
             <Nav>
-              <Nav.Link className="navLink" href="#home">
+              <Nav.Link as={Link} className="navLink" to="/customer">
                 Dashboard
               </Nav.Link>
-              <Nav.Link className="navLink" href="#link">
+              <Nav.Link
+                as={Link}
+                className="navLink"
+                to="/customer/projectdetails"
+              >
                 Project Details
-              </Nav.Link>
-              <Nav.Link className="navLink" href="#link">
-                Review
               </Nav.Link>
             </Nav>
           </Navbar.Collapse>

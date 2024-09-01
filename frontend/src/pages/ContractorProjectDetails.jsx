@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Container, Form, Button } from "react-bootstrap";
+import ProjectTrackingCard from "../components/ProjectTrackingCard";
 
 const ContractorProjectDetails = () => {
   const [formData, setFormData] = useState({
@@ -29,10 +30,9 @@ const ContractorProjectDetails = () => {
     <div className="contractor-bg pages-pad">
       <Container className="pages-custom-container">
         <h4 className="h3-custom">Project Details</h4>
-        <div className="pages-box-shadow p-3">
-          <p style={{ color: "white" }}>* Add Project Details Card Here</p>
+        <div className="pages-box-shadow p-3 p-projectTracking">
+          ADD PROJECT DETAILS CARD
         </div>
-
         <div className="pages-box-shadow p-3 mt-3">
           <h5 className="h3-custom">Create/Edit</h5>
 

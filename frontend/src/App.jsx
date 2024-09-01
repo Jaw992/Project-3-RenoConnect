@@ -12,8 +12,10 @@ import ContractorSignup from "./pages/ContractorSignup";
 import CustomerSignup from "./pages/CustomerSignup";
 import ContractorDashboard from "./pages/ContractorDashboard";
 import ContractorProjectDetails from "./pages/ContractorProjectDetails";
-import ContractorCreate from "./pages/contractorCreate";
-import ContractorChange from "./pages/contractorChange";
+import ContractorCreate from "./pages/ContractorCreate";
+import ContractorChange from "./pages/ContractorChange";
+import CustomerDashboard from "./pages/CustomerDashboard";
+import CustomerProjectDetails from "./pages/CustomerProjectDetails";
 import bgImage from "./assets/b1.jpg";
 import { Link } from "react-router-dom";
 import "./css/styles.css";
@@ -23,10 +25,9 @@ function App() {
 
   return (
     <div className="homeContent">
-      {/* <ContractorBar /> */}
-      {/* <CustomerBar /> */}
-      <Navibar />
-
+      {/* /* <ContractorBar /> */}
+      <CustomerBar /> */
+      {/* <Navibar /> */}
       <Routes>
         <Route
           path="/"
@@ -78,6 +79,11 @@ function App() {
         />
         <Route path="/contractor/create" element={<ContractorCreate />} />
         <Route path="/contractor/change" element={<ContractorChange />} />
+        <Route path="/customer" element={<CustomerDashboard />} />
+        <Route
+          path="/customer/projectdetails"
+          element={<CustomerProjectDetails />}
+        />
       </Routes>
       <Footer />
     </div>

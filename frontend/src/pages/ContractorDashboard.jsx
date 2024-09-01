@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Container, Form, Button } from "react-bootstrap";
 import PhaseDetailsCard from "../components/PhaseDetailsCard";
+import ProjectTrackingCard from "../components/ProjectTrackingCard";
 
 const ContractorDashboard = () => {
   const [selectedPhase, setSelectedPhase] = useState("Phase 1");
@@ -18,11 +19,10 @@ const ContractorDashboard = () => {
       <Container className="pages-custom-container">
         <h4 className="h3-custom">Dashboard</h4>
         <div className=" pages-box-shadow p-3">
-          <h5 className="h3-custom">Project Tracking</h5>
-          <p style={{ color: "white" }}>
-            * Add Progress Circle, Total Phases, Completed here
-          </p>
-          <p style={{ color: "white" }}>* Add Gantt Chart here</p>
+          <h5 className="h3-custom mb-4">Project Tracking</h5>
+          <div>
+            <ProjectTrackingCard />
+          </div>
         </div>
 
         <div className=" pages-box-shadow p-3 mt-3">
@@ -45,7 +45,7 @@ const ContractorDashboard = () => {
               <option>Phase 2</option>
               <option>Phase 3</option>
             </Form.Control>
-            <div className="pages-box-shadow p-3 mt-3">
+            <div className="mt-4">
               <PhaseDetailsCard phase={selectedPhase} />
             </div>
           </Form.Group>
