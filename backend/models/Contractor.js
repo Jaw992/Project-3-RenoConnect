@@ -17,4 +17,11 @@ const contractorSchema = new mongoose.Schema({
   companyUEN: String,
 });
 
+contractorSchema.set("toJSON", {
+  tranform: (document, returnObject) => {
+    delete returnObject.hashPassword;
+  },
+});
+
+
 module.exports = mongoose.model("Contractor", contractorSchema);

@@ -15,4 +15,10 @@ const customerSchema = new mongoose.Schema({
   email: {type: String, require: true},
 });
 
+customerSchema.set("toJSON", {
+  tranform: (document, returnObject) => {
+    delete returnObject.hashPassword;
+  },
+});
+
 module.exports = mongoose.model("Customer", customerSchema);
