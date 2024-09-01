@@ -1,3 +1,4 @@
+import { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Container, Button } from "react-bootstrap";
 import { Route, Routes } from "react-router-dom";
@@ -15,6 +16,8 @@ import { Link } from "react-router-dom";
 import "./css/styles.css";
 
 function App() {
+    const [token, setToken] = useState("");
+
   return (
     <div className="homeContent">
       {/* <ContractorBar /> */}
@@ -62,7 +65,7 @@ function App() {
           }
         />
         <Route path="/contractor/login" element={<ContractorLogin />} />
-        <Route path="/customer/login" element={<CustomerLogin />} />
+        <Route path="/customer/login" element={<CustomerLogin setToken={setToken}/>} />
         <Route path="/contractor/signup" element={<ContractorSignup />} />
         <Route path="/customer/signup" element={<CustomerSignup />} />
         <Route path="/contractor" element={<ContractorDashboard />} />

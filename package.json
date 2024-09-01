@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "prepare": "husky",
-    "commitlint": "commitlint --edit"  
+    "commitlint": "commitlint --edit"
   },
   "keywords": [],
   "author": "",
@@ -20,9 +20,12 @@
   },
   "lint-staged": {
     "*.js": "prettier -- write"
-    },
-    "workspaces": [
+  },
+  "workspaces": [
     "frontend",
     "backend"
-  ]
+  ],
+  "dependencies": {
+    "cors": "^2.8.5"
+  }
 }
