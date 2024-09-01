@@ -1,11 +1,18 @@
 const express = require("express");
 const router = express.Router();
 const Project = require("../models/Project");
+const verifyTokenContractor = require("../middleware/verifyTokenContractor");
+const verifyTokenCustomer = require("../middleware/verifyTokenCustomer");
+
+//* Verify Token
+router.use(verifyTokenContractor);
+router.use(verifyTokenCustomer);
 
 //* Create new project
 router.post("/", async (req, res) => {
     try {
-        req.body.Contractor = req.contractor._id
+        req.body.contractor = req.contractor._id;
+        // req.body.customer = req.customer._id;
         const project = await Project.create(req.body);
         res.status(201).json({project});
     } catch (error) {

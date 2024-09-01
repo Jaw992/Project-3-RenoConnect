@@ -2,7 +2,6 @@ const mongoose = require("mongoose");
 
 const projectSchema = new mongoose.Schema({
     projectId: {type: String, requrie: true, unique: true},
-    projectName: String,
     startDate: Date,
     endDate: Date,
     projectAddress: String,
