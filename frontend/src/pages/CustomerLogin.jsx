@@ -3,7 +3,7 @@ import { Container, Form, Button } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 
-// login data
+// login data customer
 async function customerLogin(data) {
   const url = "http://localhost:3000/api/customers/login"; //can change
   try {
@@ -41,7 +41,7 @@ const CustomerLogin = ({ setToken }) => {
     try {
       const token = await customerLogin({ username, password });
       setToken(token); // Set the token in your app's state
-      setSuccessMessage("Login successful!");
+      setSuccessMessage("Login Successful!");
       // navigate("/customer"); // Redirect to customer dashboard
     } catch (error) {
       setError("Invalid username or password");
