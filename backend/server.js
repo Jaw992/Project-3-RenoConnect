@@ -3,7 +3,8 @@ const express = require("express");
 const morgan = require("morgan");
 const debug = require("debug")("hoot:server");
 const mongoose = require("mongoose");
-const cors = require("cors");
+const cors = require("cors"); // for when frontend and backend port not the same
+
 // import routers
 const customersRouter = require("./controllers/CustomersController");
 const contractorsRouter = require("./controllers/ContractorsController");

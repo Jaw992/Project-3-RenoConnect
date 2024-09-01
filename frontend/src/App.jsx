@@ -64,8 +64,8 @@ function App() {
             </div>
           }
         />
-        <Route path="/contractor/login" element={<ContractorLogin />} />
-        <Route path="/customer/login" element={<CustomerLogin setToken={setToken}/>} />
+        <Route path="/contractor/login" element={<ContractorLogin setToken={setToken} />} />
+        <Route path="/customer/login" element={<CustomerLogin setToken={setToken} />} />
         <Route path="/contractor/signup" element={<ContractorSignup />} />
         <Route path="/customer/signup" element={<CustomerSignup />} />
         <Route path="/contractor" element={<ContractorDashboard />} />
