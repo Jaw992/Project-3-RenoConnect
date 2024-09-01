@@ -12,7 +12,6 @@ router.use(verifyTokenCustomer);
 router.post("/", async (req, res) => {
     try {
         req.body.contractor = req.contractor._id;
-        // req.body.customer = req.customer._id;
         const project = await Project.create(req.body);
         res.status(201).json({project});
     } catch (error) {
@@ -20,13 +19,16 @@ router.post("/", async (req, res) => {
     }
 });
 
-//* Get a single project
+// //* Get a single project on contractor and customer respectively
 router.get("/:projectId", async (req, res) => {
+    const { projectId } = req.params;
+
     try {
-        const projectConractor = await Project.findById(req.params.projectId).populate("Contractor");
-        res.status(200).json({projectConractor});
-        const projectCustomer = await Project.findById(req.params.projectId).populate("Customer");
-        res.status(200).json({projectCustomer});
+        const project = await Project.findById(projectId).populate("contractor");
+        if (project === null) {
+            return res.status(404).json({ error: "Not found" });
+          }
+          res.status(200).json({project});
     } catch (error) {
         res.status(500).json({ error: error.message });
     }

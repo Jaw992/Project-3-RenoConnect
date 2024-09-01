@@ -1,0 +1,37 @@
+meta {
+  name: Index Project
+  type: http
+  seq: 13
+}
+
+get {
+  url: http://localhost:3000/api/projects
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+    "projectId": "CL123",
+    "startDate": "2024-09-01",
+    "endDate": "2024-11-30",
+    "projectAddress": "Blk 49 woodlands ave 5",
+    "projectPhaseCount": "5",
+    "projectDownPayment": 15,
+    "projectPaymentReceived": 7500,
+    "projectTotalCost": 50000,
+    "projectStatus": "Active"
+  }
+}
+
+script:post-response {
+  if (res.body.length > 0) {
+      bru.setVar("projectId",res.body[0]._id)
+    } else {
+      bru.setVar("projectId", "")
+    }
+}
