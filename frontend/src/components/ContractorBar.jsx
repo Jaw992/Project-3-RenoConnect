@@ -2,6 +2,7 @@ import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
+import { Link } from "react-router-dom";
 
 function ContractorBar() {
   const userName = "Bob";
@@ -34,10 +35,14 @@ function ContractorBar() {
             className="justify-content-end"
           >
             <Nav>
-              <Nav.Link className="navLink" href="#home">
+              <Nav.Link as={Link} className="navLink" to="/contractor">
                 Dashboard
               </Nav.Link>
-              <Nav.Link className="navLink" href="#link">
+              <Nav.Link
+                as={Link}
+                className="navLink"
+                to="//contractor/projectdetails"
+              >
                 Project Details
               </Nav.Link>
               <NavDropdown
@@ -45,10 +50,11 @@ function ContractorBar() {
                 title="Phase Controls"
                 id="basic-nav-dropdown"
               >
-                <NavDropdown.Item href="#action/3.1">Create</NavDropdown.Item>
-                <NavDropdown.Item href="#action/3.2">Edit</NavDropdown.Item>
-                <NavDropdown.Item href="#action/3.3">
-                  View/Submit/Delete
+                <NavDropdown.Item as={Link} to="/contractor/create">
+                  Create
+                </NavDropdown.Item>
+                <NavDropdown.Item as={Link} to="/contractor/change">
+                  Change
                 </NavDropdown.Item>
               </NavDropdown>
             </Nav>

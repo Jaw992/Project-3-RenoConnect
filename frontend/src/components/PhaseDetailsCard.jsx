@@ -22,6 +22,7 @@ const PhaseDetailsCard = ({ phase, viewMode }) => {
         style={{
           backgroundColor: "transparent",
           color: "white",
+          border: "none",
         }}
       >
         <Card.Body>
@@ -41,6 +42,7 @@ const PhaseDetailsCard = ({ phase, viewMode }) => {
         style={{
           backgroundColor: "transparent",
           color: "white",
+          border: "none",
         }}
       >
         <Card.Body>
