@@ -33,6 +33,7 @@ router.post("/signup", async (req, res) => {
     }
 });
 
+//* Contractor login route
 router.post("/login", async (req, res) => {
     const { username, password } = req.body;
 
@@ -53,6 +54,7 @@ router.post("/login", async (req, res) => {
     }
 });
 
+//* Contractor get profile route
 router.get("/:contractorId", verifyToken, async (req, res) => {
     try {
         if (req.contractor._id !== req.params.contractorId) {
