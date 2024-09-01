@@ -1,13 +1,17 @@
 meta {
-  name: Index Project
+  name: Update Project
   type: http
-  seq: 13
+  seq: 12
 }
 
-get {
-  url: http://localhost:3000/api/projects
+put {
+  url: http://localhost:3000/api/projects/:projectId
   body: json
   auth: bearer
+}
+
+params:path {
+  projectId: 66d4159270bd742d71fd8ff0
 }
 
 auth:bearer {
@@ -19,19 +23,11 @@ body:json {
     "projectId": "CL123",
     "startDate": "2024-09-01",
     "endDate": "2024-11-30",
-    "projectAddress": "Blk 49 woodlands ave 5",
-    "projectPhaseCount": "5",
+    "projectAddress": "Blk 51 woodlands ave 5",
+    "projectPhaseCount": "7",
     "projectDownPayment": 15,
     "projectPaymentReceived": 7500,
     "projectTotalCost": 50000,
     "projectStatus": "Active"
   }
-}
-
-script:post-response {
-  if (res.body.length > 0) {
-      bru.setVar("projectId",res.body[0]._id)
-    } else {
-      bru.setVar("projectId", "")
-    }
 }
