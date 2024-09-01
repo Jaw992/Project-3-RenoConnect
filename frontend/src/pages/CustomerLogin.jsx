@@ -3,9 +3,9 @@ import { Container, Form, Button } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 
-
+// login data
 async function customerLogin(data) {
-  const url = "api/customers/login";
+  const url = "http://localhost:3000/api/customers/login";
   try {
     const response = await fetch(url, {
       method: "POST",
@@ -22,6 +22,7 @@ async function customerLogin(data) {
     return json.token;
   } catch (error) {
     console.error(error.message);
+    throw error;
   }
 }
 
@@ -36,14 +37,12 @@ const CustomerLogin = ({ setToken }) => {
     event.preventDefault();
     setError("");
     setSuccessMessage("");
-    const formData = new FormData(event.target);
-    const data = Object.fromEntries(formData);
 
     try {
       const token = await customerLogin({ username, password });
       setToken(token); // Set the token in your app's state
       setSuccessMessage("Login successful!");
-      navigate("/customer"); // Redirect to customer dashboard
+      // navigate("/customer"); // Redirect to customer dashboard
     } catch (error) {
       setError("Invalid username or password");
     }

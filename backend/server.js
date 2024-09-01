@@ -3,6 +3,7 @@ const express = require("express");
 const morgan = require("morgan");
 const debug = require("debug")("hoot:server");
 const mongoose = require("mongoose");
+const cors = require("cors");
 // import routers
 const customersRouter = require("./controllers/CustomersController");
 const contractorsRouter = require("./controllers/ContractorsController");
@@ -18,9 +19,11 @@ mongoose.connection.on("connected", () => {
 const app = express();
 const port = process.env.PORT || 3000;
 
+
 //* Middleware
 app.use(express.json());
 app.use(morgan("dev"));
+app.use(cors());
 
 //* Routes
 app.get("/api", (req, res) => {
