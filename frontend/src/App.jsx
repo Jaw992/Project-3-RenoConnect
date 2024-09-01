@@ -11,6 +11,9 @@ import CustomerLogin from "./pages/CustomerLogin";
 import ContractorSignup from "./pages/ContractorSignup";
 import CustomerSignup from "./pages/CustomerSignup";
 import ContractorDashboard from "./pages/ContractorDashboard";
+import ContractorProjectDetails from "./pages/ContractorProjectDetails";
+import ContractorCreate from "./pages/contractorCreate";
+import ContractorChange from "./pages/contractorChange";
 import bgImage from "./assets/b1.jpg";
 import { Link } from "react-router-dom";
 import "./css/styles.css";
@@ -69,6 +72,12 @@ function App() {
         <Route path="/contractor/signup" element={<ContractorSignup />} />
         <Route path="/customer/signup" element={<CustomerSignup />} />
         <Route path="/contractor" element={<ContractorDashboard />} />
+        <Route
+          path="/contractor/projectdetails"
+          element={<ContractorProjectDetails />}
+        />
+        <Route path="/contractor/create" element={<ContractorCreate />} />
+        <Route path="/contractor/change" element={<ContractorChange />} />
       </Routes>
       <Footer />
     </div>
