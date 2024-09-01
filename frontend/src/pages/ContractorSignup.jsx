@@ -1,19 +1,48 @@
-import React from "react";
+import React, { useState } from "react";
 import { Container, Form, Button } from "react-bootstrap";
 
 const ContractorSignup = () => {
+  const [formData, setFormData] = useState({
+    companyName: "",
+    name: "",
+    contactNumber: "",
+    email: "",
+    companyRegistrationNumber: "",
+    username: "",
+    password: "",
+  });
+
+  // Step 2: Handle input changes
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log("Form Data Submitted:", formData);
+  };
+
   return (
     <div className="contractor-bg">
       <Container className="login-container">
         <h3 className="h3-custom">Contractor Sign Up</h3>
-        <Form className="formLabel mt-4 pages-box-shadow p-3">
+        <Form
+          onSubmit={handleSubmit}
+          className="formLabel mt-4 pages-box-shadow p-3"
+        >
           <h4>Company Details</h4>
           <Form.Group controlId="formCompanyName" className="mt-3">
             <Form.Label>Company Name</Form.Label>
             <Form.Control
               type="text"
               placeholder="Enter your company name"
-              value="Marvel"
+              name="companyName"
+              value={formData.companyName}
+              onChange={handleChange}
             />
           </Form.Group>
 
@@ -22,7 +51,9 @@ const ContractorSignup = () => {
             <Form.Control
               type="text"
               placeholder="Enter your name"
-              value="Iron Man"
+              name="name"
+              value={formData.name}
+              onChange={handleChange}
             />
           </Form.Group>
 
@@ -31,7 +62,9 @@ const ContractorSignup = () => {
             <Form.Control
               type="text"
               placeholder="Enter your contact number"
-              value="88888888"
+              name="contactNumber"
+              value={formData.contactNumber}
+              onChange={handleChange}
             />
           </Form.Group>
 
@@ -40,7 +73,9 @@ const ContractorSignup = () => {
             <Form.Control
               type="email"
               placeholder="Enter your email"
-              value="spiderman@example.com"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
             />
           </Form.Group>
 
@@ -50,13 +85,18 @@ const ContractorSignup = () => {
           >
             <Form.Label>Company Registration Number</Form.Label>
             <Form.Control
-              type="string"
+              type="text"
               placeholder="Enter your company registration number"
-              value="RSG123456"
+              name="companyRegistrationNumber"
+              value={formData.companyRegistrationNumber}
+              onChange={handleChange}
             />
           </Form.Group>
         </Form>
-        <Form className="formLabel mt-4  pages-box-shadow p-3 ">
+        <Form
+          onSubmit={handleSubmit}
+          className="formLabel mt-4 pages-box-shadow p-3"
+        >
           <h4>Account Details</h4>
 
           <Form.Group controlId="formUsername" className="mt-3">
@@ -64,7 +104,9 @@ const ContractorSignup = () => {
             <Form.Control
               type="text"
               placeholder="Create a username"
-              value="spiderman"
+              name="username"
+              value={formData.username}
+              onChange={handleChange}
             />
           </Form.Group>
 
@@ -73,15 +115,18 @@ const ContractorSignup = () => {
             <Form.Control
               type="password"
               placeholder="Create a password"
-              value="password123"
+              name="password"
+              value={formData.password}
+              onChange={handleChange}
             />
           </Form.Group>
+
+          <div className="button-container mt-3">
+            <Button type="submit" className="custom-button-primary">
+              Sign Up
+            </Button>
+          </div>
         </Form>
-        <div className="button-container mt-3">
-          <Button type="submit" className="custom-button-primary">
-            Sign Up
-          </Button>
-        </div>
       </Container>
     </div>
   );

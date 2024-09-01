@@ -1,7 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
 import { Container, Form, Button } from "react-bootstrap";
 
 const ContractorDashboard = () => {
+  const [phase, setPhase] = useState("Phase 1");
+
+  const handleChange = (e) => {
+    setPhase(e.target.value);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log("Phase deleted", phase);
+  };
   return (
     <div className="contractor-bg pages-pad">
       <Container className="pages-custom-container">
@@ -19,19 +29,19 @@ const ContractorDashboard = () => {
           <p style={{ color: "white" }}>* Add ChangeRequestCard here</p>
         </div>
 
-        <Form className=" pages-box-shadow p-3 mt-3">
-          <h5 className="h3-custom">View/Delete</h5>{" "}
+        <Form onSubmit={handleSubmit} className="pages-box-shadow p-3 mt-3">
+          <h5 className="h3-custom">View/Delete</h5>
           <Form.Group controlId="formPhaseSelect" className="mt-1">
             <Form.Label className="pages-form-labels">
               Select a phase:
-            </Form.Label>{" "}
-            <Form.Control as="select">
+            </Form.Label>
+            <Form.Control as="select" value={phase} onChange={handleChange}>
               <option>Phase 1</option>
               <option>Phase 2</option>
               <option>Phase 3</option>
             </Form.Control>
             <p className="mt-3" style={{ color: "white" }}>
-              * Add PhaseDetailsCard here | Cant delete phase that is
+              * Add PhaseDetailsCard here | Can't delete phase that is
               approved/rejected?
             </p>
           </Form.Group>
