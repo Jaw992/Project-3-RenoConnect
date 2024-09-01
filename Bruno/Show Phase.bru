@@ -1,0 +1,29 @@
+meta {
+  name: Show Phase
+  type: http
+  seq: 14
+}
+
+get {
+  url: http://localhost:3000/api/phases/:phaseId
+  body: json
+  auth: bearer
+}
+
+params:path {
+  phaseId: 66d468d9644e8988f3b2c8dd
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+    "phaseName": "1",
+     "task": "Painting",
+     "taskDescription": "Paint Living Room",
+     "startDate": "2024-09-20",
+     "endDate": "2024-10-01"
+  }
+}

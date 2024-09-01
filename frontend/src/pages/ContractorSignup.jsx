@@ -1,7 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import { Container, Form, Button } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
-import { useState } from "react";
 
 // sign up data contractor
 async function contractorSignup(data) {
@@ -121,7 +120,7 @@ const ContractorSignup = ({ setToken }) => {
           >
             <Form.Label>Company Registration Number</Form.Label>
             <Form.Control
-              type="string"
+              type="text"
               placeholder="Enter your company registration number"
               value={companyUEN}
               onChange={(e) => setCompanyUEN(e.target.value)}
@@ -129,7 +128,10 @@ const ContractorSignup = ({ setToken }) => {
             />
           </Form.Group>
         </Form>
-        <Form className="formLabel mt-4  pages-box-shadow p-3 ">
+        <Form
+          onSubmit={handleSubmit}
+          className="formLabel mt-4 pages-box-shadow p-3"
+        >
           <h4>Account Details</h4>
 
           <Form.Group controlId="formUsername" className="mt-3">

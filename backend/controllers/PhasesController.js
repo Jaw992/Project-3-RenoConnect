@@ -1,7 +1,10 @@
 const express = require("express");
 const router = express.Router();
 const Phase = require("../models/Phase");
+const verifyTokenContractor = require("../middleware/verifyTokenContractor");
 
+//* Verify Token
+router.use(verifyTokenContractor);
 /* 
 Create a new phase: "/"
 Get a single phase by ID: "/:phaseId"
@@ -14,6 +17,12 @@ Delete a phase: "/:phaseId"
 // Create a new phase
 router.post("/", async (req, res) => {
   try {
+    
+    // if (!req.body.project) {
+    //   return res.status(400).json({ error: 'Project ID is required.' });
+    // }
+    // req.body.project = req.project._id;
+    req.body.contractor = req.contractor._id;
     const newPhase = await Phase.create(req.body);
     res.status(201).json(newPhase);
   } catch (error) {

@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const Contractor = require("./Contractor");
 
 const changeLogSchema = new mongoose.Schema({
    oldTaskDescription: String,
@@ -19,6 +20,7 @@ const phaseSchema = new mongoose.Schema({
    endDate: Date,
    createOn: Date,
    project: { type: mongoose.Schema.Types.ObjectId, ref: "Project" },
+   contractor: {type: mongoose.Schema.Types.ObjectId, ref: "Contractor"},
    changeLog: [changeLogSchema],
 });
 
