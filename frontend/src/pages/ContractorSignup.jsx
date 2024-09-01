@@ -16,6 +16,7 @@ async function contractorSignup(data) {
     if (!response.ok) {
       throw new Error(`Response status: ${response.status}`);
     }
+
     const json = await response.json();
     return json.token;
   } catch (error) {
@@ -24,40 +25,39 @@ async function contractorSignup(data) {
   }
 }
 
-const ContractorSignup = ({ setToken }) => {
-  const [company, setCompany] = useState("");
-  const [name, setName] = useState("");
-  const [contact, setContact] = useState("");
-  const [email, setEmail] = useState("");
-  const [companyUEN, setCompanyUEN] = useState("");
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [successMessage, setSuccessMessage] = useState("");
-  const [error, setError] = useState("");
+const ContractorSignup = () => {
   const navigate = useNavigate();
+  const [formData, setFormData] = useState({
+    company: "",
+    name: "",
+    contact: "",
+    email: "",
+    companyUEN: "",
+    username: "",
+    password: "",
+  })
+  const [successMessage, setSuccess] = useState("");
+  const [error, setError] = useState("");
 
-  const handleSignup = async (event) => {
+const handleChange = (event) => {
+  const { name, value } = event.target;
+  setFormData({
+    ...formData,
+    [name]: value,
+  });
+};
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    setError("");
-    setSuccessMessage("");
-
-    const signUpData = {
-      company,
-      name,
-      contact,
-      email,
-      companyUEN,
-      username,
-      password,
-    };
     try {
-      const token = await contractorSignup(signUpData);
-      setToken(token);
-      setSuccessMessage("Sign Up Successful!");
-      console.log("Signup successful, token:", token);
-      // navigate("/contractor/login");
+      const token = await contractorSignup(formData);
+      setSuccess("Sign up successfiul!");
+      setError("");
+      console.log("Token:", token);
+      navigate("/contractor/login");
     } catch (error) {
-      setError("Sign Up Unsuccessful");
+      setError(error.message);
+      setSuccess("");
     }
   };
 
@@ -66,7 +66,7 @@ const ContractorSignup = ({ setToken }) => {
       <Container className="login-container">
         <h3 className="h3-custom">Contractor Sign Up</h3>
         <Form
-          onSubmit={handleSignup}
+          onSubmit={handleSubmit}
           className="formLabel mt-4 pages-box-shadow p-3"
         >
           <h4>Company Details</h4>
@@ -75,8 +75,9 @@ const ContractorSignup = ({ setToken }) => {
             <Form.Control
               type="text"
               placeholder="Enter your company name"
-              value={company}
-              onChange={(e) => setCompany(e.target.value)}
+              value={formData.company}
+              name="company"
+              onChange={handleChange}
               required
             />
           </Form.Group>
@@ -86,8 +87,9 @@ const ContractorSignup = ({ setToken }) => {
             <Form.Control
               type="text"
               placeholder="Enter your name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
+              value={formData.name}
+              name="name"
+              onChange={handleChange}
               required
             />
           </Form.Group>
@@ -97,8 +99,9 @@ const ContractorSignup = ({ setToken }) => {
             <Form.Control
               type="text"
               placeholder="Enter your contact number"
-              value={contact}
-              onChange={(e) => setContact(e.target.value)}
+              value={formData.contact}
+              name="contact"
+              onChange={handleChange}
               required
             />
           </Form.Group>
@@ -108,8 +111,9 @@ const ContractorSignup = ({ setToken }) => {
             <Form.Control
               type="email"
               placeholder="Enter your email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              value={formData.email}
+              name="email"
+              onChange={handleChange}
               required
             />
           </Form.Group>
@@ -122,8 +126,9 @@ const ContractorSignup = ({ setToken }) => {
             <Form.Control
               type="text"
               placeholder="Enter your company registration number"
-              value={companyUEN}
-              onChange={(e) => setCompanyUEN(e.target.value)}
+              value={formData.companyUEN}
+              name="companyUEN"
+              onChange={handleChange}
               required
             />
           </Form.Group>
@@ -139,8 +144,9 @@ const ContractorSignup = ({ setToken }) => {
             <Form.Control
               type="text"
               placeholder="Create a username"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
+              value={formData.username}
+              name="username"
+              onChange={handleChange}
               required
             />
           </Form.Group>
@@ -150,8 +156,9 @@ const ContractorSignup = ({ setToken }) => {
             <Form.Control
               type="password"
               placeholder="Create a password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              value={formData.password}
+              name="password"
+              onChange={handleChange}
               required
             />
           </Form.Group>
