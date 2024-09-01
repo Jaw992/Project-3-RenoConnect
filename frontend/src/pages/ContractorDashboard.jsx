@@ -1,16 +1,17 @@
 import React, { useState } from "react";
 import { Container, Form, Button } from "react-bootstrap";
+import PhaseDetailsCard from "../components/PhaseDetailsCard";
 
 const ContractorDashboard = () => {
-  const [phase, setPhase] = useState("Phase 1");
+  const [selectedPhase, setSelectedPhase] = useState("Phase 1");
 
   const handleChange = (e) => {
-    setPhase(e.target.value);
+    selectedPhase(e.target.value);
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Phase deleted", phase);
+    console.log("Phase deleted: ", selectedPhase);
   };
   return (
     <div className="contractor-bg pages-pad">
@@ -30,20 +31,23 @@ const ContractorDashboard = () => {
         </div>
 
         <Form onSubmit={handleSubmit} className="pages-box-shadow p-3 mt-3">
-          <h5 className="h3-custom">View/Delete</h5>
+          <h5 className="h3-custom">View/Delete Phase</h5>
           <Form.Group controlId="formPhaseSelect" className="mt-1">
             <Form.Label className="pages-form-labels">
               Select a phase:
             </Form.Label>
-            <Form.Control as="select" value={phase} onChange={handleChange}>
+            <Form.Control
+              as="select"
+              value={selectedPhase}
+              onChange={handleChange}
+            >
               <option>Phase 1</option>
               <option>Phase 2</option>
               <option>Phase 3</option>
             </Form.Control>
-            <p className="mt-3" style={{ color: "white" }}>
-              * Add PhaseDetailsCard here | Can't delete phase that is
-              approved/rejected?
-            </p>
+            <div className="pages-box-shadow p-3 mt-3">
+              <PhaseDetailsCard phase={selectedPhase} />
+            </div>
           </Form.Group>
           <div className="button-container mt-3">
             <Button type="submit" className="custom-button-primary">
