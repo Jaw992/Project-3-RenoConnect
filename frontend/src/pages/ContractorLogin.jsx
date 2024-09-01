@@ -42,6 +42,8 @@ const ContractorLogin = ({ setToken }) => {
       const token = await contractorLogin({ username, password });
       setToken(token);
       setSuccessMessage("Login Successful");
+      console.log("Redirecting to /contractor");
+      navigate("/contractor"); // Redirect to customer dashboard
     } catch (error) {
       setError("Invalid username or password");
     }
@@ -54,24 +56,24 @@ const ContractorLogin = ({ setToken }) => {
         <Form onSubmit={handleLogin} className="formLabel mt-4">
           <Form.Group controlId="formEmail">
             <Form.Label>Username</Form.Label>
-            <Form.Control 
-            type="email" 
-            placeholder="Enter Username" 
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            required
+            <Form.Control
+              type="email"
+              placeholder="Enter Username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              required
             />
           </Form.Group>
 
           <Form.Group controlId="formPassword" className="mt-3">
             <Form.Label>Password</Form.Label>
-            <Form.Control 
-            type="password" 
-            placeholder="Enter Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-             />
+            <Form.Control
+              type="password"
+              placeholder="Enter Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
           </Form.Group>
 
           <Button type="submit" className="mt-3 custom-button-primary">

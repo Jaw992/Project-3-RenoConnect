@@ -1,0 +1,18 @@
+meta {
+  name: Contractor Log in
+  type: http
+  seq: 3
+}
+
+post {
+  url: http://localhost:3000/api/contractors/signup
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "username": "alezxx@gmail.com",
+    "password": "123"
+  }
+}
