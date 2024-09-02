@@ -1,18 +1,11 @@
 meta {
   name: Contractor Sign Up
   type: http
-  seq: 2
+  seq: 1
 }
 
 post {
   url: http://localhost:3000/api/contractors/signup
-  body: json
+  body: none
   auth: none
-}
-
-body:json {
-  {
-    "username": "alezxx@gmail.com",
-    "password": "123"
-  }
 }
