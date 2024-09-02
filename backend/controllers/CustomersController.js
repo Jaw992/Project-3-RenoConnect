@@ -23,7 +23,7 @@ router.post("/signup", async (req, res) => {
             name: req.body.name,
             contact: req.body.contact,
             email: req.body.email,
-            project: req.body.project,
+            project: req.body.projectId,
         })
         const token = jwt.sign({ username: customer.username, _id: customer._id }, process.env.JWT_SECRET);
         res.status(201).json({ customer, token });
