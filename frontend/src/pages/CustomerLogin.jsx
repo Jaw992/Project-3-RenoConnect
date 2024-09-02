@@ -42,7 +42,7 @@ const CustomerLogin = ({ setToken }) => {
       const token = await customerLogin({ username, password });
       setToken(token); // Set the token in your app's state
       setSuccessMessage("Login Successful!");
-      // navigate("/customer"); // Redirect to customer dashboard
+      navigate("/customer"); // Redirect to customer dashboard
     } catch (error) {
       setError("Invalid username or password");
     }
