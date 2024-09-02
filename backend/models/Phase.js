@@ -8,8 +8,8 @@ const changeLogSchema = new mongoose.Schema({
    newStartDate: Date,
    oldEndDate: Date,
    newEndDate: Date,
-   createOn: Date,
-   reviewStatus: { type: String, enum: ["Pending", "Approved"]},
+   createdOn: {timestamp: true},
+   reviewStatus: { type: String, enum: ["Pending", "Approved", "Rejected"]},
 });
 
 const phaseSchema = new mongoose.Schema({
@@ -18,8 +18,7 @@ const phaseSchema = new mongoose.Schema({
    taskDescription: String,
    startDate: Date,
    endDate: Date,
-   createOn: Date,
-   project: { type: mongoose.Schema.Types.ObjectId, ref: "Project" },
+   project: { type: mongoose.Schema.Types.ObjectId, ref: "Project" }, // reference taken from input
    contractor: {type: mongoose.Schema.Types.ObjectId, ref: "Contractor"},
    changeLog: [changeLogSchema],
 });

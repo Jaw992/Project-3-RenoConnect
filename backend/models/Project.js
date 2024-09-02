@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 const projectSchema = new mongoose.Schema({
-    projectId: {type: String, requrie: true, unique: true},
+    projectId: {type: String, required: true, unique: true},
     startDate: Date,
     endDate: Date,
     projectAddress: String,
@@ -9,8 +9,6 @@ const projectSchema = new mongoose.Schema({
     projectDownPayment: Number,
     projectPaymentReceived: Number,
     projectTotalCost: Number,
-    projectStatus: { type: String, enum: ["Active", "Completed"] },
-    customer: { type: mongoose.Schema.Types.ObjectId, ref: "Customer" },
     contractor: { type: mongoose.Schema.Types.ObjectId, ref: "Contractor" },
 });
 

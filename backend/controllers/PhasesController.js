@@ -18,11 +18,9 @@ Delete a phase: "/:phaseId"
 router.post("/", async (req, res) => {
   try {
     
-    // if (!req.body.project) {
-    //   return res.status(400).json({ error: 'Project ID is required.' });
-    // }
-    // req.body.project = req.project._id;
-    req.body.contractor = req.contractor._id;
+    if (!req.body.project) {
+      return res.status(400).json({ error: 'Project ID is required.' });
+    }
     const newPhase = await Phase.create(req.body);
     res.status(201).json(newPhase);
   } catch (error) {
@@ -75,7 +73,7 @@ router.put("/update/:phaseId", async (req, res) => {
 });
 
 // Approve a phase
-router.put("/approve/:phaseId", async (req, res) => {
+router.put("/:phaseId/approve", async (req, res) => {
   try {
     const phase = await Phase.findById(req.params.phaseId);
     if (!phase) {
@@ -98,7 +96,7 @@ router.put("/approve/:phaseId", async (req, res) => {
 });
 
 // Reject a phase
-router.put("/reject/:phaseId", async (req, res) => {
+router.put("/:phaseId/reject", async (req, res) => {
   try {
     const phase = await Phase.findById(req.params.phaseId);
     if (!phase) {

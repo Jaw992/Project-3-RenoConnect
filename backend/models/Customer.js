@@ -10,9 +10,10 @@ const customerSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  name: {type: String, require: true},
-  contact: {type: Number, require: true},
-  email: {type: String, require: true},
+  name: {type: String, required: true},
+  contact: {type: String, required: true},
+  email: {type: String, required: true},
+  project: { type: mongoose.Schema.Types.ObjectId, ref: "Project" },
 });
 
 customerSchema.set("toJSON", {

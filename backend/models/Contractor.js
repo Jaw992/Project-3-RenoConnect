@@ -10,11 +10,11 @@ const contractorSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  name: {type: String, require: true},
-  contact: {type: Number, require: true},
-  email: {type: String, require: true},
-  company: {type: String, require: true},
-  companyUEN: String,
+  name: {type: String, required: true},
+  contact: {type: String, required: true},
+  email: {type: String, required: true},
+  company: {type: String, required: true},
+  registrationNumber: String,
 });
 
 contractorSchema.set("toJSON", {
