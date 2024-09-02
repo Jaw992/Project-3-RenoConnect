@@ -1,4 +1,3 @@
-import React from "react";
 import { Container, Form, Button } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
@@ -56,7 +55,7 @@ const CustomerLogin = ({ setToken }) => {
           <Form.Group controlId="formEmail">
             <Form.Label>Username</Form.Label>
             <Form.Control 
-            type="email" 
+            type="text" 
             placeholder="Enter Username" 
             value={username} 
             onChange={(e) => setUsername(e.target.value)}
