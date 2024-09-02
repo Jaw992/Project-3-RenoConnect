@@ -8,9 +8,10 @@ const changeLogSchema = new mongoose.Schema({
    newStartDate: Date,
    oldEndDate: Date,
    newEndDate: Date,
-   createdOn: {timestamp: true},
    reviewStatus: { type: String, enum: ["Pending", "Approved", "Rejected"]},
-});
+},
+   { timestamps: true },
+);
 
 const phaseSchema = new mongoose.Schema({
    phaseName: String,

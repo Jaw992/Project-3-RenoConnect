@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Container, Form, Button } from "react-bootstrap";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 // sign up data contractor
 async function contractorSignup(data) {
@@ -32,7 +32,7 @@ const ContractorSignup = () => {
     name: "",
     contact: "",
     email: "",
-    companyUEN: "",
+    registrationNumber: "",
     username: "",
     password: "",
   })
@@ -126,8 +126,8 @@ const handleChange = (event) => {
             <Form.Control
               type="text"
               placeholder="Enter your company registration number"
-              value={formData.companyUEN}
-              name="companyUEN"
+              value={formData.registrationNumber}
+              name="registrationNumber"
               onChange={handleChange}
               required
             />

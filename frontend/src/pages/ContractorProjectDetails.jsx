@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Container, Form, Button } from "react-bootstrap";
 import ProjectTrackingCard from "../components/ProjectTrackingCard";
 
@@ -10,7 +10,6 @@ const ContractorProjectDetails = () => {
     downPaymentPercent: "",
     downPaymentReceived: "",
     totalProjectCost: "",
-    email: "",
   });
 
   const handleChange = (e) => {

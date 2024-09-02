@@ -26,8 +26,8 @@ function App() {
   return (
     <div className="homeContent">
       {/* /* <ContractorBar /> */}
-      <CustomerBar /> */
-      {/* <Navibar /> */}
+      {/* <CustomerBar /> */}
+      <Navibar />
       <Routes>
         <Route
           path="/"
