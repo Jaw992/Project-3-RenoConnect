@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const Project = require("../models/Project");
+const debug = require("debug")("hoot:controllers:ProjectsController");
 const verifyTokenContractor = require("../middleware/verifyTokenContractor");
 const verifyTokenCustomer = require("../middleware/verifyTokenCustomer");
 
@@ -13,6 +14,7 @@ router.post("/", async (req, res) => {
     try {
         req.body.contractor = req.contractor._id;
         const project = await Project.create(req.body);
+        debug(project);
         res.status(201).json({project});
     } catch (error) {
         res.status(500).json({ error: error.message });
@@ -24,7 +26,7 @@ router.get("/:projectId", async (req, res) => {
     const { projectId } = req.params;
 
     try {
-        const project = await Project.findById(projectId).populate("contractor");
+        const project = await Project.findById(projectId).populate("contractor").populate("customer");
         if (project === null) {
             return res.status(404).json({ error: "Not found" });
           }
