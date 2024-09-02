@@ -1,29 +1,9 @@
 import { Container, Form, Button } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { customerLogin } from "../services/apiUsers";
 
 // login data customer
-async function customerLogin(data) {
-  const url = "http://localhost:3000/api/customers/login"; //can change
-  try {
-    const response = await fetch(url, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    });
-    if (!response.ok) {
-      throw new Error(`Response status: ${response.status}`);
-    }
-
-    const json = await response.json();
-    return json.token;
-  } catch (error) {
-    console.error(error.message);
-    throw error;
-  }
-}
 
 const CustomerLogin = ({ setToken }) => {
   const [username, setUsername] = useState("");

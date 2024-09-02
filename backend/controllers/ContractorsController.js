@@ -17,7 +17,7 @@ const createJWT = (contractor) => {
 
 //* Contractor sign up route
 router.post("/signup", async (req, res) => {
-    const { username, name, contact, email, company, companyUEN } = req.body;
+    const { username, name, contact, email, company, registrationNumber } = req.body;
     try {
         const contractorInDatabase = await Contractor.findOne({username});
         if (contractorInDatabase) {
@@ -25,7 +25,7 @@ router.post("/signup", async (req, res) => {
         }
 
         const hashedPassword = await bcrypt.hash(req.body.password, SALT_LENGTH);
-        const contractorUser = await Contractor.create({ username, hashedPassword, name, contact, email, company, companyUEN});
+        const contractorUser = await Contractor.create({ username, hashedPassword, name, contact, email, company, registrationNumber});
         const token = createJWT(contractorUser);
         res.status(201).json({contractorUser, token});
     } catch (error) {

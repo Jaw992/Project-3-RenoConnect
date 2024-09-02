@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Container, Form, Button, Row, Col } from "react-bootstrap";
 
 const dummyPhases = [

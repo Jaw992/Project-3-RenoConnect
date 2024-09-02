@@ -1,29 +1,9 @@
 import { Container, Form, Button } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { contractorLogin } from "../services/apiUsers";
 
 // login data contractor (service)
-async function contractorLogin(data) {
-  const url = "http://localhost:3000/api/contractors/login"; // can change
-  try {
-    const response = await fetch(url, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    });
-    if (!response.ok) {
-      throw new Error(`Response status: ${response.status}`);
-    }
-
-    const json = await response.json();
-    return json.token;
-  } catch (error) {
-    console.log(error.message);
-    throw error;
-  }
-}
 
 const ContractorLogin = ({ setToken }) => {
   const [username, setUsername] = useState("");
