@@ -19,7 +19,11 @@ router.post("/signup", async (req, res) => {
         // create new user with hashed password
         const customer = await Customer.create({
             username: req.body.username,
-            hashedPassword: bcrypt.hashSync(req.body.password, SALT_LENGTH)
+            hashedPassword: bcrypt.hashSync(req.body.password, SALT_LENGTH),
+            name: req.body.name,
+            contact: req.body.contact,
+            email: req.body.email,
+            project: req.body.projectId,
         })
         const token = jwt.sign({ username: customer.username, _id: customer._id }, process.env.JWT_SECRET);
         res.status(201).json({ customer, token });

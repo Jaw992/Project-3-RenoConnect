@@ -1,30 +1,9 @@
-import React from "react";
 import { Container, Form, Button } from "react-bootstrap";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { customerSignup } from "../services/apiUsers";
 
 // sign up data customer
-async function customerSignup(data) {
-  const url = "http://localhost:3000/api/customers/signup"; // can change
-  try {
-    const response = await fetch(url, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    });
-    if (!response.ok) {
-      throw new Error(`Response status: ${response.status}`);
-    }
-
-    const json = await response.json();
-    return json.token;
-  } catch (error) {
-    console.error(error.message);
-    throw error;
-  }
-}
 
 const CustomerSignup = () => {
   const navigate = useNavigate();
@@ -34,6 +13,7 @@ const CustomerSignup = () => {
     email: "",
     username: "",
     password: "",
+    project: "",
   });
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
@@ -50,6 +30,7 @@ const CustomerSignup = () => {
     event.preventDefault();
     try {
       const token = await customerSignup(formData);
+      console.log("Looking for",formData);
       setSuccess("Sign up successful!");
       setError("");
       console.log("Token:", token); // For debugging or storing token
@@ -102,15 +83,18 @@ const CustomerSignup = () => {
             />
           </Form.Group>
         {/* <Form className="formLabel mt-4  pages-box-shadow p-3 ">
-          <h4>Account Details</h4>
+          <h4>Account Details</h4> */}
           <Form.Group controlId="formProjectId">
             <Form.Label>Project ID</Form.Label>
             <Form.Control
               type="text"
               placeholder="Enter your project ID"
+              name="project"
+              value={formData.project}
               onChange={handleChange}
             />
-          </Form.Group> */}
+          </Form.Group>
+          {/* </Form> */}
 
 <Form.Group controlId="formUsername" className="mt-3">
             <Form.Label>Create Username</Form.Label>
