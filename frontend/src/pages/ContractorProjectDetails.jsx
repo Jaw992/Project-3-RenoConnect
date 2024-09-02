@@ -1,6 +1,31 @@
 import { useState } from "react";
 import { Container, Form, Button } from "react-bootstrap";
-import ProjectTrackingCard from "../components/ProjectTrackingCard";
+import ProjectDetailsCard from "../components/ProjectDetailsCard";
+// import ProjectTrackingCard from "../components/ProjectTrackingCard";
+
+async function contractorProjectDetails(data) {
+  const url = "http://localhost:3000/api/projects";
+  try {
+    const token = localStorage.getItem('authToken');
+    const response = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`,
+      },
+      body: JSON.stringify(data),
+    });
+    if (!response.ok) {
+      throw new Error(`Response status: ${response.status}`);
+    }
+
+    const json = await response.json();
+    return json.token;
+  } catch (error) {
+    console.error(error.message);
+    throw error;
+  }
+}
 
 const ContractorProjectDetails = () => {
   const [formData, setFormData] = useState({
@@ -11,18 +36,42 @@ const ContractorProjectDetails = () => {
     downPaymentReceived: "",
     totalProjectCost: "",
   });
+  const [successMessage, setSuccess] = useState("");
+  const [error, setError] = useState("");
+  
+  const [save, setSave] = useState({
+    projectId: "",
+    projectAddress: "",
+    totalPhases: "",
+    downPaymentPercent: "",
+    downPaymentReceived: "",
+    totalProjectCost: "",
+  });
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
+  const handleSave = (event) => {
+    event.preventDefault();
+    setSave(formData);
+  };
+
+  const handleChange = (event) => {
+    const { name, value } = event.target;
     setFormData({
       ...formData,
       [name]: value,
     });
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("Form data submitted:", formData);
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    try {
+      const token = await contractorProjectDetails(formData);
+      setSuccess("Project Details Created!");
+      setError("");
+      setSave(formData);
+    } catch (error) {
+      setError(error.message);
+      setSuccess("");
+    }
   };
 
   return (
@@ -30,7 +79,7 @@ const ContractorProjectDetails = () => {
       <Container className="pages-custom-container">
         <h4 className="h3-custom">Project Details</h4>
         <div className="pages-box-shadow p-3 p-projectTracking">
-          ADD PROJECT DETAILS CARD
+        <ProjectDetailsCard phase={save} viewMode="create" />
         </div>
         <div className="pages-box-shadow p-3 mt-3">
           <h5 className="h3-custom">Create/Edit</h5>
@@ -119,6 +168,10 @@ const ContractorProjectDetails = () => {
               <Button type="submit" className="custom-button-primary">
                 Save
               </Button>
+              {error && <p className="error mt-3">{error}</p>}
+              {successMessage && (
+                <p className="success mt-3">{successMessage}</p>
+              )}
             </div>
           </Form>
         </div>

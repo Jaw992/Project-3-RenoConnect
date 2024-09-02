@@ -39,6 +39,7 @@ export async function contractorSignup(data) {
       }
   
       const json = await response.json();
+      localStorage.setItem('authToken', json.token);
       return json.token;
     } catch (error) {
       console.log(error.message);
