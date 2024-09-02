@@ -1,0 +1,26 @@
+meta {
+  name: proj details contractor
+  type: http
+  seq: 2
+}
+
+post {
+  url: http://localhost:3000/api/projects
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im93ZW4iLCJfaWQiOiI2NmQ1OGVlZWU5ZjdhOGM4NzE1YjZlNTAiLCJpYXQiOjE3MjUyODg3NTksImV4cCI6NDg4MTA0ODc1OX0.U0nz1oRMuxS5dvDiXhAUStAAXnl4h6ACMOhEoEAHRjo
+}
+
+body:json {
+  {
+    "projectId": "123",
+    "projectAddress": "Blk 115 Pending Rd",
+    "projectPhaseCount": 123,
+    "projectDownPayment": 10,
+    "projectPaymentReceived": 100,
+    "projectTotalCost": 10000
+  }
+}
