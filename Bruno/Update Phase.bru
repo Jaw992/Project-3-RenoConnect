@@ -1,11 +1,11 @@
 meta {
-  name: Show Phase
+  name: Update Phase
   type: http
-  seq: 14
+  seq: 15
 }
 
-get {
-  url: http://localhost:3000/api/phases/:phaseId
+put {
+  url: http://localhost:3000/api/phases/update/:phaseId
   body: json
   auth: bearer
 }
@@ -22,7 +22,7 @@ body:json {
   {
     "phaseName": "1",
      "task": "Painting",
-     "taskDescription": "Paint Living Room",
+     "taskDescription": "Paint masterbed room",
      "startDate": "2024-09-20",
      "endDate": "2024-10-01"
   }
