@@ -2,11 +2,18 @@ import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
-function ContractorBar() {
+function ContractorBar({ setIsContractorLoggedIn, setToken }) {
   const userName = "Bob";
   const projectId = "Project #123";
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    setToken("");
+    setIsContractorLoggedIn(false);
+    navigate("/");
+  };
 
   return (
     <div className="bg-primary-fixed">
@@ -57,6 +64,9 @@ function ContractorBar() {
                   Change
                 </NavDropdown.Item>
               </NavDropdown>
+              <Nav.Link as="button" className="navLink" onClick={handleLogout}>
+                Logout
+              </Nav.Link>
             </Nav>
           </Navbar.Collapse>
         </Container>

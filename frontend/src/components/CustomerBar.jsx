@@ -1,12 +1,19 @@
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
-function CustomerBar() {
+function CustomerBar({ setIsCustomerLoggedIn, setToken }) {
   const userName = "Bob";
   const projectId = "#123";
   const address = "Street 123";
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    setToken("");
+    setIsCustomerLoggedIn(false);
+    navigate("/");
+  };
 
   return (
     <div className="bg-primary-fixed">
@@ -45,6 +52,9 @@ function CustomerBar() {
                 to="/customer/projectdetails"
               >
                 Project Details
+              </Nav.Link>
+              <Nav.Link as="button" className="navLink" onClick={handleLogout}>
+                Logout
               </Nav.Link>
             </Nav>
           </Navbar.Collapse>
