@@ -1,12 +1,14 @@
-const BASE_URL = "http://localhost:3000/api/phases";
+const BASE_URL = "http://localhost:3000/api";
 
-export async function createPhase(data) {
-  const url = `${BASE_URL}/`;
+//* Create a new phase
+export async function createPhase(data, token) {
+  const url = `${BASE_URL}/phases`;
   try {
     const response = await fetch(url, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(data),
     });
@@ -20,11 +22,15 @@ export async function createPhase(data) {
   }
 }
 
-export async function getPhase(phaseId) {
-  const url = `${BASE_URL}/${phaseId}`;
+//* GET a specific phase by ID
+export async function getPhase(phaseId, token) {
+  const url = `${BASE_URL}/phases/${phaseId}`;
   try {
     const response = await fetch(url, {
       method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     });
     if (!response.ok) {
       throw new Error(`Response status: ${response.status}`);
@@ -36,13 +42,15 @@ export async function getPhase(phaseId) {
   }
 }
 
-export async function updatePhase(phaseId, data) {
-  const url = `${BASE_URL}/update/${phaseId}`;
+//* Update a specific phase by ID
+export async function updatePhase(phaseId, data, token) {
+  const url = `${BASE_URL}/phases/${phaseId}`;
   try {
     const response = await fetch(url, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(data),
     });
@@ -56,11 +64,15 @@ export async function updatePhase(phaseId, data) {
   }
 }
 
-export async function approvePhase(phaseId) {
-  const url = `${BASE_URL}/${phaseId}/approve`;
+//* Approve a specific phase by ID
+export async function approvePhase(phaseId, token) {
+  const url = `${BASE_URL}/phases/${phaseId}/approve`;
   try {
     const response = await fetch(url, {
       method: "PUT",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     });
     if (!response.ok) {
       throw new Error(`Response status: ${response.status}`);
@@ -72,11 +84,15 @@ export async function approvePhase(phaseId) {
   }
 }
 
-export async function rejectPhase(phaseId) {
-  const url = `${BASE_URL}/${phaseId}/reject`;
+//* Reject a specific phase by ID
+export async function rejectPhase(phaseId, token) {
+  const url = `${BASE_URL}/phases/${phaseId}/reject`;
   try {
     const response = await fetch(url, {
       method: "PUT",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     });
     if (!response.ok) {
       throw new Error(`Response status: ${response.status}`);
@@ -88,11 +104,15 @@ export async function rejectPhase(phaseId) {
   }
 }
 
-export async function deletePhase(phaseId) {
-  const url = `${BASE_URL}/delete/${phaseId}`;
+//* Delete a specific phase by ID
+export async function deletePhase(phaseId, token) {
+  const url = `${BASE_URL}/phases/${phaseId}`;
   try {
     const response = await fetch(url, {
       method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     });
     if (!response.ok) {
       throw new Error(`Response status: ${response.status}`);
