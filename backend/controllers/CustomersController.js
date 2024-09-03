@@ -4,13 +4,24 @@ const bcrypt = require("bcrypt");
 const Customer = require("../models/Customer");
 const jwt = require("jsonwebtoken");
 const verifyTokenCustomer = require('../middleware/verifyTokenCustomer');
-const ChangeLog = require("../models/Phase");
+const Project = require("../models/Project");
 
 const SALT_LENGTH = 12;
 
 // sign up
 router.post("/signup", async (req, res) => {
     try {
+        // check if there is project ref Id entered
+        const { project } = req.body;
+        if (!project) {
+            return res.status(400).json({error: "No Project Id, please enter."});
+        }
+
+        // check if project ref Id entered matches any created Project ref Id
+        const projectExists = await Project.exists({_id: req.body.project});
+        if (!projectExists) {
+            return res.status(400).json({error: "Invalid Project Id."});
+        }
         // check if username is taken
         const customerInDatabase = await Customer.findOne({ username: req.body.username });
         if (customerInDatabase) {
@@ -23,7 +34,7 @@ router.post("/signup", async (req, res) => {
             name: req.body.name,
             contact: req.body.contact,
             email: req.body.email,
-            project: req.body.projectId,
+            project: req.body.project,
         })
         const token = jwt.sign({ username: customer.username, _id: customer._id }, process.env.JWT_SECRET);
         res.status(201).json({ customer, token });
