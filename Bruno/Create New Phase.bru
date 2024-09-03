@@ -5,22 +5,23 @@ meta {
 }
 
 post {
-  url: http://localhost:3000/api/phases/
+  url: http://localhost:3000/api/phases
   body: json
   auth: bearer
 }
 
 auth:bearer {
-  token: {{token}}
+  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InN0ZXZlIiwiX2lkIjoiNjZkNzFkYTViZWY4YzRjYTE0MjNlZDllIiwiaWF0IjoxNzI1Mzc5NDg0LCJleHAiOjQ4ODExMzk0ODR9.bhKsL9-Za17JVw-impRJwqlN2Y0uyx5OJmYepCQH8NM
 }
 
 body:json {
   {
-    "phaseName": "1",
-     "task": "Painting",
-     "taskDescription": "Paint Living Room",
-     "startDate": "2024-09-20",
-     "endDate": "2024-10-01",
-    "project": "66d67e609090d077cb6e09b2"
+    "phaseName": "Phase 1",
+    "task": "Painting",
+    "taskDescription": "Paint the living room",
+    "startDate": "2024-09-20T00:00:00.000Z",
+    "endDate": "2024-10-01T00:00:00.000Z",
+    "project": "66d71da5bef8c4ca1423ed9e" // Required
+  
   }
 }

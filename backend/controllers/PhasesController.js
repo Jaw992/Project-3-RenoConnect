@@ -7,19 +7,21 @@ const verifyTokenContractor = require("../middleware/verifyTokenContractor");
 router.use(verifyTokenContractor);
 /* 
 Create a new phase: "/"
+Get all phases: "/"
 Get a single phase by ID: "/:phaseId"
 Update a phase and add a change log entry: "/update/:phaseId"
 Approve a phase: "/approve/:phaseId"
 Reject a phase: "/reject/:phaseId"
-Delete a phase: "/:phaseId"
+Delete a phase: "/delete/:phaseId"
+Get all phases: "/"
+Get changelog Id: "/:phaseId/ChangeLog"
 */
 
 // Create a new phase
 router.post("/", async (req, res) => {
   try {
-    
     if (!req.body.project) {
-      return res.status(400).json({ error: 'Project ID is required.' });
+      return res.status(400).json({ error: "Project ID is required." });
     }
     const newPhase = await Phase.create(req.body);
     res.status(201).json(newPhase);
@@ -36,6 +38,16 @@ router.get("/:phaseId", async (req, res) => {
       return res.status(404).json({ message: "Phase not found" });
     }
     res.status(200).json(phase);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+});
+
+// Get all phases
+router.get("/", async (req, res) => {
+  try {
+    const phases = await Phase.find().populate("project");
+    res.status(200).json(phases);
   } catch (error) {
     res.status(500).json(error);
   }
@@ -138,19 +150,19 @@ router.get("/:phaseId/ChangeLog", async (req, res) => {
 
     // Validate the phaseId parameter
     if (!phaseId) {
-      return res.status(400).json({ message: 'phaseId is required' });
+      return res.status(400).json({ message: "phaseId is required" });
     }
 
     // Find the phase document by phaseId
     const phase = await Phase.findById(phaseId);
 
     if (!phase) {
-      return res.status(404).json({ message: 'Phase not found' });
+      return res.status(404).json({ message: "Phase not found" });
     }
 
     // Ensure changeLogs array is not empty
     if (phase.changeLog.length === 0) {
-      return res.status(404).json({ message: 'No change logs recorded' });
+      return res.status(404).json({ message: "No change logs recorded" });
     }
 
     const latestChangeLog = phase.changeLog[phase.changeLog.length - 1];

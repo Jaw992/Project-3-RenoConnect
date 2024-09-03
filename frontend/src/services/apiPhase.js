@@ -22,6 +22,29 @@ export async function createPhase(data, token) {
   }
 }
 
+export const fetchPhases = async (token) => {
+  const url = `${BASE_URL}/phases`;
+  try {
+    const response = await fetch(url, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    if (!response.ok) {
+      if (response.status === 404) {
+        throw new Error("No phases found");
+      }
+      throw new Error("Failed to fetch phases");
+    }
+    return await response.json();
+  } catch (error) {
+    console.error("Error fetching phases:", error.message);
+    throw error;
+  }
+};
+
 //* GET a specific phase by ID
 export async function getPhase(phaseId, token) {
   const url = `${BASE_URL}/phases/${phaseId}`;

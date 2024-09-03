@@ -1,19 +1,23 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Container, Form, Button } from "react-bootstrap";
 import PhaseDetailsCard from "../components/PhaseDetailsCard";
+import { createPhase } from "../services/apiPhase";
 
-const ContractorCreate = () => {
+const ContractorCreate = ({ token }) => {
+  const [successMessage, setSuccess] = useState("");
+  const [error, setError] = useState("");
   const [formData, setFormData] = useState({
-    phase: "",
+    phaseName: "",
     task: "",
     taskDescription: "",
     startDate: "",
     endDate: "",
     cost: "",
+    project: "66d71e55bef8c4ca1423eda1",
   });
 
   const [appendPhase, setAppendPhase] = useState({
-    phase: "",
+    phaseName: "",
     task: "",
     taskDescription: "",
     startDate: "",
@@ -32,20 +36,29 @@ const ContractorCreate = () => {
   const handleAppend = (e) => {
     e.preventDefault();
     setAppendPhase(formData);
-    // setFormData({
-    //   phase: "",
-    //   task: "",
-    //   taskDescription: "",
-    //   startDate: "",
-    //   endDate: "",
-    //   cost: "",
-    // });
   };
 
-  const handleCreate = (e) => {
+  const handleCreate = async (e) => {
     e.preventDefault();
-    console.log("Phases created:", appendPhase);
+    try {
+      const response = await createPhase(formData, token);
+      console.log("Phase created successfully:", response);
+      setSuccess("Phase Created!");
+      setError("");
+    } catch (error) {
+      console.error(
+        "Error creating phase:",
+        error.response ? error.response.data : error.message
+      );
+      setError(error.response ? error.response.data.message : error.message);
+      setSuccess("");
+    }
   };
+
+  useEffect(() => {
+    console.log("Updated appendPhase:", appendPhase);
+    console.log({ token });
+  }, [appendPhase]);
 
   return (
     <div className="contractor-bg pages-pad">
@@ -57,9 +70,9 @@ const ContractorCreate = () => {
               <Form.Label>Enter Phase</Form.Label>
               <Form.Control
                 type="text"
-                name="phase"
+                name="phaseName"
                 placeholder="Enter phase name"
-                value={formData.phase}
+                value={formData.phaseName}
                 onChange={handleChange}
               />
             </Form.Group>
@@ -134,6 +147,10 @@ const ContractorCreate = () => {
           <Button onClick={handleCreate} className="custom-button-primary">
             Create
           </Button>
+          {error && <div className="formLabel mt-3">{error}</div>}
+          {successMessage && (
+            <div className="formLabel mt-3">{successMessage}</div>
+          )}
         </div>
       </Container>
     </div>
