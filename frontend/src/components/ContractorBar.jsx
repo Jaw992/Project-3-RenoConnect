@@ -51,7 +51,7 @@ function ContractorBar({ setIsContractorLoggedIn, setToken, contractorProfile}) 
               <Nav.Link
                 as={Link}
                 className="navLink"
-                to="//contractor/projectdetails"
+                to="/contractor/projectdetails"
               >
                 Project Details
               </Nav.Link>
