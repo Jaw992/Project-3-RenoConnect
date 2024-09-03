@@ -129,7 +129,7 @@ export async function rejectPhase(phaseId, token) {
 
 //* Delete a specific phase by ID
 export async function deletePhase(phaseId, token) {
-  const url = `${BASE_URL}/phases/${phaseId}`;
+  const url = `${BASE_URL}/phases/delete/${phaseId}`;
   try {
     const response = await fetch(url, {
       method: "DELETE",
