@@ -48,6 +48,17 @@ router.post("/", async (req, res) => {
   }
 });
 
+//* Get all phases
+router.get("/", async (req, res) => {
+  try {
+    const { phaseId } = req.params;
+    const phase = await Phase.find({}).populate("project");
+    res.status(200).json(phase);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+});
+
 // Get a single phase by ID
 router.get("/:phaseId", async (req, res) => {
   try {
