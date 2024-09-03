@@ -131,4 +131,33 @@ router.delete("/delete/:phaseId", async (req, res) => {
   }
 });
 
+// Get changelog Id
+router.get("/:phaseId/ChangeLog", async (req, res) => {
+  try {
+    const { phaseId } = req.params;
+
+    // Validate the phaseId parameter
+    if (!phaseId) {
+      return res.status(400).json({ message: 'phaseId is required' });
+    }
+
+    // Find the phase document by phaseId
+    const phase = await Phase.findById(phaseId);
+
+    if (!phase) {
+      return res.status(404).json({ message: 'Phase not found' });
+    }
+
+    // Ensure changeLogs array is not empty
+    if (phase.changeLog.length === 0) {
+      return res.status(404).json({ message: 'No change logs recorded' });
+    }
+
+    const latestChangeLog = phase.changeLog[phase.changeLog.length - 1];
+    res.json(latestChangeLog);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+});
+
 module.exports = router;
