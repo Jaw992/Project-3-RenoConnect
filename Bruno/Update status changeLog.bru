@@ -1,0 +1,26 @@
+meta {
+  name: Update status changeLog
+  type: http
+  seq: 18
+}
+
+put {
+  url: http://localhost:3000/api/phases/:phaseId/changeLog/:changeLogId
+  body: json
+  auth: bearer
+}
+
+params:path {
+  changeLogId: 66d73ad054bdb516ae7c562b
+  phaseId: 66d71a1686858cd4347344f4
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+    "reviewStatus": "Approved"
+  }
+}

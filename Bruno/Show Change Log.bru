@@ -5,13 +5,14 @@ meta {
 }
 
 get {
-  url: http://localhost:3000/api/phases/:phaseId/ChangeLog
+  url: http://localhost:3000/api/phases/:phaseId/changeLog/:changeLogId
   body: json
   auth: bearer
 }
 
 params:path {
-  phaseId: 
+  changeLogId: 66d73ad054bdb516ae7c562b
+  phaseId: 66d71a1686858cd4347344f4
 }
 
 auth:bearer {

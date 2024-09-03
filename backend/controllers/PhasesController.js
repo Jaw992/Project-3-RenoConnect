@@ -61,10 +61,24 @@ router.get("/:phaseId", async (req, res) => {
   }
 });
 
-// Update a phase and add a change log entry
-router.put("/update/:phaseId", async (req, res) => {
+// Delete a phase
+router.delete("/delete/:phaseId", async (req, res) => {
   try {
-    const phase = await Phase.findById(req.params.phaseId);
+    const phase = await Phase.findByIdAndDelete(req.params.phaseId);
+    if (!phase) {
+      return res.status(404).json({ message: "Phase not found" });
+    }
+    res.status(200).json({ message: "Phase deleted successfully" });
+  } catch (error) {
+    res.status(500).json(error);
+  }
+});
+
+//* Creates a changeLog entry when phase details are changed
+router.post("/:phaseId/changeLog", async (req, res) => {
+  try {
+    const { phaseId } = req.params;
+    const phase = await Phase.findById(phaseId);
     if (!phase) {
       return res.status(404).json({ message: "Phase not found" });
     }
@@ -82,78 +96,19 @@ router.put("/update/:phaseId", async (req, res) => {
       reviewStatus: "Pending",
     };
 
-    // Update the phase and add the change log entry
     phase.changeLog.push(changeLogEntry);
-    Object.assign(phase, req.body);
-    const updatedPhase = await phase.save();
+    await phase.save();
 
-    res.status(200).json(updatedPhase);
+    const newChangeLog = phase.changeLog[phase.changeLog.length - 1];
+    res.status(201).json(newChangeLog);
   } catch (error) {
+    console.error("Error in /:phaseId/changeLog route:", error);
     res.status(500).json(error);
   }
 });
 
-// Approve a phase
-router.put("/:phaseId/approve", async (req, res) => {
-  try {
-    const phase = await Phase.findById(req.params.phaseId);
-    if (!phase) {
-      return res.status(404).json({ message: "Phase not found" });
-    }
-
-    // Find the latest change log entry and update its review status
-    const latestChangeLog = phase.changeLog[phase.changeLog.length - 1];
-    if (latestChangeLog) {
-      latestChangeLog.reviewStatus = "Approved";
-    }
-
-    // Save the updated phase
-    const approvedPhase = await phase.save();
-
-    res.status(200).json(approvedPhase);
-  } catch (error) {
-    res.status(500).json(error);
-  }
-});
-
-// Reject a phase
-router.put("/:phaseId/reject", async (req, res) => {
-  try {
-    const phase = await Phase.findById(req.params.phaseId);
-    if (!phase) {
-      return res.status(404).json({ message: "Phase not found" });
-    }
-
-    // Find the latest change log entry and update its review status
-    const latestChangeLog = phase.changeLog[phase.changeLog.length - 1];
-    if (latestChangeLog) {
-      latestChangeLog.reviewStatus = "Rejected";
-    }
-
-    // Save the updated phase
-    const rejectedPhase = await phase.save();
-
-    res.status(200).json(rejectedPhase);
-  } catch (error) {
-    res.status(500).json(error);
-  }
-});
-
-// Delete a phase
-router.delete("/delete/:phaseId", async (req, res) => {
-  try {
-    const phase = await Phase.findByIdAndDelete(req.params.phaseId);
-    if (!phase) {
-      return res.status(404).json({ message: "Phase not found" });
-    }
-    res.status(200).json({ message: "Phase deleted successfully" });
-  } catch (error) {
-    res.status(500).json(error);
-  }
-});
-
-// Get changelog Id
-router.get("/:phaseId/ChangeLog", async (req, res) => {
+//* Get a single changelog Id
+router.get("/:phaseId/ChangeLog/:changeLogId", async (req, res) => {
   try {
     const { phaseId } = req.params;
 
@@ -180,5 +135,135 @@ router.get("/:phaseId/ChangeLog", async (req, res) => {
     res.status(500).json(error);
   }
 });
+
+//* Update Phase details when changeLog reviewStatus is Approved
+router.put("/:phaseId/ChangeLog/:changeLogId", async (req, res) => {
+  try {
+    const { phaseId, changeLogId } = req.params;
+    const { reviewStatus } = req.body;
+
+    // if (!["Approved", "Rejected"].includes(reviewStatus)) {
+    //   return res.status(400).json({ message: "Invalid review status" });
+    // }
+
+    // Find the phase by ID
+    const phase = await Phase.findById(phaseId);
+    if (!phase) {
+      return res.status(404).json({ message: "Phase not found" });
+    }
+
+    // Find the specific change log entry by ID
+    const changeLogEntry = phase.changeLog.id(changeLogId);
+    if (!changeLogEntry) {
+      return res.status(404).json({ message: "Change log entry not found" });
+    }
+    // Update the reviewStatus of the found change log entry
+    changeLogEntry.reviewStatus = reviewStatus;
+
+    // If reviewStatus is Approved, apply changes to the phase
+    if (reviewStatus === "Approved") {
+      if (changeLogEntry.newTaskDescription) {
+        phase.taskDescription = changeLogEntry.newTaskDescription;
+      }
+      if (changeLogEntry.newStartDate) {
+        phase.startDate = changeLogEntry.newStartDate;
+      }
+      if (changeLogEntry.newEndDate) {
+        phase.endDate = changeLogEntry.newEndDate;
+      }
+      if (changeLogEntry.newCost) {
+        phase.cost = changeLogEntry.newCost;
+      }
+    }
+
+    // Save only the updated change log entry (update phase document)
+    await phase.save();
+
+    // Return the updated change log entry
+    res.status(200).json(changeLogEntry);
+  } catch (error) {
+    console.error("Error updating change log:", error);
+    res.status(500).json({ message: "Server error", error });
+  }
+});
+
+// // Update a phase and add a change log entry
+// router.put("/update/:phaseId", async (req, res) => {
+//   try {
+//     const phase = await Phase.findById(req.params.phaseId);
+//     if (!phase) {
+//       return res.status(404).json({ message: "Phase not found" });
+//     }
+
+//     // Create a change log entry
+//     const changeLogEntry = {
+//       oldTaskDescription: phase.taskDescription,
+//       newTaskDescription: req.body.taskDescription || phase.taskDescription,
+//       oldStartDate: phase.startDate,
+//       newStartDate: req.body.startDate || phase.startDate,
+//       oldEndDate: phase.endDate,
+//       newEndDate: req.body.endDate || phase.endDate,
+//       oldCost: phase.cost,
+//       newCost: req.body.cost || phase.cost,
+//       reviewStatus: "Pending",
+//     };
+
+//     // Update the phase and add the change log entry
+//     phase.changeLog.push(changeLogEntry);
+//     Object.assign(phase, req.body);
+//     const updatedPhase = await phase.save();
+
+//     res.status(200).json(updatedPhase);
+//   } catch (error) {
+//     res.status(500).json(error);
+//   }
+// });
+
+// // Approve a phase
+// router.put("/:phaseId/approve", async (req, res) => {
+//   try {
+//     const phase = await Phase.findById(req.params.phaseId);
+//     if (!phase) {
+//       return res.status(404).json({ message: "Phase not found" });
+//     }
+
+//     // Find the latest change log entry and update its review status
+//     const latestChangeLog = phase.changeLog[phase.changeLog.length - 1];
+//     if (latestChangeLog) {
+//       latestChangeLog.reviewStatus = "Approved";
+//     }
+
+//     // Save the updated phase
+//     const approvedPhase = await phase.save();
+
+//     res.status(200).json(approvedPhase);
+//   } catch (error) {
+//     res.status(500).json(error);
+//   }
+// });
+
+// // Reject a phase
+// router.put("/:phaseId/reject", async (req, res) => {
+//   try {
+//     const phase = await Phase.findById(req.params.phaseId);
+//     if (!phase) {
+//       return res.status(404).json({ message: "Phase not found" });
+//     }
+
+//     // Find the latest change log entry and update its review status
+//     const latestChangeLog = phase.changeLog[phase.changeLog.length - 1];
+//     if (latestChangeLog) {
+//       latestChangeLog.reviewStatus = "Rejected";
+//     }
+
+//     // Save the updated phase
+//     const rejectedPhase = await phase.save();
+
+//     res.status(200).json(rejectedPhase);
+//   } catch (error) {
+//     res.status(500).json(error);
+//   }
+// });
+
 
 module.exports = router;
