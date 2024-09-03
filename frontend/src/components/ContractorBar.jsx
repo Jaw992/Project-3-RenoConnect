@@ -8,6 +8,8 @@ function ContractorBar({ setIsContractorLoggedIn, setToken, contractorProfile}) 
   
   console.log("Prop:", contractorProfile?.contractorUser?.name );
 
+  console.log("Profile", contractorProfile);
+
   const userName = contractorProfile?.contractorUser?.name || "";
   const projectId = "#123";
   const navigate = useNavigate();

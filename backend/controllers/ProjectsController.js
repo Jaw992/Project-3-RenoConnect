@@ -21,7 +21,20 @@ router.post("/", async (req, res) => {
     }
 });
 
-// //* Get a single project
+//* Get All Projects
+router.get("/", async (req, res) => {
+    try {
+        const project = await Project.find({}).populate("contractor");
+        if (project.length === 0) {
+            return res.status(404).json({ error: "Not found" });
+          }
+          res.status(200).json({project});
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
+//* Get a single project
 router.get("/:projectId", async (req, res) => {
     const { projectId } = req.params;
 
