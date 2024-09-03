@@ -17,17 +17,29 @@ import ContractorChange from "./pages/ContractorChange";
 import CustomerDashboard from "./pages/CustomerDashboard";
 import CustomerProjectDetails from "./pages/CustomerProjectDetails";
 import bgImage from "./assets/b1.jpg";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./css/styles.css";
 
 function App() {
-    const [token, setToken] = useState("");
+  const [token, setToken] = useState("");
+  const [isContractorLoggedIn, setIsContractorLoggedIn] = useState(false);
+  const [isCustomerLoggedIn, setIsCustomerLoggedIn] = useState(false);
 
   return (
     <div className="homeContent">
-      {/* /* <ContractorBar /> */}
-      {/* <CustomerBar /> */}
-      <Navibar />
+      {isContractorLoggedIn ? (
+        <ContractorBar
+          setIsContractorLoggedIn={setIsContractorLoggedIn}
+          setToken={setToken}
+        />
+      ) : isCustomerLoggedIn ? (
+        <CustomerBar
+          setIsCustomerLoggedIn={setIsCustomerLoggedIn}
+          setToken={setToken}
+        />
+      ) : (
+        <Navibar />
+      )}
       <Routes>
         <Route
           path="/"
@@ -68,10 +80,32 @@ function App() {
             </div>
           }
         />
-        <Route path="/contractor/login" element={<ContractorLogin setToken={setToken} />} />
-        <Route path="/customer/login" element={<CustomerLogin setToken={setToken} />} />
-        <Route path="/contractor/signup" element={<ContractorSignup setToken={setToken} />} />
-        <Route path="/customer/signup" element={<CustomerSignup setToken={setToken} />} />
+        <Route
+          path="/contractor/login"
+          element={
+            <ContractorLogin
+              setToken={setToken}
+              setIsContractorLoggedIn={setIsContractorLoggedIn}
+            />
+          }
+        />
+        <Route
+          path="/customer/login"
+          element={
+            <CustomerLogin
+              setToken={setToken}
+              setIsCustomerLoggedIn={setIsCustomerLoggedIn}
+            />
+          }
+        />
+        <Route
+          path="/contractor/signup"
+          element={<ContractorSignup setToken={setToken} />}
+        />
+        <Route
+          path="/customer/signup"
+          element={<CustomerSignup setToken={setToken} />}
+        />
         <Route path="/contractor" element={<ContractorDashboard />} />
         <Route
           path="/contractor/projectdetails"
