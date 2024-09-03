@@ -1,3 +1,5 @@
+import { extractPayload } from "../../utils/jwUtils";
+
 //? Contractor APIs
 
 //* Contractor Signup
@@ -33,6 +35,31 @@ export async function contractorSignup(data) {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(data),
+      });
+      if (!response.ok) {
+        throw new Error(`Response status: ${response.status}`);
+      }
+  
+      const json = await response.json();
+      localStorage.setItem('authToken', json.token);
+      return json.token;
+    } catch (error) {
+      console.log(error.message);
+      throw error;
+    }
+  }
+
+  //* Load contractor Profile
+  export async function contractorLoad(token) {
+    const contractorId = extractPayload(token)._id;
+    const url = `http://localhost:3000/api/contractors/${contractorId}`;
+    try {
+      const response = await fetch(url, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
       });
       if (!response.ok) {
         throw new Error(`Response status: ${response.status}`);
