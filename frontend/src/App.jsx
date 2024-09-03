@@ -109,12 +109,18 @@ function App() {
           path="/customer/signup"
           element={<CustomerSignup setToken={setToken} />}
         />
-        <Route path="/contractor" element={<ContractorDashboard />} />
+        <Route
+          path="/contractor"
+          element={<ContractorDashboard token={token} />}
+        />
         <Route
           path="/contractor/projectdetails"
           element={<ContractorProjectDetails />}
         />
-        <Route path="/contractor/create" element={<ContractorCreate />} />
+        <Route
+          path="/contractor/create"
+          element={<ContractorCreate token={token} />}
+        />
         <Route path="/contractor/change" element={<ContractorChange />} />
         <Route path="/customer" element={<CustomerDashboard />} />
         <Route

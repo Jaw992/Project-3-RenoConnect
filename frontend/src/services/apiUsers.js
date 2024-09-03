@@ -49,30 +49,30 @@ export async function contractorLogin(data) {
   }
 }
 
-  //* Load contractor Profile
-  export async function contractorLoad(token) {
-    const contractorId = extractPayload(token)._id;
-    const url = `http://localhost:3000/api/contractors/${contractorId}`;
-    try {
-      const response = await fetch(url, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      if (!response.ok) {
-        throw new Error(`Response status: ${response.status}`);
-      }
-  
-      const json = await response.json();
-      localStorage.setItem('authToken', json.token);
-      return json.token;
-    } catch (error) {
-      console.log(error.message);
-      throw error;
+//* Load contractor Profile
+export async function contractorLoad(token) {
+  const contractorId = extractPayload(token)._id;
+  const url = `http://localhost:3000/api/contractors/${contractorId}`;
+  try {
+    const response = await fetch(url, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    if (!response.ok) {
+      throw new Error(`Response status: ${response.status}`);
     }
+
+    const json = await response.json();
+    localStorage.setItem("authToken", json.token);
+    return json.token;
+  } catch (error) {
+    console.log(error.message);
+    throw error;
   }
+}
 
 //* Customer Signup
 export async function customerSignup(data) {
