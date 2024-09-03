@@ -1,5 +1,6 @@
 import React from "react";
 import { Card } from "react-bootstrap";
+import { formatDateForDisplay } from "../../utils/dateFormat";
 
 const PhaseDetailsCard = ({ phase, viewMode }) => {
   const isEmptyPhase =
@@ -58,7 +59,11 @@ const PhaseDetailsCard = ({ phase, viewMode }) => {
     );
   }
 
-  console.log("PHASE IS COMPLETE");
+  // Define today's date for comparison
+  const today = new Date();
+  const startDate = new Date(phase.startDate);
+  const endDate = new Date(phase.endDate);
+
   return (
     <Card
       className="mb-3"
@@ -70,14 +75,13 @@ const PhaseDetailsCard = ({ phase, viewMode }) => {
     >
       <Card.Body>
         <Card.Title className="mb-3" style={{ fontWeight: "700" }}>
-          {phase.phaseName} {/* Ensure this matches the field name */}
+          {phase.phaseName}
         </Card.Title>
 
         {viewMode !== "create" && (
           <Card.Subtitle className="mb-3">
             <strong>
-              {new Date(phase.startDate) <= new Date() &&
-              new Date(phase.endDate) >= new Date()
+              {startDate <= today && endDate >= today
                 ? "In Progress"
                 : "Completed"}
             </strong>
@@ -92,13 +96,11 @@ const PhaseDetailsCard = ({ phase, viewMode }) => {
         </Card.Text>
         <Card.Text>
           <strong>Start Date:</strong>{" "}
-          {phase.startDate
-            ? new Date(phase.startDate).toLocaleDateString()
-            : "N/A"}
+          {phase.startDate ? formatDateForDisplay(phase.startDate) : "N/A"}
         </Card.Text>
         <Card.Text>
           <strong>End Date:</strong>{" "}
-          {phase.endDate ? new Date(phase.endDate).toLocaleDateString() : "N/A"}
+          {phase.endDate ? formatDateForDisplay(phase.endDate) : "N/A"}
         </Card.Text>
         <Card.Text>
           <strong>Cost:</strong> ${phase.cost || "0"}
