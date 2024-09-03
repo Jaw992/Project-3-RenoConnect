@@ -1,0 +1,25 @@
+meta {
+  name: update proj det
+  type: http
+  seq: 2
+}
+
+put {
+  url: http://localhost:3000/api/projects/:${projectId}
+  body: json
+  auth: bearer
+}
+
+params:path {
+  $%7BprojectId%7D: 66d708074d373daec35c47eb
+}
+
+auth:bearer {
+  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im93ZW4iLCJfaWQiOiI2NmQ3MmNmNTM4ZWI3NTc2ODM3NzY4OTgiLCJpYXQiOjE3MjUzNzc3ODEsImV4cCI6NDg4MTEzNzc4MX0.S13aA6Vec4nJkmjU7lzgiMn61FnQNtVGD_d5EJ8MNXY
+}
+
+body:json {
+  {
+    "projectPhaseCount": 10
+  }
+}
