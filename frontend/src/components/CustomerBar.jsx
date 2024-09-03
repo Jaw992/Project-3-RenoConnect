@@ -3,8 +3,11 @@ import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import { Link, useNavigate } from "react-router-dom";
 
-function CustomerBar({ setIsCustomerLoggedIn, setToken }) {
-  const userName = "Bob";
+function CustomerBar({ setIsCustomerLoggedIn, setToken, customerProfile }) {
+  console.log("customerProfile Prop:", customerProfile?.customer?.name); // Debugging line
+  console.log("customerProfile Object:", customerProfile); // Debugging line
+
+  const userName = customerProfile?.customer?.name || "";
   const projectId = "#123";
   const address = "Street 123";
   const navigate = useNavigate();
