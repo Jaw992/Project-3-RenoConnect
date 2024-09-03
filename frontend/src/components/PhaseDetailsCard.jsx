@@ -1,6 +1,11 @@
 import React from "react";
 import { Card } from "react-bootstrap";
-import { formatDateForDisplay } from "../../utils/dateFormat";
+import {
+  formatDateForDisplay,
+  getStartDate,
+  getEndDate,
+  determinePhaseStatus,
+} from "../../utils/dateFormat";
 
 const PhaseDetailsCard = ({ phase, viewMode }) => {
   const isEmptyPhase =
@@ -15,8 +20,11 @@ const PhaseDetailsCard = ({ phase, viewMode }) => {
       (value) => value === "" || value === null || value === undefined
     );
 
+  const startDate = getStartDate(phase.startDate);
+  const endDate = getEndDate(phase.endDate);
+  const phaseStatus = determinePhaseStatus(startDate, endDate);
+
   if (isEmptyPhase) {
-    console.log("PHASE IS EMPTY");
     return (
       <Card
         className="mb-3"
@@ -59,11 +67,6 @@ const PhaseDetailsCard = ({ phase, viewMode }) => {
     );
   }
 
-  // Define today's date for comparison
-  const today = new Date();
-  const startDate = new Date(phase.startDate);
-  const endDate = new Date(phase.endDate);
-
   return (
     <Card
       className="mb-3"
@@ -80,11 +83,7 @@ const PhaseDetailsCard = ({ phase, viewMode }) => {
 
         {viewMode !== "create" && (
           <Card.Subtitle className="mb-3">
-            <strong>
-              {startDate <= today && endDate >= today
-                ? "In Progress"
-                : "Completed"}
-            </strong>
+            <strong>[{phaseStatus}]</strong>
           </Card.Subtitle>
         )}
 

@@ -22,7 +22,16 @@ function CustomerBar({ setIsCustomerLoggedIn, setToken, customerProfile }) {
     <div className="bg-primary-fixed">
       <Navbar className="bg-primary-color bar-control">
         <Container>
-          <Navbar.Brand href="/">renoConnect</Navbar.Brand>
+          {/* <Navbar.Brand href="/">renoConnect</Navbar.Brand> */}
+          <Navbar.Brand href="/">
+            <img
+              src="/logo.png"
+              // width="30"
+              height="25"
+              className="d-inline-block align-top mt-1"
+              alt="renoConnect logo"
+            />
+          </Navbar.Brand>
         </Container>
       </Navbar>
 
