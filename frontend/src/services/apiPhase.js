@@ -149,11 +149,33 @@ export async function createChangeLog(phaseId, data, token) {
   }
 };
 
+//* Get details on just 1 changeLog detail
 export async function getChangeLog(phaseId, changeLogId, token) {
   const url = `${BASE_URL}/phases/${phaseId}/changeLog/${changeLogId}`;
   try {
     const response = await fetch(url, {
       method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    if (!response.ok) {
+      throw new Error(`Response status: ${response.status}`);
+    }
+    return await response.json();
+  } catch (error) {
+    console.error(error.message);
+    throw error;
+  }
+};
+
+//* Update reviewStatus and update Phase details with new changeLog that is approved
+export async function updatePhase(phaseId, changeLogId, token) {
+  const url = `${BASE_URL}/phases/${phaseId}/changeLog/${changeLogId}`;
+  try {
+    const response = await fetch(url, {
+      method: "PUT",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
