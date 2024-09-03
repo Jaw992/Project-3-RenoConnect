@@ -18,7 +18,7 @@ Delete a phase: "/:phaseId"
 // Create a new phase
 router.post("/", async (req, res) => {
   try {
-    const { project } = req.body;
+    const { project, phaseName } = req.body;
 
     if (!project) {
       return res.status(400).json({ error: 'Project ID is required.' });
@@ -27,6 +27,19 @@ router.post("/", async (req, res) => {
     const projectExists = await Project.exists({ _id: req.body.project });
     if (!projectExists) {
       return res.status(400).json({error: "Invalid Project Id."});
+    }
+
+    // Validate phaseName format
+    const phaseNameRegex = /^Phase \d+$/;
+    if (!phaseNameRegex.test(phaseName)) {
+      return res.status(400).json({ error: 'Please input phaseName as e.g Phase 1' });
+    }
+
+
+    // Check if a phase with the same phaseName already exists for the project
+    const phaseExists = await Phase.findOne({ phaseName, project });
+    if (phaseExists) {
+      return res.status(400).json({ error: 'Phase with the same name already exists for this project.' });
     }
 
     const newPhase = await Phase.create(req.body);
