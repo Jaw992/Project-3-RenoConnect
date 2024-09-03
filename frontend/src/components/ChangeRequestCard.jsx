@@ -15,7 +15,7 @@ const ChangeRequestCard = () => {
       >
         <Card.Body>
           <Card.Text className="mb-1" style={{ fontWeight: "500" }}>
-            Phase 1
+            <strong>Phase 1</strong>
           </Card.Text>
           <Card.Text className="mb-1" style={{ fontWeight: "500" }}>
             Task Description
@@ -24,7 +24,7 @@ const ChangeRequestCard = () => {
             Before: paint living room
           </Card.Text>
           <Card.Text className="mb-1" style={{ fontWeight: "500" }}>
-            Before: paint masterbed room
+            After: paint masterbed room
           </Card.Text>
         </Card.Body>
       </Card>
