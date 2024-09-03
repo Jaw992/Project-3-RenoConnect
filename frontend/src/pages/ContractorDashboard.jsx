@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Container, Form, Button } from "react-bootstrap";
 import PhaseDetailsCard from "../components/PhaseDetailsCard";
 import ProjectTrackingCard from "../components/ProjectTrackingCard";
+import ChangeRequestCard from "../components/ChangeRequestCard";
 
 const ContractorDashboard = () => {
   const [selectedPhase, setSelectedPhase] = useState("Phase 1");
@@ -27,7 +28,7 @@ const ContractorDashboard = () => {
 
         <div className=" pages-box-shadow p-3 mt-3">
           <h5 className="h3-custom">Change Requests: Pending Approval</h5>
-          <p style={{ color: "white" }}>* Add ChangeRequestCard here</p>
+          <p style={{ color: "white" }}><ChangeRequestCard /></p>
         </div>
 
         <Form onSubmit={handleSubmit} className="pages-box-shadow p-3 mt-3">
