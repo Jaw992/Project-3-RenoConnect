@@ -12,7 +12,7 @@ router.use(verifyTokenCustomer);
 //* Create new project
 router.post("/", async (req, res) => {
     try {
-        const { projectId, ...rest } = req.body;
+        const { projectId } = req.body;
         if (!projectId) {
             return res.status(400).json({error: "projectId is required."});
         }
