@@ -221,3 +221,8 @@ body {
 .gantt-chart-pad {
   padding-top: 3rem;
 }
+
+/* .flex-container {
+  display: flex;
+  justify-content: space-between;
+} */

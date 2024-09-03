@@ -1,17 +1,20 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Container, Form, Button } from "react-bootstrap";
 import ProjectDetailsCard from "../components/ProjectDetailsCard";
+import { useParams } from "react-router-dom"; // Import useParams
+
+
 // import ProjectTrackingCard from "../components/ProjectTrackingCard";
 
 async function contractorProjectDetails(data) {
   const url = "http://localhost:3000/api/projects";
   try {
-    const token = localStorage.getItem('authToken');
+    const token = localStorage.getItem("authToken");
     const response = await fetch(url, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${token}`,
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(data),
     });
@@ -27,31 +30,78 @@ async function contractorProjectDetails(data) {
   }
 }
 
+async function contractorProjectDetailsEdit(data, projectId) {
+  const url = `http://localhost:3000/api/projects/:${projectId}`;
+  console.log("PUT URL:", url);
+  console.log("PUT Data:", data);
+
+  try {
+    const token = localStorage.getItem("authToken");
+    const response = await fetch(url, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(data),
+    });
+    if (!response.ok) {
+      throw new Error(`Response status: ${response.status}`);
+    }
+    const json = await response.json();
+    return json.token;
+  } catch (error) {
+    console.error(error.message);
+    throw error;
+  }
+}
+
 const ContractorProjectDetails = () => {
+  const { projectId } = useParams();
   const [formData, setFormData] = useState({
     projectId: "",
     projectAddress: "",
-    totalPhases: "",
-    downPaymentPercent: "",
-    downPaymentReceived: "",
-    totalProjectCost: "",
+    projectPhaseCount: 0,
+    projectDownPayment: 0,
+    projectPaymentReceived: 0,
+    projectTotalCost: 0,
   });
+
   const [successMessage, setSuccess] = useState("");
   const [error, setError] = useState("");
-  
+  const [mode, setMode] = useState("create");
+
   const [save, setSave] = useState({
     projectId: "",
     projectAddress: "",
-    totalPhases: "",
-    downPaymentPercent: "",
-    downPaymentReceived: "",
-    totalProjectCost: "",
+    projectPhaseCount: 0,
+    projectDownPayment: 0,
+    projectPaymentReceived: 0,
+    projectTotalCost: 0,
   });
+
+  //update edit mode when projectId is same
+  useEffect(() => {
+    if (formData.projectId && formData.projectId !== save.projectId) {
+      setMode("edit");
+    } else {
+      setMode("create");
+    }
+  }, [formData.projectId, save.projectId]);
 
   const handleSave = (event) => {
     event.preventDefault();
     setSave(formData);
+    setSuccess("Project Details Saved!");
+    setError("");
   };
+
+  // const handleEdit = (event) => {
+  //   event.preventDefault();
+  //   setFormData(save);
+  //   setEdit(true);
+  //   setMode("edit");
+  // };
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -64,10 +114,16 @@ const ContractorProjectDetails = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const token = await contractorProjectDetails(formData);
-      setSuccess("Project Details Created!");
+      if (mode === "edit") {
+        await contractorProjectDetailsEdit(formData);
+        setSuccess("Project Details Updated!");
+      } else {
+        await contractorProjectDetails(formData);
+        setSuccess("Project Details Created!");
+      }
       setError("");
       setSave(formData);
+      setMode("create");
     } catch (error) {
       setError(error.message);
       setSuccess("");
@@ -79,10 +135,28 @@ const ContractorProjectDetails = () => {
       <Container className="pages-custom-container">
         <h4 className="h3-custom">Project Details</h4>
         <div className="pages-box-shadow p-3 p-projectTracking">
-        <ProjectDetailsCard phase={save} viewMode="create" />
+          <ProjectDetailsCard
+            phase={save}
+            viewMode={mode} />
         </div>
         <div className="pages-box-shadow p-3 mt-3">
-          <h5 className="h3-custom">Create/Edit</h5>
+          <button
+            onClick={() => setMode("create")}
+            disabled={mode === "create"}
+            className="custom-button-primary"
+          >
+            Create
+          </button>
+          <button
+            onClick={() => setMode("edit")}
+            disabled={mode === "edit"}
+            className="custom-button-primary"
+          >
+            Edit
+          </button>
+          <h5 className="h3-custom">
+            {mode === "edit" ? "Edit Project" : "Create Project"}
+          </h5>
 
           <Form onSubmit={handleSubmit} className="formLabel mt-2 p-3">
             <Form.Group controlId="formProjectId">
@@ -93,6 +167,7 @@ const ContractorProjectDetails = () => {
                 placeholder="Enter your project ID"
                 value={formData.projectId}
                 onChange={handleChange}
+                // disabled={mode === "edit"} // Disable input in edit mode
               />
             </Form.Group>
 
@@ -113,9 +188,9 @@ const ContractorProjectDetails = () => {
               <Form.Label>Total Phases</Form.Label>
               <Form.Control
                 type="number"
-                name="totalPhases"
+                name="projectPhaseCount"
                 placeholder="Enter total phases"
-                value={formData.totalPhases}
+                value={formData.projectPhaseCount}
                 onChange={handleChange}
               />
             </Form.Group>
@@ -124,9 +199,9 @@ const ContractorProjectDetails = () => {
               <Form.Label>Down Payment (%)</Form.Label>
               <Form.Control
                 type="number"
-                name="downPaymentPercent"
+                name="projectDownPayment"
                 placeholder="Enter down payment percentage"
-                value={formData.downPaymentPercent}
+                value={formData.projectDownPayment}
                 onChange={handleChange}
               />
             </Form.Group>
@@ -135,9 +210,9 @@ const ContractorProjectDetails = () => {
               <Form.Label>Down Payment Received ($)</Form.Label>
               <Form.Control
                 type="number"
-                name="downPaymentReceived"
+                name="projectPaymentReceived"
                 placeholder="Enter down payment received"
-                value={formData.downPaymentReceived}
+                value={formData.projectPaymentReceived}
                 onChange={handleChange}
               />
             </Form.Group>
@@ -146,9 +221,9 @@ const ContractorProjectDetails = () => {
               <Form.Label>Total Project Cost ($)</Form.Label>
               <Form.Control
                 type="number"
-                name="totalProjectCost"
+                name="projectTotalCost"
                 placeholder="Enter total project cost"
-                value={formData.totalProjectCost}
+                value={formData.projectTotalCost}
                 onChange={handleChange}
               />
             </Form.Group>
@@ -165,8 +240,11 @@ const ContractorProjectDetails = () => {
             </Form.Group>
 
             <div className="button-container mt-3">
-              <Button type="submit" className="custom-button-primary">
-                Save
+              <Button
+                type="submit"
+                className="custom-button-primary"
+              >
+                {mode === "edit" ? "Update" : "Create"}
               </Button>
               {error && <p className="error mt-3">{error}</p>}
               {successMessage && (
