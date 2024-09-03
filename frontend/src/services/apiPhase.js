@@ -142,8 +142,6 @@ export async function createChangeLog(phaseId, data, token) {
     if (!response.ok) {
       if (response.status === 404) {
         throw new Error("Specific phase could not be found");
-      } else if (response.status === 500) {
-        throw new Error("Internal Server Error: There was a problem with the server.");
       }
     }
 
@@ -167,8 +165,12 @@ export async function getChangeLog(phaseId, changeLogId, token) {
       },
     });
     if (!response.ok) {
-      throw new Error(`Response status: ${response.status}`);
+      if (response.status === 400) {
+        throw new Error("Not found: phaseId is required");
+      } else if (response.status === 404) {
+        throw new Error("Not found: Phase not found");
     }
+  }
     return await response.json();
   } catch (error) {
     console.error(error.message);
