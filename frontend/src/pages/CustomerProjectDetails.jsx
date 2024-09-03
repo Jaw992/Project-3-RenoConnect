@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Container, Form, Button } from "react-bootstrap";
 import ProjectTrackingCard from "../components/ProjectTrackingCard";
+import ProjectDetailsCard from "../components/ProjectDetailsCard";
 
 const ContractorProjectDetails = () => {
   const [formData, setFormData] = useState({
