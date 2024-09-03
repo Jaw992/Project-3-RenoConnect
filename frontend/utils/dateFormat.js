@@ -23,3 +23,23 @@ export const convertDateForDB = (dateString) => {
   const [day, month, year] = dateString.split("/");
   return new Date(`${month}/${day}/${year}`).toISOString();
 };
+
+export const today = new Date();
+
+export const getStartDate = (startDateString) => {
+  return new Date(startDateString);
+};
+
+export const getEndDate = (endDateString) => {
+  return new Date(endDateString);
+};
+
+export const determinePhaseStatus = (startDate, endDate) => {
+  if (startDate > today) {
+    return "Not Started";
+  } else if (startDate <= today && endDate >= today) {
+    return "In Progress";
+  } else {
+    return "Completed";
+  }
+};

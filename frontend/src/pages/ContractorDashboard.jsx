@@ -74,11 +74,7 @@ const ContractorDashboard = ({ token }) => {
             <Form.Label className="pages-form-labels">
               Select a phase:
             </Form.Label>
-            <Form.Control
-              as="select"
-              value={selectedPhase}
-              onChange={handleChange}
-            >
+            <Form.Select value={selectedPhase} onChange={handleChange}>
               {phases.length > 0 ? (
                 phases.map((phase) => (
                   <option key={phase._id} value={phase._id}>
@@ -88,7 +84,7 @@ const ContractorDashboard = ({ token }) => {
               ) : (
                 <option>No phases available</option>
               )}
-            </Form.Control>
+            </Form.Select>
             <div className="mt-4">
               {selectedPhase && (
                 <PhaseDetailsCard
