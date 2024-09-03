@@ -66,13 +66,14 @@ export async function contractorLogin(data) {
       }
   
       const json = await response.json();
-      localStorage.setItem('authToken', json.token);
-      return json.token;
+      return json;
     } catch (error) {
       console.log(error.message);
       throw error;
     }
   }
+
+//? Customer
 
 //* Customer Signup
 export async function customerSignup(data) {

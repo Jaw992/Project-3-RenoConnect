@@ -25,6 +25,7 @@ function App() {
   const [isContractorLoggedIn, setIsContractorLoggedIn] = useState(false);
   const [isCustomerLoggedIn, setIsCustomerLoggedIn] = useState(false);
   const [customerProfile, setCustomerProfile] = useState("");
+  const [contractorProfile, setContractorProfile] = useState("");
 
   return (
     <div className="homeContent">
@@ -32,6 +33,7 @@ function App() {
         <ContractorBar
           setIsContractorLoggedIn={setIsContractorLoggedIn}
           setToken={setToken}
+          contractorProfile={contractorProfile}
         />
       ) : isCustomerLoggedIn ? (
         <CustomerBar
@@ -88,6 +90,7 @@ function App() {
             <ContractorLogin
               setToken={setToken}
               setIsContractorLoggedIn={setIsContractorLoggedIn}
+              setContractorProfile={setContractorProfile}
             />
           }
         />
