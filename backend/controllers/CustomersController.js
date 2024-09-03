@@ -18,8 +18,8 @@ router.post("/signup", async (req, res) => {
         }
 
         // check if project ref Id entered matches any created Project ref Id
-        const projectExists = await Project.find({});
-        if (project !== projectExists) {
+        const projectExists = await Project.exists({_id: req.body.project});
+        if (!projectExists) {
             return res.status(400).json({error: "Invalid Project Id."});
         }
         // check if username is taken
