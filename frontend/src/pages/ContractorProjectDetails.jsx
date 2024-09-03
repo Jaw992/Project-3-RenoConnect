@@ -1,63 +1,14 @@
 import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom"; // Import useParams and useNavigate
 import { Container, Form, Button } from "react-bootstrap";
 import ProjectDetailsCard from "../components/ProjectDetailsCard";
-import { useParams } from "react-router-dom"; // Import useParams
-
-
+import { projectDetailsLoad } from "../services/apiProject";
 // import ProjectTrackingCard from "../components/ProjectTrackingCard";
-
-async function contractorProjectDetails(data) {
-  const url = "http://localhost:3000/api/projects";
-  try {
-    const token = localStorage.getItem("authToken");
-    const response = await fetch(url, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify(data),
-    });
-    if (!response.ok) {
-      throw new Error(`Response status: ${response.status}`);
-    }
-
-    const json = await response.json();
-    return json.token;
-  } catch (error) {
-    console.error(error.message);
-    throw error;
-  }
-}
-
-async function contractorProjectDetailsEdit(data, projectId) {
-  const url = `http://localhost:3000/api/projects/:${projectId}`;
-  console.log("PUT URL:", url);
-  console.log("PUT Data:", data);
-
-  try {
-    const token = localStorage.getItem("authToken");
-    const response = await fetch(url, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify(data),
-    });
-    if (!response.ok) {
-      throw new Error(`Response status: ${response.status}`);
-    }
-    const json = await response.json();
-    return json.token;
-  } catch (error) {
-    console.error(error.message);
-    throw error;
-  }
-}
+import { contractorProjectDetailsEdit } from "../services/apiProject";
+import { contractorProjectDetails } from "../services/apiProject";
 
 const ContractorProjectDetails = () => {
-  const { projectId } = useParams();
+  // const { projectId } = useParams();
   const [formData, setFormData] = useState({
     projectId: "",
     projectAddress: "",
@@ -71,7 +22,7 @@ const ContractorProjectDetails = () => {
   const [error, setError] = useState("");
   const [mode, setMode] = useState("create");
 
-  const [save, setSave] = useState({
+  const [create, setCreate] = useState({
     projectId: "",
     projectAddress: "",
     projectPhaseCount: 0,
@@ -81,27 +32,24 @@ const ContractorProjectDetails = () => {
   });
 
   //update edit mode when projectId is same
-  useEffect(() => {
-    if (formData.projectId && formData.projectId !== save.projectId) {
-      setMode("edit");
-    } else {
-      setMode("create");
-    }
-  }, [formData.projectId, save.projectId]);
-
-  const handleSave = (event) => {
-    event.preventDefault();
-    setSave(formData);
-    setSuccess("Project Details Saved!");
-    setError("");
-  };
-
-  // const handleEdit = (event) => {
-  //   event.preventDefault();
-  //   setFormData(save);
-  //   setEdit(true);
-  //   setMode("edit");
-  // };
+  // useEffect(() => {
+  //   const checkProject = async () => {
+  //     if (formData.projectId) {
+  //       try {
+  //         // await contractorProjectDetails(formData.projectId);
+  //         setExistingProject(true);
+  //         setMode("edit");
+  //       } catch {
+  //         setExistingProject(false);
+  //         setMode("create");
+  //       }
+  //     } else {
+  //       setExistingProject(false);
+  //       setMode("create");
+  //     }
+  //   };
+  //   checkProject();
+  // }, [formData.projectId]);
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -122,7 +70,7 @@ const ContractorProjectDetails = () => {
         setSuccess("Project Details Created!");
       }
       setError("");
-      setSave(formData);
+      setCreate(formData);
       setMode("create");
     } catch (error) {
       setError(error.message);
@@ -135,9 +83,7 @@ const ContractorProjectDetails = () => {
       <Container className="pages-custom-container">
         <h4 className="h3-custom">Project Details</h4>
         <div className="pages-box-shadow p-3 p-projectTracking">
-          <ProjectDetailsCard
-            phase={save}
-            viewMode={mode} />
+          <ProjectDetailsCard phase={formData} viewMode={mode} />
         </div>
         <div className="pages-box-shadow p-3 mt-3">
           <button
@@ -167,7 +113,7 @@ const ContractorProjectDetails = () => {
                 placeholder="Enter your project ID"
                 value={formData.projectId}
                 onChange={handleChange}
-                // disabled={mode === "edit"} // Disable input in edit mode
+                disabled={mode === "edit"} // Disable input in edit mode
               />
             </Form.Group>
 
@@ -240,10 +186,7 @@ const ContractorProjectDetails = () => {
             </Form.Group>
 
             <div className="button-container mt-3">
-              <Button
-                type="submit"
-                className="custom-button-primary"
-              >
+              <Button type="submit" className="custom-button-primary">
                 {mode === "edit" ? "Update" : "Create"}
               </Button>
               {error && <p className="error mt-3">{error}</p>}
@@ -259,3 +202,4 @@ const ContractorProjectDetails = () => {
 };
 
 export default ContractorProjectDetails;
+

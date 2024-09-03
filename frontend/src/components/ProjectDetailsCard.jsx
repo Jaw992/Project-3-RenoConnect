@@ -1,8 +1,29 @@
-import React from "react";
+import { useState, useEffect } from "react";
 import { Card, Row, Col, Container } from "react-bootstrap";
+import { getCustomer } from "../services/apiUsers";
+import { contractorLoad } from "../services/apiUsers";
 
 
 const ProjectDetailsCard = ({ phase, viewMode }) => {
+  const [contractor, setContractor] = useState(null);
+  const [customer, setCustomer] = useState(null);
+
+  useEffect(() => {
+    // Fetch contractor and customer profiles
+    const fetchProfiles = async () => {
+      try {
+        const contractorData = await contractorLoad(phase.contractorId); 
+        const customerData = await getCustomer(phase.customerId); 
+        setContractor(contractorData);
+        setCustomer(customerData);
+      } catch (error) {
+        console.error('Error fetching profiles:', error);
+      }
+    };
+
+    fetchProfiles();
+  }, [phase.contractorId, phase.customerId]); // Dependencies
+
   return (
     <>
       <Container>
