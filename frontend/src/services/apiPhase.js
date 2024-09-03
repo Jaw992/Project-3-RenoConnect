@@ -190,12 +190,22 @@ export async function updatePhase(phaseId, changeLogId, token) {
       },
     });
     if (!response.ok) {
-      throw new Error(`Response status: ${response.status}`);
+      if (response.status === 404) {
+        const responseText = await response.text();
+        if (responseText.includes("Phase not found")) {
+          throw new Error("Not Found: The specified phase could not be found.");
+        } else if (responseText.includes("Change log entry not found")) {
+          throw new Error("Not Found: The specified change log entry could not be found.");
+        } else {
+          throw new Error("Not Found: The specified resource could not be found.");
+        }
+      }
     }
+
     return await response.json();
   } catch (error) {
-    console.error(error.message);
-    throw error;
+    console.error("Error updating phase with change log:", error.message);
+    throw error; 
   }
 };
 
@@ -210,8 +220,11 @@ export async function deletePhase(phaseId, token) {
       },
     });
     if (!response.ok) {
-      throw new Error(`Response status: ${response.status}`);
+      if (response.status === 404) {
+        throw new Error("Not found: Phase not found");
+      }
     }
+    
     return await response.json();
   } catch (error) {
     console.error(error.message);
