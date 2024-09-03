@@ -26,7 +26,7 @@ router.get("/:projectId", async (req, res) => {
     const { projectId } = req.params;
 
     try {
-        const project = await Project.findById(projectId).populate("contractor").populate("customer");
+        const project = await Project.findById(projectId).populate("contractor");
         if (project === null) {
             return res.status(404).json({ error: "Not found" });
           }

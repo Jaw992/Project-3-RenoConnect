@@ -5,7 +5,6 @@ const dummyPhases = [
   {
     id: 1,
     phase: "Phase 1",
-    task: "Task 1",
     taskDescription: "Description 1",
     startDate: "2024-01-01",
     endDate: "2024-01-10",
@@ -14,7 +13,6 @@ const dummyPhases = [
   {
     id: 2,
     phase: "Phase 2",
-    task: "Task 2",
     taskDescription: "Description 2",
     startDate: "2024-02-01",
     endDate: "2024-02-10",
