@@ -1,11 +1,11 @@
 import { Container, Form, Button } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { contractorLogin } from "../services/apiUsers";
+import { contractorLogin, contractorLoad } from "../services/apiUsers";
 
 // login data contractor (service)
 
-const ContractorLogin = ({ setToken, setIsContractorLoggedIn }) => {
+const ContractorLogin = ({ setToken, setIsContractorLoggedIn, setContractorProfile }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
@@ -22,7 +22,10 @@ const ContractorLogin = ({ setToken, setIsContractorLoggedIn }) => {
       setToken(token);
       setIsContractorLoggedIn(true); // Set contractor login state
       setSuccessMessage("Login Successful");
-      console.log("Redirecting to /contractor");
+
+      const profile = await contractorLoad(token);
+      setContractorProfile(profile || "");
+
       navigate("/contractor"); // Redirect to customer dashboard
     } catch (error) {
       setError("Invalid username or password");

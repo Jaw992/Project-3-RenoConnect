@@ -1,0 +1,28 @@
+meta {
+  name: Create new changeLog
+  type: http
+  seq: 16
+}
+
+post {
+  url: http://localhost:3000/api/phases/:phaseId/changeLog
+  body: json
+  auth: bearer
+}
+
+params:path {
+  phaseId: 66d71a1686858cd4347344f4
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+    "taskDescription": "install air con duct",
+    "startDate": null,
+    "endDate": null,
+    "cost": 800
+  }
+}

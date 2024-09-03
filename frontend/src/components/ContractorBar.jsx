@@ -4,9 +4,14 @@ import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import { Link, useNavigate } from "react-router-dom";
 
-function ContractorBar({ setIsContractorLoggedIn, setToken }) {
-  const userName = "Bob";
-  const projectId = "Project #123";
+function ContractorBar({ setIsContractorLoggedIn, setToken, contractorProfile}) {
+  
+  console.log("Prop:", contractorProfile?.contractorUser?.name );
+
+  console.log("Profile", contractorProfile);
+
+  const userName = contractorProfile?.contractorUser?.name || "";
+  const projectId = "#123";
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -48,7 +53,7 @@ function ContractorBar({ setIsContractorLoggedIn, setToken }) {
               <Nav.Link
                 as={Link}
                 className="navLink"
-                to="//contractor/projectdetails"
+                to="/contractor/projectdetails"
               >
                 Project Details
               </Nav.Link>

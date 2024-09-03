@@ -8,6 +8,8 @@ const changeLogSchema = new mongoose.Schema({
    newStartDate: Date,
    oldEndDate: Date,
    newEndDate: Date,
+   oldCost: Number,
+   newCost: Number,
    reviewStatus: { type: String, enum: ["Pending", "Approved", "Rejected"]},
 },
    { timestamps: true },
@@ -19,6 +21,7 @@ const phaseSchema = new mongoose.Schema({
    taskDescription: String,
    startDate: Date,
    endDate: Date,
+   cost: Number,
    project: { type: mongoose.Schema.Types.ObjectId, ref: "Project" }, // reference taken from input
    contractor: {type: mongoose.Schema.Types.ObjectId, ref: "Contractor"},
    changeLog: [changeLogSchema],

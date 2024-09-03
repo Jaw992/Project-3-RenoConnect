@@ -12,6 +12,16 @@ router.use(verifyTokenCustomer);
 //* Create new project
 router.post("/", async (req, res) => {
     try {
+        const { projectId } = req.body;
+        if (!projectId) {
+            return res.status(400).json({error: "projectId is required."});
+        }
+
+        const existingProject = await Project.findOne({ projectId });
+        if (existingProject) {
+            return res.status(400).json({ error: "Project number used." });
+        }
+
         req.body.contractor = req.contractor._id;
         const project = await Project.create(req.body);
         debug(project);
@@ -21,7 +31,20 @@ router.post("/", async (req, res) => {
     }
 });
 
-// //* Get a single project
+//* Get All Projects
+router.get("/", async (req, res) => {
+    try {
+        const project = await Project.find({}).populate("contractor");
+        if (project.length === 0) {
+            return res.status(404).json({ error: "No projects" });
+          }
+          res.status(200).json({project});
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
+//* Get a single project
 router.get("/:projectId", async (req, res) => {
     const { projectId } = req.params;
 

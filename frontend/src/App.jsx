@@ -25,6 +25,7 @@ function App() {
   const [isContractorLoggedIn, setIsContractorLoggedIn] = useState(false);
   const [isCustomerLoggedIn, setIsCustomerLoggedIn] = useState(false);
   const [customerProfile, setCustomerProfile] = useState("");
+  const [contractorProfile, setContractorProfile] = useState("");
 
   return (
     <div className="homeContent">
@@ -32,6 +33,7 @@ function App() {
         <ContractorBar
           setIsContractorLoggedIn={setIsContractorLoggedIn}
           setToken={setToken}
+          contractorProfile={contractorProfile}
         />
       ) : isCustomerLoggedIn ? (
         <CustomerBar
@@ -88,6 +90,7 @@ function App() {
             <ContractorLogin
               setToken={setToken}
               setIsContractorLoggedIn={setIsContractorLoggedIn}
+              setContractorProfile={setContractorProfile}
             />
           }
         />
@@ -109,12 +112,18 @@ function App() {
           path="/customer/signup"
           element={<CustomerSignup setToken={setToken} />}
         />
-        <Route path="/contractor" element={<ContractorDashboard />} />
+        <Route
+          path="/contractor"
+          element={<ContractorDashboard token={token} />}
+        />
         <Route
           path="/contractor/projectdetails"
           element={<ContractorProjectDetails />}
         />
-        <Route path="/contractor/create" element={<ContractorCreate />} />
+        <Route
+          path="/contractor/create"
+          element={<ContractorCreate token={token} />}
+        />
         <Route path="/contractor/change" element={<ContractorChange />} />
         <Route path="/customer" element={<CustomerDashboard />} />
         <Route
