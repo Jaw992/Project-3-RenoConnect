@@ -5,7 +5,7 @@ import { contractorLogin } from "../services/apiUsers";
 
 // login data contractor (service)
 
-const ContractorLogin = ({ setToken }) => {
+const ContractorLogin = ({ setToken, setIsContractorLoggedIn }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
@@ -20,6 +20,7 @@ const ContractorLogin = ({ setToken }) => {
     try {
       const token = await contractorLogin({ username, password });
       setToken(token);
+      setIsContractorLoggedIn(true); // Set contractor login state
       setSuccessMessage("Login Successful");
       console.log("Redirecting to /contractor");
       navigate("/contractor"); // Redirect to customer dashboard

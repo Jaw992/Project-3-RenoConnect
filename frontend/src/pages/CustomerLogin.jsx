@@ -5,7 +5,7 @@ import { customerLogin } from "../services/apiUsers";
 
 // login data customer
 
-const CustomerLogin = ({ setToken }) => {
+const CustomerLogin = ({ setToken, setIsCustomerLoggedIn }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -20,6 +20,7 @@ const CustomerLogin = ({ setToken }) => {
     try {
       const token = await customerLogin({ username, password });
       setToken(token); // Set the token in your app's state
+      setIsCustomerLoggedIn(true); // Set customer login state
       setSuccessMessage("Login Successful!");
       navigate("/customer"); // Redirect to customer dashboard
     } catch (error) {
@@ -34,23 +35,23 @@ const CustomerLogin = ({ setToken }) => {
         <Form onSubmit={handleLogin} className="formLabel mt-4">
           <Form.Group controlId="formEmail">
             <Form.Label>Username</Form.Label>
-            <Form.Control 
-            type="text" 
-            placeholder="Enter Username" 
-            value={username} 
-            onChange={(e) => setUsername(e.target.value)}
-            required 
+            <Form.Control
+              type="text"
+              placeholder="Enter Username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              required
             />
           </Form.Group>
 
           <Form.Group controlId="formPassword" className="mt-3">
             <Form.Label>Password</Form.Label>
-            <Form.Control 
-            type="password" 
-            placeholder="Enter Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required 
+            <Form.Control
+              type="password"
+              placeholder="Enter Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
             />
           </Form.Group>
 
