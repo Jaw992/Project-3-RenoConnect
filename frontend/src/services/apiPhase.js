@@ -140,12 +140,18 @@ export async function createChangeLog(phaseId, data, token) {
       body: JSON.stringify(data),
     });
     if (!response.ok) {
-      throw new Error(`Response status: ${response.status}`);
+      if (response.status === 404) {
+        throw new Error("Specific phase could not be found");
+      } else if (response.status === 500) {
+        throw new Error("Internal Server Error: There was a problem with the server.");
+      }
     }
+
     return await response.json();
   } catch (error) {
-    console.error(error.message);
-    throw error;
+    console.error("Error creating change log entry:", error.message);
+    // Optionally, handle specific errors or show user-friendly messages
+    throw error; 
   }
 };
 
