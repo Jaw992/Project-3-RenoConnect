@@ -35,7 +35,6 @@ router.post("/", async (req, res) => {
       return res.status(400).json({ error: 'Please input phaseName as e.g Phase 1' });
     }
 
-
     // Check if a phase with the same phaseName already exists for the project
     const phaseExists = await Phase.findOne({ phaseName, project });
     if (phaseExists) {
@@ -78,7 +77,8 @@ router.put("/update/:phaseId", async (req, res) => {
       newStartDate: req.body.startDate || phase.startDate,
       oldEndDate: phase.endDate,
       newEndDate: req.body.endDate || phase.endDate,
-      createOn: new Date(),
+      oldCost: phase.cost,
+      newCost: req.body.cost || phase.cost,
       reviewStatus: "Pending",
     };
 
