@@ -27,7 +27,8 @@ const PhaseDetailsCard = ({ phase, viewMode }) => {
       >
         <Card.Body>
           <Card.Text className="mb-1" style={{ fontWeight: "500" }}>
-            Please enter phase details and click append button to show details
+            Please enter phase details and click the append button to show
+            details
           </Card.Text>
         </Card.Body>
       </Card>
@@ -69,25 +70,18 @@ const PhaseDetailsCard = ({ phase, viewMode }) => {
     >
       <Card.Body>
         <Card.Title className="mb-3" style={{ fontWeight: "700" }}>
-          Phase {phase.phase}
+          {phase.phaseName} {/* Ensure this matches the field name */}
         </Card.Title>
 
         {viewMode !== "create" && (
-          <>
-            <Card.Subtitle className="mb-3">
-              <strong>
-                ** ** Add condition for completed/in-progress using start and
-                end date.
-              </strong>
-              <strong>
-                **{" "}
-                {new Date(phase.startDate) <= new Date() &&
-                new Date(phase.endDate) >= new Date()
-                  ? "In Progress"
-                  : "Completed"}
-              </strong>
-            </Card.Subtitle>
-          </>
+          <Card.Subtitle className="mb-3">
+            <strong>
+              {new Date(phase.startDate) <= new Date() &&
+              new Date(phase.endDate) >= new Date()
+                ? "In Progress"
+                : "Completed"}
+            </strong>
+          </Card.Subtitle>
         )}
 
         <Card.Text>
@@ -98,17 +92,16 @@ const PhaseDetailsCard = ({ phase, viewMode }) => {
         </Card.Text>
         <Card.Text>
           <strong>Start Date:</strong>{" "}
-          {new Date(phase.startDate).toLocaleDateString()}
+          {phase.startDate
+            ? new Date(phase.startDate).toLocaleDateString()
+            : "N/A"}
         </Card.Text>
         <Card.Text>
           <strong>End Date:</strong>{" "}
-          {new Date(phase.endDate).toLocaleDateString()}
+          {phase.endDate ? new Date(phase.endDate).toLocaleDateString() : "N/A"}
         </Card.Text>
         <Card.Text>
-          <strong>Cost:</strong> ${phase.cost}
-        </Card.Text>
-        <Card.Text>
-          <strong>Show Phase Status:</strong>
+          <strong>Cost:</strong> ${phase.cost || "0"}
         </Card.Text>
       </Card.Body>
     </Card>

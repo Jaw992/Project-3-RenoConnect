@@ -49,6 +49,7 @@ export async function contractorLogin(data) {
   }
 }
 
+
   //* Load contractor Profile
   export async function contractorLoad(token) {
     const contractorId = extractPayload(token)._id;
@@ -70,8 +71,8 @@ export async function contractorLogin(data) {
     } catch (error) {
       console.log(error.message);
       throw error;
-    }
   }
+}
 
 //? Customer
 

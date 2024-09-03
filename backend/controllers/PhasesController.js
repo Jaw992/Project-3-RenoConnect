@@ -51,8 +51,8 @@ router.post("/", async (req, res) => {
 //* Get all phases
 router.get("/", async (req, res) => {
   try {
-    const phase = await Phase.find({}).populate("project");
-    res.status(200).json(phase);
+    const phases = await Phase.find({}).populate("project");
+    res.status(200).json(phases);
   } catch (error) {
     res.status(500).json(error);
   }
