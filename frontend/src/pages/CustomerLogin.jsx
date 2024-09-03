@@ -2,10 +2,15 @@ import { Container, Form, Button } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { customerLogin } from "../services/apiUsers";
+import { getCustomer } from "../services/apiUsers";
 
 // login data customer
 
-const CustomerLogin = ({ setToken, setIsCustomerLoggedIn }) => {
+const CustomerLogin = ({
+  setToken,
+  setIsCustomerLoggedIn,
+  setCustomerProfile,
+}) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -19,14 +24,36 @@ const CustomerLogin = ({ setToken, setIsCustomerLoggedIn }) => {
 
     try {
       const token = await customerLogin({ username, password });
-      setToken(token); // Set the token in your app's state
-      setIsCustomerLoggedIn(true); // Set customer login state
+      setToken(token);
+      console.log("hahahaha", token);
+      setIsCustomerLoggedIn(true);
       setSuccessMessage("Login Successful!");
-      navigate("/customer"); // Redirect to customer dashboard
+
+      const profile = await getCustomer(token);
+      console.log(profile);
+      setCustomerProfile(profile || "");
+
+      navigate("/customer");
     } catch (error) {
       setError("Invalid username or password");
     }
   };
+
+  // const handleLogin = async (event) => {
+  //   event.preventDefault();
+  //   setError("");
+  //   setSuccessMessage("");
+
+  //   try {
+  //     const token = await customerLogin({ username, password });
+  //     setToken(token); // Set the token in your app's state
+  //     setIsCustomerLoggedIn(true); // Set customer login state
+  //     setSuccessMessage("Login Successful!");
+  //     navigate("/customer"); // Redirect to customer dashboard
+  //   } catch (error) {
+  //     setError("Invalid username or password");
+  //   }
+  // };
 
   return (
     <div className="customer-bg">

@@ -24,6 +24,7 @@ function App() {
   const [token, setToken] = useState("");
   const [isContractorLoggedIn, setIsContractorLoggedIn] = useState(false);
   const [isCustomerLoggedIn, setIsCustomerLoggedIn] = useState(false);
+  const [customerProfile, setCustomerProfile] = useState("");
 
   return (
     <div className="homeContent">
@@ -36,6 +37,7 @@ function App() {
         <CustomerBar
           setIsCustomerLoggedIn={setIsCustomerLoggedIn}
           setToken={setToken}
+          customerProfile={customerProfile}
         />
       ) : (
         <Navibar />
@@ -95,6 +97,7 @@ function App() {
             <CustomerLogin
               setToken={setToken}
               setIsCustomerLoggedIn={setIsCustomerLoggedIn}
+              setCustomerProfile={setCustomerProfile}
             />
           }
         />
