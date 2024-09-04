@@ -21,24 +21,28 @@ router.post("/", async (req, res) => {
     const { project, phaseName } = req.body;
 
     if (!project) {
-      return res.status(400).json({ error: 'Project ID is required.' });
+      return res.status(400).json({ error: "Project ID is required." });
     }
 
     const projectExists = await Project.exists({ _id: req.body.project });
     if (!projectExists) {
-      return res.status(400).json({error: "Invalid Project Id."});
+      return res.status(400).json({ error: "Invalid Project Id." });
     }
 
     // Validate phaseName format
     const phaseNameRegex = /^Phase \d+$/;
     if (!phaseNameRegex.test(phaseName)) {
-      return res.status(400).json({ error: 'Please input phaseName as e.g Phase 1' });
+      return res
+        .status(400)
+        .json({ error: "Please input phaseName as e.g Phase 1" });
     }
 
     // Check if a phase with the same phaseName already exists for the project
     const phaseExists = await Phase.findOne({ phaseName, project });
     if (phaseExists) {
-      return res.status(400).json({ error: 'Phase with the same name already exists for this project.' });
+      return res.status(400).json({
+        error: "Phase with the same name already exists for this project.",
+      });
     }
 
     const newPhase = await Phase.create(req.body);
@@ -51,7 +55,16 @@ router.post("/", async (req, res) => {
 //* Get all phases
 router.get("/", async (req, res) => {
   try {
-    const phases = await Phase.find({}).populate("project");
+    const contractorId = req.contractor._id;
+    const phases = await Phase.find({ contractor: contractorId }).populate(
+      "project"
+    );
+    // const phases = await Phase.find({}).populate("project");
+
+    if (phases.length === 0) {
+      return res.status(404).json({ message: "No phases found" });
+    }
+
     res.status(200).json(phases);
   } catch (error) {
     res.status(500).json(error);
@@ -124,19 +137,19 @@ router.get("/:phaseId/ChangeLog/:changeLogId", async (req, res) => {
 
     // Validate the phaseId parameter
     if (!phaseId) {
-      return res.status(400).json({ message: 'phaseId is required' });
+      return res.status(400).json({ message: "phaseId is required" });
     }
 
     // Find the phase document by phaseId
     const phase = await Phase.findById(phaseId);
 
     if (!phase) {
-      return res.status(404).json({ message: 'Phase not found' });
+      return res.status(404).json({ message: "Phase not found" });
     }
 
     // Ensure changeLogs array is not empty
     if (phase.changeLog.length === 0) {
-      return res.status(404).json({ message: 'No change logs recorded' });
+      return res.status(404).json({ message: "No change logs recorded" });
     }
 
     const latestChangeLog = phase.changeLog[phase.changeLog.length - 1];
@@ -274,6 +287,5 @@ router.put("/:phaseId/ChangeLog/:changeLogId", async (req, res) => {
 //     res.status(500).json(error);
 //   }
 // });
-
 
 module.exports = router;

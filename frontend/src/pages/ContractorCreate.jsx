@@ -6,7 +6,7 @@ import { createPhase, fetchPhases } from "../services/apiPhase";
 // const TOTAL_PHASES = "";
 const TOTAL_PHASES = 10;
 
-const ContractorCreate = ({ token }) => {
+const ContractorCreate = ({ contractorProfile, token }) => {
   const [phases, setPhases] = useState([]);
   const [successMessage, setSuccess] = useState("");
   const [error, setError] = useState("");
@@ -17,7 +17,8 @@ const ContractorCreate = ({ token }) => {
     startDate: "",
     endDate: "",
     cost: "",
-    project: "66d7d3a39ebcd9397cf36f21",
+    project: "66d7fd973b3e15c918cbf78d",
+    contractor: contractorProfile?.contractorUser?._id,
   });
 
   const [appendPhase, setAppendPhase] = useState({
@@ -32,6 +33,7 @@ const ContractorCreate = ({ token }) => {
   useEffect(() => {
     const loadPhases = async () => {
       try {
+        console.log("Contractor ID: ", contractorProfile?.contractorUser?._id);
         const phasesData = await fetchPhases(token);
         console.log("Existing Phases:", phasesData);
         setPhases(phasesData);
@@ -72,6 +74,33 @@ const ContractorCreate = ({ token }) => {
       console.log("Phase created successfully:", response);
       setSuccess("Phase Created!");
       setError("");
+
+      // Clear the PhaseDetailsCard and formData after every time a phase is created
+      setAppendPhase({
+        phaseName: "",
+        task: "",
+        taskDescription: "",
+        startDate: "",
+        endDate: "",
+        cost: "",
+      });
+
+      setFormData({
+        phaseName: "",
+        task: "",
+        taskDescription: "",
+        startDate: "",
+        endDate: "",
+        cost: "",
+        // project: req.body.projectId,
+        // contractor: req.user.id,
+        project: "66d71e55bef8c4ca1423eda1",
+        contractor: "66d71da5bef8c4ca1423ed9e",
+      });
+
+      // Fetch updated list of phases after every time a phase is created
+      const updatedPhases = await fetchPhases(token);
+      setPhases(updatedPhases);
     } catch (error) {
       console.error(
         "Error creating phase:",
@@ -81,11 +110,6 @@ const ContractorCreate = ({ token }) => {
       setSuccess("");
     }
   };
-
-  useEffect(() => {
-    console.log("Updated appendPhase:", appendPhase);
-    console.log({ token });
-  }, [appendPhase]);
 
   if (!TOTAL_PHASES) {
     return (
@@ -108,6 +132,7 @@ const ContractorCreate = ({ token }) => {
       <Container className="pages-custom-container">
         <h4 className="h3-custom">Create New Phase</h4>
         <div className="pages-box-shadow p-3 mt-3">
+          {/* <h6 className="formLabel">Contractor ID: {contractorProfile}</h6> */}
           <Form className="formLabel p-3">
             <Form.Group controlId="formPhase">
               <Form.Label>

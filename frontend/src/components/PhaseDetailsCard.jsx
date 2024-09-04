@@ -8,17 +8,32 @@ import {
 } from "../../utils/dateFormat";
 
 const PhaseDetailsCard = ({ phase, viewMode }) => {
-  const isEmptyPhase =
-    !phase ||
-    Object.values(phase).every(
-      (value) => value === "" || value === null || value === undefined
+  if (!phase) {
+    return (
+      <Card
+        className="mb-3"
+        style={{
+          backgroundColor: "transparent",
+          color: "white",
+          border: "none",
+        }}
+      >
+        <Card.Body>
+          <Card.Text className="mb-1" style={{ fontWeight: "500" }}>
+            No phase details available.
+          </Card.Text>
+        </Card.Body>
+      </Card>
     );
+  }
 
-  const hasEmptyField =
-    phase &&
-    Object.values(phase).some(
-      (value) => value === "" || value === null || value === undefined
-    );
+  const isEmptyPhase = Object.values(phase).every(
+    (value) => value === "" || value === null || value === undefined
+  );
+
+  const hasEmptyField = Object.values(phase).some(
+    (value) => value === "" || value === null || value === undefined
+  );
 
   const startDate = getStartDate(phase.startDate);
   const endDate = getEndDate(phase.endDate);
@@ -37,7 +52,7 @@ const PhaseDetailsCard = ({ phase, viewMode }) => {
         <Card.Body>
           <Card.Text className="mb-1" style={{ fontWeight: "500" }}>
             Please enter phase details and click the append button to show
-            details
+            details.
           </Card.Text>
         </Card.Body>
       </Card>
