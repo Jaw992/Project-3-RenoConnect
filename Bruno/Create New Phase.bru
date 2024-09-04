@@ -11,16 +11,17 @@ post {
 }
 
 auth:bearer {
-  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InN0ZXZlIiwiX2lkIjoiNjZkNzFkYTViZWY4YzRjYTE0MjNlZDllIiwiaWF0IjoxNzI1Mzc5NDg0LCJleHAiOjQ4ODExMzk0ODR9.bhKsL9-Za17JVw-impRJwqlN2Y0uyx5OJmYepCQH8NM
+  token: {{token}}
 }
 
 body:json {
   {
-    "phaseName": "Phase 1",
-    "task": "Painting",
-    "taskDescription": "Paint the living room",
-    "startDate": "2024-09-20T00:00:00.000Z",
-    "endDate": "2024-10-01T00:00:00.000Z",
-    "project": "66d71da5bef8c4ca1423ed9e" // Required
+    "phaseName": "Phase 3",
+    "task": "Electrical Works",
+    "taskDescription": "Install air con duct",
+    "startDate": "2024-09-19T00:00:00.000Z",
+    "endDate": "2024-09-25T00:00:00.000Z",
+    "cost": 900,
+    "project": "66d6f1190276a633a5024601" // Required
   }
 }
