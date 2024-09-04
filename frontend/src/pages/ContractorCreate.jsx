@@ -17,7 +17,7 @@ const ContractorCreate = ({ token }) => {
     startDate: "",
     endDate: "",
     cost: "",
-    project: "66d71e55bef8c4ca1423eda1",
+    project: "66d7d3a39ebcd9397cf36f21",
   });
 
   const [appendPhase, setAppendPhase] = useState({

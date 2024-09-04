@@ -41,7 +41,7 @@ export async function contractorLogin(data) {
     }
 
     const json = await response.json();
-    localStorage.setItem("authToken", json.token);
+    // localStorage.setItem("authToken", json.token);
     return json.token;
   } catch (error) {
     console.log(error.message);
