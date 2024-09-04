@@ -95,7 +95,7 @@ const ContractorCreate = ({ contractorProfile, token }) => {
         // project: req.body.projectId,
         // contractor: req.user.id,
         project: "66d853440e899c20a4b19f23",
-        contractor: "66d852ff0e899c20a4b19f1a",
+        contractor: contractorProfile?.contractorUser?._id,
       });
 
       // Fetch updated list of phases after every time a phase is created
