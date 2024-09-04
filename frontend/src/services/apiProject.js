@@ -28,9 +28,10 @@ export async function projectDetailsLoad() {
 }
 
 //show
-export async function showProjectDetails(id, token) {
+export async function showProjectDetails(id) {
   const url = `http://localhost:3000/api/projects/${id}`;
   try {
+    const token = localStorage.getItem("authToken");
     const response = await fetch(url, {
       method: "GET",
       headers: {
@@ -43,7 +44,7 @@ export async function showProjectDetails(id, token) {
     }
     const json = await response.json();
     // localStorage.setItem("authToken", json.token);
-    return json.token;
+    return json;
   } catch (error) {
     console.log(error.message);
     throw error;

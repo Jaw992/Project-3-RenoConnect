@@ -28,7 +28,7 @@ export default function ProjectsList() {
               <p>Down Payment: ${projects.projectDownPayment}</p>
               <p>Payment Received: ${projects.projectPaymentReceived}</p>
               <p>Total Cost: ${projects.projectTotalCost}</p>
-              <Link to={`/projects/${projects.projectId}`}>
+              <Link to={`/projectdetails/${projects._id}`}>
                 <button>Edit</button>
               </Link>
             </div>
