@@ -55,11 +55,11 @@ router.post("/", async (req, res) => {
 //* Get all phases
 router.get("/", async (req, res) => {
   try {
-    const contractorId = req.contractor._id;
-    const phases = await Phase.find({ contractor: contractorId }).populate(
-      "project"
-    );
-    // const phases = await Phase.find({}).populate("project");
+    // const contractorId = req.contractor._id;
+    // const phases = await Phase.find({ contractor: contractorId }).populate(
+    //   "project"
+    // );
+    const phases = await Phase.find({}).populate("project");
 
     if (phases.length === 0) {
       return res.status(404).json({ message: "No phases found" });
