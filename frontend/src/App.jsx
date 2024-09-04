@@ -19,6 +19,7 @@ import CustomerProjectDetails from "./pages/CustomerProjectDetails";
 import bgImage from "./assets/b1.jpg";
 import { Link, useNavigate } from "react-router-dom";
 import "./css/styles.css";
+// import ProjectsList from "./pages/list";
 
 function App() {
   const [token, setToken] = useState("");

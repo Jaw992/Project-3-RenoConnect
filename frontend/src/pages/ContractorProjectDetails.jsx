@@ -6,17 +6,17 @@ import { projectDetailsLoad } from "../services/apiProject";
 // import ProjectTrackingCard from "../components/ProjectTrackingCard";
 import { contractorProjectDetailsEdit } from "../services/apiProject";
 import { contractorProjectDetails } from "../services/apiProject";
-import { contractorLoad } from "../services/apiUsers";
+import ProjectsList from "../components/ProjectList";
 
 const ContractorProjectDetails = ({token}) => {
   // const { projectId } = useParams();
   const [formData, setFormData] = useState({
     projectId: "",
     projectAddress: "",
-    projectPhaseCount: "",
-    projectDownPayment: "",
-    projectPaymentReceived: "",
-    projectTotalCost: "",
+    projectPhaseCount: 0,
+    projectDownPayment: 0,
+    projectPaymentReceived: 0,
+    projectTotalCost: 0,
   });
 
   const [successMessage, setSuccess] = useState("");
@@ -26,10 +26,10 @@ const ContractorProjectDetails = ({token}) => {
   const [create, setCreate] = useState({
     projectId: "",
     projectAddress: "",
-    projectPhaseCount: "",
-    projectDownPayment: "",
-    projectPaymentReceived: "",
-    projectTotalCost: "",
+    projectPhaseCount: 0,
+    projectDownPayment: 0,
+    projectPaymentReceived: 0,
+    projectTotalCost: 0,
   });
 
   //update edit mode when projectId is same
@@ -84,7 +84,8 @@ const ContractorProjectDetails = ({token}) => {
       <Container className="pages-custom-container">
         <h4 className="h3-custom">Project Details</h4>
         <div className="pages-box-shadow p-3 p-projectTracking">
-          <ProjectDetailsCard phase={formData} viewMode={mode} />
+          {/* <ProjectDetailsCard phase={formData} viewMode={mode} /> */}
+          <ProjectsList token={token}></ProjectsList>
         </div>
         <div className="pages-box-shadow p-3 mt-3">
           <button
@@ -115,6 +116,7 @@ const ContractorProjectDetails = ({token}) => {
                 value={formData.projectId}
                 onChange={handleChange}
                 disabled={mode === "edit"} // Disable input in edit mode
+                required="true"
               />
             </Form.Group>
 
@@ -128,6 +130,7 @@ const ContractorProjectDetails = ({token}) => {
                 placeholder="Enter your project address"
                 value={formData.projectAddress}
                 onChange={handleChange}
+                required="true"
               />
             </Form.Group>
 
@@ -139,6 +142,7 @@ const ContractorProjectDetails = ({token}) => {
                 placeholder="Enter total phases"
                 value={formData.projectPhaseCount}
                 onChange={handleChange}
+                required="true"
               />
             </Form.Group>
 
@@ -150,6 +154,7 @@ const ContractorProjectDetails = ({token}) => {
                 placeholder="Enter down payment percentage"
                 value={formData.projectDownPayment}
                 onChange={handleChange}
+                required="true"
               />
             </Form.Group>
 
@@ -161,6 +166,7 @@ const ContractorProjectDetails = ({token}) => {
                 placeholder="Enter down payment received"
                 value={formData.projectPaymentReceived}
                 onChange={handleChange}
+                required="true"
               />
             </Form.Group>
 
@@ -172,9 +178,10 @@ const ContractorProjectDetails = ({token}) => {
                 placeholder="Enter total project cost"
                 value={formData.projectTotalCost}
                 onChange={handleChange}
+                required="true"
               />
             </Form.Group>
-
+{/* 
             <Form.Group controlId="formEmail" className="mt-3">
               <Form.Label>Email</Form.Label>
               <Form.Control
@@ -184,7 +191,7 @@ const ContractorProjectDetails = ({token}) => {
                 value={formData.email}
                 onChange={handleChange}
               />
-            </Form.Group>
+            </Form.Group> */}
 
             <div className="button-container mt-3">
               <Button type="submit" className="custom-button-primary">
@@ -198,9 +205,15 @@ const ContractorProjectDetails = ({token}) => {
           </Form>
         </div>
       </Container>
+
+      <div>
+      </div>
+    
     </div>
   );
 };
 
 export default ContractorProjectDetails;
+
+
 
