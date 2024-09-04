@@ -65,12 +65,12 @@ const ContractorDashboard = ({ token }) => {
 
         <div className="pages-box-shadow p-3 mt-3">
           <h5 className="h3-custom">Change Requests: Pending Approval</h5>
-          {selectedPhase && (
+          {/* {selectedPhase && (
                 <ChangeRequestCard
                   phase={phases.find((p) => p._id === selectedPhase)}
                   token={token}
                 />
-              )}
+              )} */}
         </div>
 
         <Form onSubmit={handleSubmit} className="pages-box-shadow p-3 mt-3">
