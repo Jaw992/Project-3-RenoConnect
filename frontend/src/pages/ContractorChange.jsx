@@ -1,59 +1,61 @@
 import { useState, useEffect } from "react";
 import { Container, Form, Button, Row, Col } from "react-bootstrap";
+import { fetchPhases, createChangeLog } from "../services/apiPhase";
 
-const dummyPhases = [
-  {
-    id: 1,
-    phase: "Phase 1",
-    taskDescription: "Description 1",
-    startDate: "2024-01-01",
-    endDate: "2024-01-10",
-    cost: 100,
-  },
-  {
-    id: 2,
-    phase: "Phase 2",
-    taskDescription: "Description 2",
-    startDate: "2024-02-01",
-    endDate: "2024-02-10",
-    cost: 200,
-  },
-];
-
-const ChangePhaseDetails = () => {
-  const [phases, setPhases] = useState(dummyPhases);
-  const [selectedPhaseId, setSelectedPhaseId] = useState(null);
+const ChangePhaseDetails = ({ token }) => {
+  const [phases, setPhases] = useState([]);
+  const [selectedPhaseId, setSelectedPhaseId] = useState("");
+  const [originalPhase, setOriginalPhase] = useState(null);
   const [formData, setFormData] = useState({
     phase: "",
-    task: "",
     taskDescription: "",
     startDate: "",
     endDate: "",
     cost: "",
   });
-
   const [updatedPhase, setUpdatedPhase] = useState(null);
+  const [error, setError] = useState("");
 
   useEffect(() => {
-    if (selectedPhaseId !== null) {
-      const selectedPhase = phases.find(
-        (phase) => phase.id === selectedPhaseId
-      );
-      setFormData(
-        selectedPhase || {
-          phase: "",
-          task: "",
-          taskDescription: "",
-          startDate: "",
-          endDate: "",
-          cost: "",
+    const loadPhases = async () => {
+      try {
+        const phasesData = await fetchPhases(token);
+        console.log("Change Phase Page:", phasesData);
+        if (Array.isArray(phasesData)) {
+          setPhases(phasesData);
+          if (phasesData.length > 0) {
+            setSelectedPhaseId(phasesData[0]._id);
+          }
+        } else {
+          setError("Invalid data format received.");
         }
+      } catch (error) {
+        setError("Failed to load phases.");
+        console.error("Error fetching phases:", error);
+      }
+    };
+
+    loadPhases();
+  }, [token]);
+
+  useEffect(() => {
+    if (selectedPhaseId) {
+      const selectedPhase = phases.find(
+        (phase) => phase._id === selectedPhaseId
       );
+      setOriginalPhase(selectedPhase);
+      setFormData({
+        phase: selectedPhase.phaseName || "",
+        taskDescription: selectedPhase.taskDescription || "",
+        startDate: selectedPhase.startDate || "",
+        endDate: selectedPhase.endDate || "",
+        cost: selectedPhase.cost || "",
+      });
     }
-  }, [selectedPhaseId]);
+  }, [phases, selectedPhaseId]);
 
   const handleSelectChange = (e) => {
-    setSelectedPhaseId(parseInt(e.target.value));
+    setSelectedPhaseId(e.target.value);
   };
 
   const handleChange = (e) => {
@@ -69,12 +71,30 @@ const ChangePhaseDetails = () => {
     setUpdatedPhase(formData);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Updated phase:", formData);
+    try {
+      await createChangeLog(token, formData);
+      console.log("Change log created successfully");
+      // Optionally, reset the form or show a success message
+    } catch (error) {
+      setError("Failed to create change log.");
+      console.error("Error creating change log:", error);
+    }
   };
 
-  const selectedPhase = phases.find((p) => p.id === selectedPhaseId);
+  const renderChange = (field, label) => {
+    if (originalPhase && originalPhase[field] !== formData[field]) {
+      return (
+        <div className="changes-text-thin mt-4">
+          <h6 className="h3-custom mb-4">{label}:</h6>
+          <p className="ms-3">Before: {originalPhase[field]}</p>
+          <p className="ms-3">After: {formData[field]}</p>
+        </div>
+      );
+    }
+    return null;
+  };
 
   return (
     <div className="contractor-bg pages-pad">
@@ -83,35 +103,26 @@ const ChangePhaseDetails = () => {
         <div className="pages-box-shadow p-3 mt-3">
           <div className="formLabel p-3">
             <Form.Group controlId="formPhaseSelect">
-              <Form.Label>
-                Select Phase to Change (Submission Required)
-              </Form.Label>
+              <Form.Label>Select Phase to Change (Submission Required)</Form.Label>
               <Form.Control
                 as="select"
-                value={selectedPhaseId || ""}
+                value={selectedPhaseId}
                 onChange={handleSelectChange}
               >
-                <option value="">Select a phase</option>
-                {phases.map((phase) => (
-                  <option key={phase.id} value={phase.id}>
-                    {phase.phase}
-                  </option>
-                ))}
+                {phases.length > 0 ? (
+                  phases.map((phase) => (
+                    <option key={phase._id} value={phase._id}>
+                      {phase.phaseName}
+                    </option>
+                  ))
+                ) : (
+                  <option>No phases available</option>
+                )}
               </Form.Control>
             </Form.Group>
 
             {selectedPhaseId && (
               <>
-                <Form.Group className="mt-3">
-                  <Form.Label>Task</Form.Label>
-                  <Form.Control
-                    type="text"
-                    name="task"
-                    value={formData.task}
-                    onChange={handleChange}
-                  />
-                </Form.Group>
-
                 <Form.Group className="mt-3">
                   <Form.Label>Task Description</Form.Label>
                   <Form.Control
@@ -159,7 +170,7 @@ const ChangePhaseDetails = () => {
                   >
                     Append
                   </Button>
-                  <span className="ms-3">Click to show change details.</span>
+                  <span className="ms-3">Click to preview change details.</span>
                 </div>
               </>
             )}
@@ -173,66 +184,10 @@ const ChangePhaseDetails = () => {
                 <Col>
                   <h5 className="h3-custom mb-4">Changes</h5>
                   <div>
-                    {selectedPhase && (
-                      <>
-                        {selectedPhase.task !== updatedPhase.task && (
-                          <div className="changes-text-thin">
-                            <h6 className="h3-custom mb-4">Task:</h6>
-                            <p className="ms-3">Before: {selectedPhase.task}</p>
-                            <p className="ms-3">After: {updatedPhase.task}</p>
-                          </div>
-                        )}
-
-                        {selectedPhase.taskDescription !==
-                          updatedPhase.taskDescription && (
-                          <div className="changes-text-thin mt-4">
-                            <h6 className="h3-custom mb-4">
-                              Task Description:
-                            </h6>
-                            <p className="ms-3">
-                              Before: {selectedPhase.taskDescription}
-                            </p>
-                            <p className="ms-3">
-                              After: {updatedPhase.taskDescription}
-                            </p>
-                          </div>
-                        )}
-
-                        {selectedPhase.startDate !== updatedPhase.startDate && (
-                          <div className="changes-text-thin mt-4">
-                            <h6 className="h3-custom mb-4">Start Date:</h6>
-                            <p className="ms-3">
-                              Before: {selectedPhase.startDate}
-                            </p>
-                            <p className="ms-3">
-                              After: {updatedPhase.startDate}
-                            </p>
-                          </div>
-                        )}
-
-                        {selectedPhase.endDate !== updatedPhase.endDate && (
-                          <div className="changes-text-thin mt-4">
-                            <h6 className="h3-custom mb-4">End Date:</h6>
-                            <p className="ms-3">
-                              Before: {selectedPhase.endDate}
-                            </p>
-                            <p className="ms-3">
-                              After: {updatedPhase.endDate}
-                            </p>
-                          </div>
-                        )}
-
-                        {selectedPhase.cost !== updatedPhase.cost && (
-                          <div className="changes-text-thin mt-4">
-                            <h6 className="h3-custom mb-4">Cost:</h6>
-                            <p className="ms-3">
-                              Before: ${selectedPhase.cost}
-                            </p>
-                            <p className="ms-3">After: ${updatedPhase.cost}</p>
-                          </div>
-                        )}
-                      </>
-                    )}
+                    {renderChange('taskDescription', 'Task Description')}
+                    {renderChange('startDate', 'Start Date')}
+                    {renderChange('endDate', 'End Date')}
+                    {renderChange('cost', 'Cost')}
                   </div>
                 </Col>
               </Row>
