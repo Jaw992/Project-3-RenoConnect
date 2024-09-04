@@ -19,6 +19,7 @@ const ContractorLogin = ({ setToken, setIsContractorLoggedIn, setContractorProfi
 
     try {
       const token = await contractorLogin({ username, password });
+      console.log(token);
       setToken(token);
       setIsContractorLoggedIn(true); // Set contractor login state
       setSuccessMessage("Login Successful");

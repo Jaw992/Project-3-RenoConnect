@@ -7,7 +7,7 @@ import { projectDetailsLoad } from "../services/apiProject";
 import { contractorProjectDetailsEdit } from "../services/apiProject";
 import { contractorProjectDetails } from "../services/apiProject";
 
-const ContractorProjectDetails = () => {
+const ContractorProjectDetails = ({token}) => {
   // const { projectId } = useParams();
   const [formData, setFormData] = useState({
     projectId: "",
@@ -63,10 +63,10 @@ const ContractorProjectDetails = () => {
     event.preventDefault();
     try {
       if (mode === "edit") {
-        await contractorProjectDetailsEdit(formData);
+        await contractorProjectDetailsEdit(formData, token);
         setSuccess("Project Details Updated!");
       } else {
-        await contractorProjectDetails(formData);
+        await contractorProjectDetails(formData, token);
         setSuccess("Project Details Created!");
       }
       setError("");

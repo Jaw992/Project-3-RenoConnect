@@ -74,7 +74,7 @@ const ChangePhaseDetails = ({ token }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await createChangeLog(token, formData);
+      const response = await createChangeLog(selectedPhaseId, formData, token);
       console.log("Change log created successfully:", response);
       // Optionally, reset the form or show a success message
     } catch (error) {
