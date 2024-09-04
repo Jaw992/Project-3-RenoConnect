@@ -59,3 +59,5 @@ const ProjectDetailsCard = ({ phase, viewMode }) => {
 };
 
 export default ProjectDetailsCard;
+
+

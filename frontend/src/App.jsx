@@ -19,6 +19,9 @@ import CustomerProjectDetails from "./pages/CustomerProjectDetails";
 import bgImage from "./assets/b1.jpg";
 import { Link, useNavigate } from "react-router-dom";
 import "./css/styles.css";
+import ShowProjectDetails from "./components/ShowProjectDetails";
+// import ProjectsList from "./pages/list";
+import EditProjectDetails from "./pages/EditProjectDetails";
 
 function App() {
   const [token, setToken] = useState("");
@@ -26,6 +29,7 @@ function App() {
   const [isCustomerLoggedIn, setIsCustomerLoggedIn] = useState(false);
   const [customerProfile, setCustomerProfile] = useState("");
   const [contractorProfile, setContractorProfile] = useState("");
+  const [project, setProject] = useState({ project: [] });
 
   return (
     <div className="homeContent">
@@ -122,12 +126,7 @@ function App() {
         />
         <Route
           path="/contractor/create"
-          element={
-            <ContractorCreate
-              token={token}
-              contractorProfile={contractorProfile}
-            />
-          }
+          element={<ContractorCreate token={token} />}
         />
         <Route
           path="/contractor/change"
@@ -138,7 +137,17 @@ function App() {
           path="/customer/projectdetails"
           element={<CustomerProjectDetails token={token} />}
         />
+        <Route
+          path="/projectdetails/:id"
+          element={<ShowProjectDetails token={token} />}
+        />
+        <Route
+          path="/projectdetails/edit/:id"
+          element={<EditProjectDetails token={token} />}
+        />
       </Routes>
+          
+
       <Footer />
     </div>
   );
