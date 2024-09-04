@@ -53,7 +53,8 @@ export async function contractorProjectDetails(data) {
 //edit
 export async function contractorProjectDetailsEdit(data) {
     // const projectId = extractPayload(token)._id;
-    const url = `http://localhost:3000/api/projects/${data._id}`;
+    const url = `http://localhost:3000/api/projects/_i`;
+
     console.log(data);
     try {
       const token = localStorage.getItem("authToken");

@@ -6,16 +6,17 @@ import { projectDetailsLoad } from "../services/apiProject";
 // import ProjectTrackingCard from "../components/ProjectTrackingCard";
 import { contractorProjectDetailsEdit } from "../services/apiProject";
 import { contractorProjectDetails } from "../services/apiProject";
+import { contractorLoad } from "../services/apiUsers";
 
 const ContractorProjectDetails = () => {
   // const { projectId } = useParams();
   const [formData, setFormData] = useState({
     projectId: "",
     projectAddress: "",
-    projectPhaseCount: 0,
-    projectDownPayment: 0,
-    projectPaymentReceived: 0,
-    projectTotalCost: 0,
+    projectPhaseCount: "",
+    projectDownPayment: "",
+    projectPaymentReceived: "",
+    projectTotalCost: "",
   });
 
   const [successMessage, setSuccess] = useState("");
@@ -25,10 +26,10 @@ const ContractorProjectDetails = () => {
   const [create, setCreate] = useState({
     projectId: "",
     projectAddress: "",
-    projectPhaseCount: 0,
-    projectDownPayment: 0,
-    projectPaymentReceived: 0,
-    projectTotalCost: 0,
+    projectPhaseCount: "",
+    projectDownPayment: "",
+    projectPaymentReceived: "",
+    projectTotalCost: "",
   });
 
   //update edit mode when projectId is same
