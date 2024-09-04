@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Container, Form, Button, Row, Col } from "react-bootstrap";
 import { fetchPhases, createChangeLog } from "../services/apiPhase";
+import { format, parseISO } from "date-fns";
 
 const ChangePhaseDetails = ({ token }) => {
   const [phases, setPhases] = useState([]);
@@ -22,9 +23,20 @@ const ChangePhaseDetails = ({ token }) => {
         const phasesData = await fetchPhases(token);
         console.log("Change Phase Page:", phasesData);
         if (Array.isArray(phasesData)) {
-          setPhases(phasesData);
-          if (phasesData.length > 0) {
-            setSelectedPhaseId(phasesData[0]._id);
+          // Format dates to dd/mm/yyyy when data is fetched
+          const formattedPhasesData = phasesData.map((phase) => ({
+            ...phase,
+            startDate: phase.startDate
+              ? format(parseISO(phase.startDate), "dd/MM/yyyy")
+              : "",
+            endDate: phase.endDate
+              ? format(parseISO(phase.endDate), "dd/MM/yyyy")
+              : "",
+          }));
+
+          setPhases(formattedPhasesData);
+          if (formattedPhasesData.length > 0) {
+            setSelectedPhaseId(formattedPhasesData[0]._id);
           }
         } else {
           setError("Invalid data format received.");
@@ -73,8 +85,28 @@ const ChangePhaseDetails = ({ token }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Convert formData dates back to yyyy-mm-dd before submitting
+    const formattedFormData = {
+      ...formData,
+      startDate: formData.startDate
+        ? parseISO(
+            formData.startDate.split("/").reverse().join("-")
+          ).toISOString()
+        : "",
+      endDate: formData.endDate
+        ? parseISO(
+            formData.endDate.split("/").reverse().join("-")
+          ).toISOString()
+        : "",
+    };
+
     try {
-      const response = await createChangeLog(selectedPhaseId, formData, token);
+      const response = await createChangeLog(
+        selectedPhaseId,
+        formattedFormData,
+        token
+      );
       console.log("Change log created successfully:", response);
       // Optionally, reset the form or show a success message
     } catch (error) {
@@ -85,11 +117,19 @@ const ChangePhaseDetails = ({ token }) => {
 
   const renderChange = (field, label) => {
     if (originalPhase && originalPhase[field] !== formData[field]) {
+      // Convert the after value from yyyy-mm-dd to dd/mm/yyyy for date fields only
+      const formattedAfterValue = field.includes("Date")
+        ? format(
+            parseISO(formData[field].split("/").reverse().join("-")),
+            "dd/MM/yyyy"
+          )
+        : formData[field]; // No change for non-date fields
+
       return (
         <div className="changes-text-thin mt-4">
           <h6 className="h3-custom mb-4">{label}:</h6>
           <p className="ms-3">Before: {originalPhase[field]}</p>
-          <p className="ms-3">After: {formData[field]}</p>
+          <p className="ms-3">After: {formattedAfterValue}</p>
         </div>
       );
     }
@@ -103,7 +143,9 @@ const ChangePhaseDetails = ({ token }) => {
         <div className="pages-box-shadow p-3 mt-3">
           <div className="formLabel p-3">
             <Form.Group controlId="formPhaseSelect">
-              <Form.Label>Select Phase to Change (Submission Required)</Form.Label>
+              <Form.Label>
+                Select Phase to Change (Submission Required)
+              </Form.Label>
               <Form.Control
                 as="select"
                 value={selectedPhaseId}
@@ -184,10 +226,10 @@ const ChangePhaseDetails = ({ token }) => {
                 <Col>
                   <h5 className="h3-custom mb-4">Changes</h5>
                   <div>
-                    {renderChange('taskDescription', 'Task Description')}
-                    {renderChange('startDate', 'Start Date')}
-                    {renderChange('endDate', 'End Date')}
-                    {renderChange('cost', 'Cost')}
+                    {renderChange("taskDescription", "Task Description")}
+                    {renderChange("startDate", "Start Date")}
+                    {renderChange("endDate", "End Date")}
+                    {renderChange("cost", "Cost")}
                   </div>
                 </Col>
               </Row>
