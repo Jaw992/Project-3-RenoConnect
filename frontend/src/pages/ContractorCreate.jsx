@@ -17,7 +17,7 @@ const ContractorCreate = ({ contractorProfile, token }) => {
     startDate: "",
     endDate: "",
     cost: "",
-    project: "66d853440e899c20a4b19f23",
+    project: "66d87b4520a6bfb11191e58d",
     contractor: contractorProfile?.contractorUser?._id,
   });
 
@@ -94,7 +94,7 @@ const ContractorCreate = ({ contractorProfile, token }) => {
         cost: "",
         // project: req.body.projectId,
         // contractor: req.user.id,
-        project: "66d853440e899c20a4b19f23",
+        project: "66d87b4520a6bfb11191e58d",
         contractor: contractorProfile?.contractorUser?._id,
       });
 
