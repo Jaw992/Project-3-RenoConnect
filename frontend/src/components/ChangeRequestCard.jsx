@@ -1,56 +1,72 @@
 import { useState, useEffect } from "react";
-import { Card } from "react-bootstrap";
-import { getChangeLog } from "../services/apiPhase";
+import { Card, Form } from "react-bootstrap";
+import { getChangeLog, fetchPhases } from "../services/apiPhase";
 
-// const ChangeRequestCard = () => {
-
-//     return (
-//       <div>
-//         <Card
-//         className="mb-3"
-//         style={{
-//           backgroundColor: "transparent",
-//           color: "white",
-//           border: "none",
-//         }}
-//       >
-//         <Card.Body>
-//           <Card.Text className="mb-1" style={{ fontWeight: "500" }}>
-//             <strong>Phase 1</strong>
-//           </Card.Text>
-//           <Card.Text className="mb-1" style={{ fontWeight: "500" }}>
-//             Task Description
-//           </Card.Text>
-//           <Card.Text className="mb-1" style={{ fontWeight: "500" }}>
-//             Before: paint living room
-//           </Card.Text>
-//           <Card.Text className="mb-1" style={{ fontWeight: "500" }}>
-//             After: paint masterbed room
-//           </Card.Text>
-//         </Card.Body>
-//       </Card>
-//       </div>
-//     );
-//   };
-
-const ChangeRequestCard = ({ phase, token }) => {
+//? Renders changeLog details
+const ChangeRequestCard = ({ token }) => {
+  const [phases, setPhases] = useState([]);
+  const [selectedPhaseId, setSelectedPhaseId] = useState("");
   const [changeLog, setChangeLog] = useState([]);
 
+  // Fetch phases for the dropdown
+  useEffect(() => {
+    const loadPhases = async () => {
+      try {
+        const phasesData = await fetchPhases(token);
+        if (Array.isArray(phasesData)) {
+          setPhases(phasesData);
+          if (phasesData.length > 0) {
+            setSelectedPhaseId(phasesData[0]._id); // Default to the first phase
+          }
+        }
+      } catch (error) {
+        console.error("Error fetching phases:", error);
+      }
+    };
+
+    loadPhases();
+  }, [token]);
+
+  // Fetch change log when selectedPhaseId changes
   useEffect(() => {
     const loadChangeLog = async () => {
-        const changeLogData = await getChangeLog(token);
-        console.log("At RequestCard", phase);
-        console.log("CL data:", changeLogData);
-        if (Array.isArray(changeLogData)) {
+      if (selectedPhaseId) {
+        try {
+          const changeLogData = await getChangeLog(selectedPhaseId, changeLog._id, token);
           setChangeLog(changeLogData);
-          if (changeLogData.length > 0) {
-            setChangeLog(changeLogData[0]._id);
-          }
-        } 
+        } catch (error) {
+          console.error("Error fetching change log:", error);
+        }
+      }
     };
 
     loadChangeLog();
-  }, [phase,token]);
+  }, [selectedPhaseId, changeLog._id, token]);
+
+  // Determine if there are any changes
+  const hasChanges = changeLog && (
+    changeLog.oldTaskDescription !== changeLog.newTaskDescription ||
+    changeLog.oldStartDate !== changeLog.newStartDate ||
+    changeLog.oldEndDate !== changeLog.newEndDate ||
+    changeLog.oldCost !== changeLog.newCost 
+  );
+
+  // Render changed fields
+  const renderChange = (field, label) => {
+    const oldValue = changeLog[`old${field}`];
+    const newValue = changeLog[`new${field}`];
+
+    if (oldValue !== newValue) {
+      return (
+        <div className="changes-text-thin mt-4" key={label}>
+          <h6 className="h3-custom mb-4">{label}:</h6>
+          <p className="ms-3">Before: {oldValue || "N/A"}</p>
+          <p className="ms-3">After: {newValue || "N/A"}</p>
+        </div>
+      );
+    }
+    return null;
+  };
 
   return (
     <div>
@@ -63,45 +79,42 @@ const ChangeRequestCard = ({ phase, token }) => {
         }}
       >
         <Card.Body>
-          <Card.Text className="mb-1" style={{ fontWeight: "500" }}>
-            <strong>{phase.phaseName || "No Phase"}</strong>
-          </Card.Text>
-          <Card.Text className="mb-1" style={{ fontWeight: "500" }}>
-            Task Description
-          </Card.Text>
-          <Card.Text className="mb-1" style={{ fontWeight: "500" }}>
-            Before: {changeLog.oldTaskDescription || "N/A"}
-          </Card.Text>
-          <Card.Text className="mb-1" style={{ fontWeight: "500" }}>
-            After: {changeLog.newTaskDescription || "N/A"}
-          </Card.Text>
-          <Card.Text className="mb-1" style={{ fontWeight: "500" }}>
-            Start Date
-          </Card.Text>
-          <Card.Text className="mb-1" style={{ fontWeight: "500" }}>
-            Before: {changeLog.oldStartDate || "N/A"}
-          </Card.Text>
-          <Card.Text className="mb-1" style={{ fontWeight: "500" }}>
-            After: {changeLog.newStartDate|| "N/A"}
-          </Card.Text>
-          <Card.Text className="mb-1" style={{ fontWeight: "500" }}>
-            End Date
-          </Card.Text>
-          <Card.Text className="mb-1" style={{ fontWeight: "500" }}>
-            Before: {changeLog.oldEndDate || "N/A"}
-          </Card.Text>
-          <Card.Text className="mb-1" style={{ fontWeight: "500" }}>
-            After: {changeLog.newEndDate || "N/A"}
-          </Card.Text>
-          <Card.Text className="mb-1" style={{ fontWeight: "500" }}>
-            Cost
-          </Card.Text>
-          <Card.Text className="mb-1" style={{ fontWeight: "500" }}>
-            Before: {changeLog.oldCost || "N/A"}
-          </Card.Text>
-          <Card.Text className="mb-1" style={{ fontWeight: "500" }}>
-            After: {changeLog.newCost || "N/A"}
-          </Card.Text>
+          <Form.Group controlId="formPhaseSelect">
+            <Form.Label>Select Phase</Form.Label>
+            <Form.Control
+              as="select"
+              value={selectedPhaseId}
+              onChange={(e) => setSelectedPhaseId(e.target.value)}
+            >
+              {phases.length > 0 ? (
+                phases.map((phase) => (
+                  <option key={phase._id} value={phase._id}>
+                    {phase.phaseName}
+                  </option>
+                ))
+              ) : (
+                <option>No phases available</option>
+              )}
+            </Form.Control>
+          </Form.Group>
+
+          {hasChanges ? (
+            <>
+              {renderChange('TaskDescription', 'Task Description')}
+              {renderChange('StartDate', 'Start Date')}
+              {renderChange('EndDate', 'End Date')}
+              {renderChange('Cost', 'Cost')}
+              {changeLog && (
+                <div className="mt-3">
+                  <h5>Review Status: {changeLog.reviewStatus || "N/A"}</h5>
+                </div>
+              )}
+            </>
+          ) : (
+            <Card.Text className="mb-1" style={{ fontWeight: "500" }}>
+              No pending changes
+            </Card.Text>
+          )}
         </Card.Body>
       </Card>
     </div>
@@ -109,3 +122,164 @@ const ChangeRequestCard = ({ phase, token }) => {
 };
 
 export default ChangeRequestCard;
+
+//? Rendering both phase and changeLog individually
+// const ChangeRequestCard = ({ token }) => {
+//   const [phases, setPhases] = useState([]);
+//   const [selectedPhaseId, setSelectedPhaseId] = useState("");
+//   const [changeLogs, setChangeLogs] = useState([]); // Changed from changeLog to changeLogs (array)
+//   const [selectedChangeLogId, setSelectedChangeLogId] = useState("");
+//   const [selectedChangeLog, setSelectedChangeLog] = useState(""); // Change from string to object
+
+//   // Fetch phases for the dropdown
+//   useEffect(() => {
+//     const loadPhases = async () => {
+//       try {
+//         const phasesData = await fetchPhases(token);
+//         if (Array.isArray(phasesData)) {
+//           setPhases(phasesData);
+//           if (phasesData.length > 0) {
+//             setSelectedPhaseId(phasesData[0]._id); // Default to the first phase
+//           }
+//         }
+//       } catch (error) {
+//         console.error("Error fetching phases:", error);
+//       }
+//     };
+
+//     loadPhases();
+//   }, [token]);
+
+//   // Fetch change logs when selectedPhaseId changes
+//   useEffect(() => {
+//     const loadChangeLogs = async () => {
+//       if (selectedPhaseId) {
+//         try {
+//           const changeLogsData = await getChangeLog(selectedPhaseId, selectedChangeLogId, token); // Ensure this returns an array
+//           setChangeLogs(changeLogsData);
+//           if (changeLogsData.length > 0) {
+//             setSelectedChangeLogId(changeLogsData[0]._id); // Default to the first change log
+//           }
+//         } catch (error) {
+//           console.error("Error fetching change logs:", error);
+//         }
+//       }
+//     };
+
+//     loadChangeLogs();
+//   }, [selectedPhaseId, selectedChangeLogId, token]);
+
+//   // Fetch details of the selected change log
+//   useEffect(() => {
+//     const loadChangeLog = async () => {
+//       if (selectedChangeLogId) {
+//         try {
+//           const changeLogData = await getChangeLog(selectedPhaseId, selectedChangeLogId, token); // Fetch detail for the selected log
+//           setSelectedChangeLog(changeLogData);
+//         } catch (error) {
+//           console.error("Error fetching change log detail:", error);
+//         }
+//       }
+//     };
+
+//     loadChangeLog();
+//   }, [selectedPhaseId, selectedChangeLogId, token]);
+
+//   // Determine if there are any changes
+//   const hasChanges = selectedChangeLog && (
+//     selectedChangeLog.oldTaskDescription !== selectedChangeLog.newTaskDescription ||
+//     selectedChangeLog.oldStartDate !== selectedChangeLog.newStartDate ||
+//     selectedChangeLog.oldEndDate !== selectedChangeLog.newEndDate ||
+//     selectedChangeLog.oldCost !== selectedChangeLog.newCost 
+//   );
+
+//   // Render changed fields
+//   const renderChange = (field, label) => {
+//     const oldValue = selectedChangeLog[`old${field}`];
+//     const newValue = selectedChangeLog[`new${field}`];
+
+//     if (oldValue !== newValue) {
+//       return (
+//         <div className="changes-text-thin mt-4" key={label}>
+//           <h6 className="h3-custom mb-4">{label}:</h6>
+//           <p className="ms-3">Before: {oldValue || "N/A"}</p>
+//           <p className="ms-3">After: {newValue || "N/A"}</p>
+//         </div>
+//       );
+//     }
+//     return null;
+//   };
+
+//   return (
+//     <div>
+//       <Card
+//         className="mb-3"
+//         style={{
+//           backgroundColor: "transparent",
+//           color: "white",
+//           border: "none",
+//         }}
+//       >
+//         <Card.Body>
+//           <Form.Group controlId="formPhaseSelect">
+//             <Form.Label>Select Phase</Form.Label>
+//             <Form.Control
+//               as="select"
+//               value={selectedPhaseId}
+//               onChange={(e) => setSelectedPhaseId(e.target.value)}
+//             >
+//               {phases.length > 0 ? (
+//                 phases.map((phase) => (
+//                   <option key={phase._id} value={phase._id}>
+//                     {phase.phaseName}
+//                   </option>
+//                 ))
+//               ) : (
+//                 <option>No phases available</option>
+//               )}
+//             </Form.Control>
+//           </Form.Group>
+
+//           <Form.Group controlId="formChangeLogSelect">
+//             <Form.Label>Select ChangeLog</Form.Label>
+//             <Form.Control
+//               as="select"
+//               value={selectedChangeLogId}
+//               onChange={(e) => setSelectedChangeLogId(e.target.value)}
+//             >
+//               {changeLogs.length > 0 ? (
+//                 changeLogs.map((log) => (
+//                   <option key={log._id} value={log._id}>
+//                     {log.newTaskDescription}
+//                   </option>
+//                 ))
+//               ) : (
+//                 <option>No changeLogs</option>
+//               )}
+//             </Form.Control>
+//           </Form.Group>
+
+//           {hasChanges ? (
+//             <>
+//               {renderChange('TaskDescription', 'Task Description')}
+//               {renderChange('StartDate', 'Start Date')}
+//               {renderChange('EndDate', 'End Date')}
+//               {renderChange('Cost', 'Cost')}
+//               {selectedChangeLog && (
+//                 <div className="mt-3">
+//                   <h5>Review Status: {selectedChangeLog.reviewStatus || "N/A"}</h5>
+//                 </div>
+//               )}
+//             </>
+//           ) : (
+//             <Card.Text className="mb-1" style={{ fontWeight: "500" }}>
+//               No pending changes
+//             </Card.Text>
+//           )}
+//         </Card.Body>
+//       </Card>
+//     </div>
+//   );
+// };
+
+// export default ChangeRequestCard;

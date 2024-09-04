@@ -149,9 +149,9 @@ export async function createChangeLog(phaseId, data, token) {
   } catch (error) {
     console.error("Error creating change log entry:", error.message);
     // Optionally, handle specific errors or show user-friendly messages
-    throw error; 
+    throw error;
   }
-};
+}
 
 //* Get details on just 1 changeLog detail
 export async function getChangeLog(phaseId, changeLogId, token) {
@@ -169,14 +169,14 @@ export async function getChangeLog(phaseId, changeLogId, token) {
         throw new Error("Not found: phaseId is required");
       } else if (response.status === 404) {
         throw new Error("Not found: Phase not found");
+      }
     }
-  }
     return await response.json();
   } catch (error) {
     console.error(error.message);
     throw error;
   }
-};
+}
 
 //* Update reviewStatus and update Phase details with new changeLog that is approved
 export async function updatePhase(phaseId, changeLogId, token) {
@@ -195,9 +195,13 @@ export async function updatePhase(phaseId, changeLogId, token) {
         if (responseText.includes("Phase not found")) {
           throw new Error("Not Found: The specified phase could not be found.");
         } else if (responseText.includes("Change log entry not found")) {
-          throw new Error("Not Found: The specified change log entry could not be found.");
+          throw new Error(
+            "Not Found: The specified change log entry could not be found."
+          );
         } else {
-          throw new Error("Not Found: The specified resource could not be found.");
+          throw new Error(
+            "Not Found: The specified resource could not be found."
+          );
         }
       }
     }
@@ -205,9 +209,9 @@ export async function updatePhase(phaseId, changeLogId, token) {
     return await response.json();
   } catch (error) {
     console.error("Error updating phase with change log:", error.message);
-    throw error; 
+    throw error;
   }
-};
+}
 
 //* Delete a specific phase by ID
 export async function deletePhase(phaseId, token) {
@@ -224,10 +228,10 @@ export async function deletePhase(phaseId, token) {
         throw new Error("Not found: Phase not found");
       }
     }
-    
+
     return await response.json();
   } catch (error) {
     console.error(error.message);
     throw error;
   }
-};
+}

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Container, Form, Button } from "react-bootstrap";
 import PhaseDetailsCard from "../components/PhaseDetailsCard";
 import ProjectTrackingCard from "../components/ProjectTrackingCard";
@@ -60,17 +60,17 @@ const ContractorDashboard = ({ token }) => {
         <h4 className="h3-custom">Dashboard</h4>
         <div className="pages-box-shadow p-3">
           <h5 className="h3-custom mb-4">Project Tracking</h5>
-          <ProjectTrackingCard />
+          <ProjectTrackingCard token={token} />
         </div>
 
         <div className="pages-box-shadow p-3 mt-3">
           <h5 className="h3-custom">Change Requests: Pending Approval</h5>
           {selectedPhase && (
-                <ChangeRequestCard
-                  phase={phases.find((p) => p._id === selectedPhase)}
-                  token={token}
-                />
-              )}
+            <ChangeRequestCard
+              phase={phases.find((p) => p._id === selectedPhase)}
+              token={token}
+            />
+          )}
         </div>
 
         <Form onSubmit={handleSubmit} className="pages-box-shadow p-3 mt-3">

@@ -1,43 +1,124 @@
-// Function to format date for input forms (DD/MM/YYYY)
-export const formatDateForInput = (dateString) => {
-  if (!dateString) return "";
-  const date = new Date(dateString);
-  const day = String(date.getDate()).padStart(2, "0");
-  const month = String(date.getMonth() + 1).padStart(2, "0");
-  const year = date.getFullYear();
-  return `${day}/${month}/${year}`;
-};
+// import { format, parseISO, isToday, isBefore, isAfter } from "date-fns";
 
-// Function to format date for display (DD/MM/YYYY)
+// // Format date for display (DD/MM/YYYY)
+// export const formatDateForDisplay = (dateString) => {
+//   if (!dateString) return "N/A";
+//   const date = parseISO(dateString);
+//   return format(date, "dd/MM/yyyy");
+// };
+
+// // Format date for MongoDB (YYYY-MM-DD)
+// export const formatDateForDB = (dateString) => {
+//   if (!dateString) return "";
+//   const [day, month, year] = dateString.split("/");
+//   const date = new Date(`${year}-${month}-${day}`);
+//   return format(date, "yyyy-MM-dd");
+// };
+
+// // Determine the phase status based on the current date, start date, and end date
+// export const determinePhaseStatus = (startDate, endDate) => {
+//   const today = new Date();
+
+//   if (isBefore(today, startDate)) {
+//     return "Not Started";
+//   } else if (
+//     isToday(today) ||
+//     (isAfter(today, startDate) && isBefore(today, endDate))
+//   ) {
+//     return "In Progress";
+//   } else {
+//     return "Completed";
+//   }
+// };
+
+// import { format, parseISO, isToday, isBefore, isAfter } from "date-fns";
+
+// // Format date for display (DD/MM/YYYY)
+// export const formatDateForDisplay = (dateString) => {
+//   if (!dateString) return "N/A";
+//   const date = parseISO(dateString);
+//   return format(date, "dd/MM/yyyy");
+// };
+
+// // Format date for MongoDB (YYYY-MM-DD)
+// export const formatDateForDB = (dateString) => {
+//   if (!dateString) return "";
+//   const [day, month, year] = dateString.split("/");
+//   if (day && month && year) {
+//     const formattedDate = new Date(`${year}-${month}-${day}`);
+//     return isNaN(formattedDate.getTime()) ? "" : format(formattedDate, "yyyy-MM-dd");
+//   }
+//   return ""; // Return empty string if date is invalid
+// };
+
+// // Convert date for input field (YYYY-MM-DD)
+// export const convertToDateForInput = (dateString) => {
+//   if (!dateString) return "";
+//   const [year, month, day] = dateString.split("-");
+//   if (year && month && day) {
+//     return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
+//   }
+//   return ""; // Return empty string if date is invalid
+// };
+
+// // Determine the phase status based on the current date, start date, and end date
+// export const determinePhaseStatus = (startDate, endDate) => {
+//   const today = new Date();
+
+//   if (isBefore(today, startDate)) {
+//     return "Not Started";
+//   } else if (
+//     isToday(today) ||
+//     (isAfter(today, startDate) && isBefore(today, endDate))
+//   ) {
+//     return "In Progress";
+//   } else {
+//     return "Completed";
+//   }
+// };
+
+import { format, parseISO, isToday, isBefore, isAfter } from "date-fns";
+
+// Format date for display (DD/MM/YYYY)
 export const formatDateForDisplay = (dateString) => {
   if (!dateString) return "N/A";
-  const date = new Date(dateString);
-  const day = String(date.getDate()).padStart(2, "0");
-  const month = String(date.getMonth() + 1).padStart(2, "0");
-  const year = date.getFullYear();
-  return `${day}/${month}/${year}`;
+  const date = parseISO(dateString);
+  return format(date, "dd/MM/yyyy");
 };
 
-// Function to convert date from DD/MM/YYYY to MM/DD/YYYY for MongoDB
-export const convertDateForDB = (dateString) => {
+// Format date for MongoDB (YYYY-MM-DD)
+export const formatDateForDB = (dateString) => {
+  if (!dateString) return "";
   const [day, month, year] = dateString.split("/");
-  return new Date(`${month}/${day}/${year}`).toISOString();
+  if (day && month && year) {
+    const formattedDate = new Date(`${year}-${month}-${day}`);
+    return isNaN(formattedDate.getTime())
+      ? ""
+      : format(formattedDate, "yyyy-MM-dd");
+  }
+  return ""; // Return empty string if date is invalid
 };
 
-export const today = new Date();
-
-export const getStartDate = (startDateString) => {
-  return new Date(startDateString);
+// Convert date for input field (YYYY-MM-DD)
+export const convertToDateForInput = (dateString) => {
+  if (!dateString) return "";
+  const [year, month, day] = dateString.split("-");
+  if (year && month && day) {
+    return `${year}-${month.padStart(2, "0")}-${day.padStart(2, "0")}`;
+  }
+  return ""; // Return empty string if date is invalid
 };
 
-export const getEndDate = (endDateString) => {
-  return new Date(endDateString);
-};
-
+// Determine the phase status based on the current date, start date, and end date
 export const determinePhaseStatus = (startDate, endDate) => {
-  if (startDate > today) {
+  const today = new Date();
+
+  if (isBefore(today, startDate)) {
     return "Not Started";
-  } else if (startDate <= today && endDate >= today) {
+  } else if (
+    isToday(today) ||
+    (isAfter(today, startDate) && isBefore(today, endDate))
+  ) {
     return "In Progress";
   } else {
     return "Completed";

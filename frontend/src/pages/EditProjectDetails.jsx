@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom"; // Import useParams and useNavigate
+import { useParams, useNavigate } from "react-router-dom"; // Import useParams and useNavigate
 import { Container, Form, Button } from "react-bootstrap";
 import ProjectDetailsCard from "../components/ProjectDetailsCard";
 import { projectDetailsLoad } from "../services/apiProject";
@@ -12,6 +12,7 @@ import { Link } from "react-router-dom";
 const EditProjectDetails = ({ token }) => {
   const { id } = useParams();
   const [projects, setProjects] = useState(null);
+  const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
     projectId: "",
@@ -44,37 +45,6 @@ const EditProjectDetails = ({ token }) => {
 
   const [successMessage, setSuccess] = useState("");
   const [error, setError] = useState("");
-  //   const [mode, setMode] = useState("create");
-
-  //   const [create, setCreate] = useState({
-  //     projectId: "",
-  //     projectAddress: "",
-  //     projectPhaseCount: 0,
-  //     projectDownPayment: 0,
-  //     projectPaymentReceived: 0,
-  //     projectTotalCost: 0,
-  //   });
-
-  //update edit mode when projectId is same
-  // useEffect(() => {
-  //   const checkProject = async () => {
-  //     if (formData.projectId) {
-  //       try {
-  //         // await contractorProjectDetails(formData.projectId);
-  //         setExistingProject(true);
-  //         setMode("edit");
-  //       } catch {
-  //         setExistingProject(false);
-  //         setMode("create");
-  //       }
-  //     } else {
-  //       setExistingProject(false);
-  //       setMode("create");
-  //     }
-  //   };
-  //   checkProject();
-  // }, [formData.projectId]);
-
   const handleChange = (event) => {
     const { name, value } = event.target;
     setFormData({
@@ -90,9 +60,11 @@ const EditProjectDetails = ({ token }) => {
       if (!response.ok) {
         setError("");
         setSuccess("Project Details Updated!");
+        navigate(`/projectdetails/${id}`);
       } else {
         setSuccess("");
         setError("Failed to update project details!");
+
       }
       //   setCreate(formData);
     } catch (error) {
@@ -187,11 +159,9 @@ const EditProjectDetails = ({ token }) => {
             </Form.Group>
 
             <div className="button-container mt-3">
-                <Link to={`/projectdetails/${projects._id}`}>
               <Button type="submit" className="custom-button-primary">
                 Update
               </Button>
-              </Link>
               {error && <p className="error mt-3">{error}</p>}
               {successMessage && (
                 <p className="success mt-3">{successMessage}</p>

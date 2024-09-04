@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { Container, Form, Button, Row, Col } from "react-bootstrap";
+import GanttChart from "./GanttChart";
 
-const ProjectTrackingCard = () => {
+const ProjectTrackingCard = ({ token }) => {
   const totalPhases = 5;
   const completedPhases = 3;
 
@@ -25,7 +26,8 @@ const ProjectTrackingCard = () => {
           </Row>
           <Row>
             <Col className="d-flex flex-column align-items-center">
-              <h5 className="h3-custom gantt-chart-pad">ADD GANTT CHART</h5>
+              {/* <h5 className="h3-custom gantt-chart-pad">ADD GANTT CHART</h5> */}
+              <GanttChart token={token} />
             </Col>
           </Row>
         </div>
