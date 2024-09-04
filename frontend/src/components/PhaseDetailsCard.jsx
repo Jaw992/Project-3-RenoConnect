@@ -2,10 +2,9 @@ import React from "react";
 import { Card } from "react-bootstrap";
 import {
   formatDateForDisplay,
-  getStartDate,
-  getEndDate,
   determinePhaseStatus,
 } from "../../utils/dateFormat";
+import { parseISO } from "date-fns";
 
 const PhaseDetailsCard = ({ phase, viewMode }) => {
   if (!phase) {
@@ -35,8 +34,8 @@ const PhaseDetailsCard = ({ phase, viewMode }) => {
     (value) => value === "" || value === null || value === undefined
   );
 
-  const startDate = getStartDate(phase.startDate);
-  const endDate = getEndDate(phase.endDate);
+  const startDate = parseISO(phase.startDate);
+  const endDate = parseISO(phase.endDate);
   const phaseStatus = determinePhaseStatus(startDate, endDate);
 
   if (isEmptyPhase) {
