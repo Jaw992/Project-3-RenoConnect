@@ -22,10 +22,6 @@ router.post("/", async (req, res) => {
             return res.status(400).json({ error: "Project number used." });
         }
 
-        if (Project.length > 1) {
-            return res.status(400).json({ error: "Only one project at a time." });
-        }
-
         req.body.contractor = req.contractor._id;
         const project = await Project.create(req.body);
         debug(project);
