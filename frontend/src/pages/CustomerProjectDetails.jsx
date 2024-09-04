@@ -2,6 +2,8 @@ import { useState } from "react";
 import { Container, Form, Button } from "react-bootstrap";
 import ProjectTrackingCard from "../components/ProjectTrackingCard";
 import ProjectDetailsCard from "../components/ProjectDetailsCard";
+import ProjectsList from "../components/ProjectList";
+
 
 const CustomerProjectDetails = () => {
   const [formData, setFormData] = useState({
@@ -18,7 +20,7 @@ const CustomerProjectDetails = () => {
       <Container className="pages-custom-container">
         <h4 className="h3-custom">Project Details</h4>
         <div className="pages-box-shadow p-3 p-projectTracking">
-          <ProjectDetailsCard phase={formData} viewMode="view" />
+          <ProjectsList />
         </div>
       </Container>
     </div>
