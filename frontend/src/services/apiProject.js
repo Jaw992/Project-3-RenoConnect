@@ -1,15 +1,17 @@
 import { extractPayload } from "../../utils/jwUtils";
 
 //get
-export async function projectDetailsLoad(token) {
-  //   const projectId = extractPayload(token)._id;
+export async function projectDetailsLoad() {
+  // const projectId = extractPayload(token)._id;
+  const token = localStorage.getItem("authToken");
+
   const url = `http://localhost:3000/api/projects`;
   try {
     const response = await fetch(url, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${token}`,
+        Authorization: `Bearer ${token}`,
       },
     });
     if (!response.ok) {
@@ -24,7 +26,7 @@ export async function projectDetailsLoad(token) {
     throw error;
   }
 }
-  
+
 //show
 export async function showProjectDetails(id, token) {
   const url = `http://localhost:3000/api/projects/${id}`;

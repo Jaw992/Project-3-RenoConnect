@@ -39,7 +39,6 @@ router.post("/", async (req, res) => {
 router.get("/", async (req, res) => {
     try {
         const project = await Project.find({}).populate("contractor");
-        res.json(projects);
         if (project.length === 0) {
             return res.status(404).json({ error: "No projects" });
           }
