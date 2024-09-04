@@ -26,7 +26,7 @@ const CustomerDashboard = ({ token }) => {
     const loadPhases = async () => {
       try {
         const phasesData = await fetchPhases(token);
-        console.log("Phases data:", phasesData);
+        console.log("customer phaseData:", phasesData);
         if (Array.isArray(phasesData)) {
           setPhases(phasesData);
           if (phasesData.length > 0) {
