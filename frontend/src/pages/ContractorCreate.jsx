@@ -1,9 +1,13 @@
 import { useState, useEffect } from "react";
 import { Container, Form, Button } from "react-bootstrap";
 import PhaseDetailsCard from "../components/PhaseDetailsCard";
-import { createPhase } from "../services/apiPhase";
+import { createPhase, fetchPhases } from "../services/apiPhase";
+
+// const TOTAL_PHASES = "";
+const TOTAL_PHASES = 10;
 
 const ContractorCreate = ({ token }) => {
+  const [phases, setPhases] = useState([]);
   const [successMessage, setSuccess] = useState("");
   const [error, setError] = useState("");
   const [formData, setFormData] = useState({
@@ -13,7 +17,7 @@ const ContractorCreate = ({ token }) => {
     startDate: "",
     endDate: "",
     cost: "",
-    project: "66d71e55bef8c4ca1423eda1",
+    project: "66d7d3a39ebcd9397cf36f21",
   });
 
   const [appendPhase, setAppendPhase] = useState({
@@ -24,6 +28,29 @@ const ContractorCreate = ({ token }) => {
     endDate: "",
     cost: "",
   });
+
+  useEffect(() => {
+    const loadPhases = async () => {
+      try {
+        const phasesData = await fetchPhases(token);
+        console.log("Existing Phases:", phasesData);
+        setPhases(phasesData);
+      } catch (error) {
+        console.error("Error fetching phases:", error.message);
+      }
+    };
+
+    if (TOTAL_PHASES) {
+      loadPhases();
+    }
+  }, [token]);
+
+  const availablePhases = Array.from(
+    { length: TOTAL_PHASES },
+    (_, i) => `Phase ${i + 1}`
+  ).filter(
+    (phaseName) => !phases.some((phase) => phase.phaseName === phaseName)
+  );
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -60,6 +87,22 @@ const ContractorCreate = ({ token }) => {
     console.log({ token });
   }, [appendPhase]);
 
+  if (!TOTAL_PHASES) {
+    return (
+      <div className="contractor-bg pages-pad">
+        <Container className="pages-custom-container">
+          <h4 className="h3-custom">Create New Phase</h4>
+          <div className="pages-box-shadow p-3 mt-3">
+            <div className="formLabel">
+              Please create a project and input the total phases before creating
+              phase.
+            </div>
+          </div>
+        </Container>
+      </div>
+    );
+  }
+
   return (
     <div className="contractor-bg pages-pad">
       <Container className="pages-custom-container">
@@ -67,14 +110,21 @@ const ContractorCreate = ({ token }) => {
         <div className="pages-box-shadow p-3 mt-3">
           <Form className="formLabel p-3">
             <Form.Group controlId="formPhase">
-              <Form.Label>Enter Phase</Form.Label>
-              <Form.Control
-                type="text"
+              <Form.Label>
+                Select Phase to Create (Total Phases: {TOTAL_PHASES})
+              </Form.Label>
+              <Form.Select
                 name="phaseName"
-                placeholder="Enter phase name"
                 value={formData.phaseName}
                 onChange={handleChange}
-              />
+              >
+                <option value="">Select a phase</option>
+                {availablePhases.map((phase) => (
+                  <option key={phase} value={phase}>
+                    {phase}
+                  </option>
+                ))}
+              </Form.Select>
             </Form.Group>
 
             <Form.Group controlId="formTask" className="mt-3">

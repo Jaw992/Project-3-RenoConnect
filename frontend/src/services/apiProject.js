@@ -16,7 +16,7 @@ export async function projectDetailsLoad(token) {
     }
 
     const json = await response.json();
-    localStorage.setItem("authToken", json.token);
+    // localStorage.setItem("authToken", json.token);
     return json.token;
   } catch (error) {
     console.log(error.message);
@@ -25,10 +25,10 @@ export async function projectDetailsLoad(token) {
 }
 
 // create
-export async function contractorProjectDetails(data) {
+export async function contractorProjectDetails(data, token) {
     const url = "http://localhost:3000/api/projects";
     try {
-      const token = localStorage.getItem("authToken");
+      // const token = localStorage.getItem("authToken");
       const response = await fetch(url, {
         method: "POST",
         headers: {
@@ -51,13 +51,13 @@ export async function contractorProjectDetails(data) {
   
 
 //edit
-export async function contractorProjectDetailsEdit(data) {
+export async function contractorProjectDetailsEdit(data, token) {
     // const projectId = extractPayload(token)._id;
     const url = `http://localhost:3000/api/projects/_i`;
 
     console.log(data);
     try {
-      const token = localStorage.getItem("authToken");
+      // const token = localStorage.getItem("authToken");
       const response = await fetch(url, {
         method: "PUT",
         headers: {

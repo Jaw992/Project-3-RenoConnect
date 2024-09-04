@@ -8,7 +8,16 @@ function Navibar() {
     <>
       <Navbar className="bbg-primary-fixed  bg-primary-color ">
         <Container>
-          <Navbar.Brand href="/">renoConnect</Navbar.Brand>
+          {/* <Navbar.Brand href="/">renoConnect</Navbar.Brand> */}
+          <Navbar.Brand href="/">
+            <img
+              src="/logo.png"
+              // width="30"
+              height="30"
+              className="d-inline-block align-top"
+              alt="renoConnect logo"
+            />
+          </Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse
             id="basic-navbar-nav"

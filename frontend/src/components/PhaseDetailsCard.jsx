@@ -1,5 +1,11 @@
 import React from "react";
 import { Card } from "react-bootstrap";
+import {
+  formatDateForDisplay,
+  getStartDate,
+  getEndDate,
+  determinePhaseStatus,
+} from "../../utils/dateFormat";
 
 const PhaseDetailsCard = ({ phase, viewMode }) => {
   const isEmptyPhase =
@@ -14,8 +20,11 @@ const PhaseDetailsCard = ({ phase, viewMode }) => {
       (value) => value === "" || value === null || value === undefined
     );
 
+  const startDate = getStartDate(phase.startDate);
+  const endDate = getEndDate(phase.endDate);
+  const phaseStatus = determinePhaseStatus(startDate, endDate);
+
   if (isEmptyPhase) {
-    console.log("PHASE IS EMPTY");
     return (
       <Card
         className="mb-3"
@@ -58,7 +67,6 @@ const PhaseDetailsCard = ({ phase, viewMode }) => {
     );
   }
 
-  console.log("PHASE IS COMPLETE");
   return (
     <Card
       className="mb-3"
@@ -70,17 +78,12 @@ const PhaseDetailsCard = ({ phase, viewMode }) => {
     >
       <Card.Body>
         <Card.Title className="mb-3" style={{ fontWeight: "700" }}>
-          {phase.phaseName} {/* Ensure this matches the field name */}
+          {phase.phaseName}
         </Card.Title>
 
         {viewMode !== "create" && (
           <Card.Subtitle className="mb-3">
-            <strong>
-              {new Date(phase.startDate) <= new Date() &&
-              new Date(phase.endDate) >= new Date()
-                ? "In Progress"
-                : "Completed"}
-            </strong>
+            <strong>[{phaseStatus}]</strong>
           </Card.Subtitle>
         )}
 
@@ -92,13 +95,11 @@ const PhaseDetailsCard = ({ phase, viewMode }) => {
         </Card.Text>
         <Card.Text>
           <strong>Start Date:</strong>{" "}
-          {phase.startDate
-            ? new Date(phase.startDate).toLocaleDateString()
-            : "N/A"}
+          {phase.startDate ? formatDateForDisplay(phase.startDate) : "N/A"}
         </Card.Text>
         <Card.Text>
           <strong>End Date:</strong>{" "}
-          {phase.endDate ? new Date(phase.endDate).toLocaleDateString() : "N/A"}
+          {phase.endDate ? formatDateForDisplay(phase.endDate) : "N/A"}
         </Card.Text>
         <Card.Text>
           <strong>Cost:</strong> ${phase.cost || "0"}
