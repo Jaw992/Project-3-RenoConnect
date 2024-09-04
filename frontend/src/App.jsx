@@ -19,8 +19,9 @@ import CustomerProjectDetails from "./pages/CustomerProjectDetails";
 import bgImage from "./assets/b1.jpg";
 import { Link, useNavigate } from "react-router-dom";
 import "./css/styles.css";
-import EditProjectDetails from "./pages/EditProjectDetails";
+import ShowProjectDetails from "./components/ShowProjectDetails";
 // import ProjectsList from "./pages/list";
+import EditProjectDetails from "./pages/EditProjectDetails";
 
 function App() {
   const [token, setToken] = useState("");
@@ -138,9 +139,14 @@ function App() {
         />
         <Route
           path="/projectdetails/:id"
+          element={<ShowProjectDetails token={token} />}
+        />
+        <Route
+          path="/projectdetails/edit/:id"
           element={<EditProjectDetails token={token} />}
         />
       </Routes>
+          
 
       <Footer />
     </div>

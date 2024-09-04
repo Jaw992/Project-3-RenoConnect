@@ -77,10 +77,9 @@ export async function contractorProjectDetails(data) {
 }
 
 //edit
-export async function contractorProjectDetailsEdit(data) {
+export async function contractorProjectDetailsEdit(id, formData, token) {
   // const projectId = extractPayload(token)._id;
-  const url = `http://localhost:3000/api/projects/${data.projectId}`;
-  console.log(data);
+  const url = `http://localhost:3000/api/projects/${id}`;
   try {
     const token = localStorage.getItem("authToken");
     const response = await fetch(url, {
@@ -89,7 +88,7 @@ export async function contractorProjectDetailsEdit(data) {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-      // body: JSON.stringify(data),
+       body: JSON.stringify(formData),
     });
     if (!response.ok) {
       throw new Error(`Response status: ${response.status}`);

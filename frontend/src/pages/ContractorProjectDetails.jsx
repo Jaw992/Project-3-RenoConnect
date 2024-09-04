@@ -7,16 +7,17 @@ import { projectDetailsLoad } from "../services/apiProject";
 import { contractorProjectDetailsEdit } from "../services/apiProject";
 import { contractorProjectDetails } from "../services/apiProject";
 import ProjectsList from "../components/ProjectList";
+import { Link } from "react-router-dom";
 
-const ContractorProjectDetails = ({token}) => {
+const ContractorProjectDetails = ({ token }) => {
   // const { projectId } = useParams();
   const [formData, setFormData] = useState({
     projectId: "",
     projectAddress: "",
-    projectPhaseCount: 0,
-    projectDownPayment: 0,
-    projectPaymentReceived: 0,
-    projectTotalCost: 0,
+    projectPhaseCount: "",
+    projectDownPayment: "",
+    projectPaymentReceived: "",
+    projectTotalCost: "",
   });
 
   const [successMessage, setSuccess] = useState("");
@@ -31,26 +32,6 @@ const ContractorProjectDetails = ({token}) => {
     projectPaymentReceived: 0,
     projectTotalCost: 0,
   });
-
-  //update edit mode when projectId is same
-  // useEffect(() => {
-  //   const checkProject = async () => {
-  //     if (formData.projectId) {
-  //       try {
-  //         // await contractorProjectDetails(formData.projectId);
-  //         setExistingProject(true);
-  //         setMode("edit");
-  //       } catch {
-  //         setExistingProject(false);
-  //         setMode("create");
-  //       }
-  //     } else {
-  //       setExistingProject(false);
-  //       setMode("create");
-  //     }
-  //   };
-  //   checkProject();
-  // }, [formData.projectId]);
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -88,24 +69,7 @@ const ContractorProjectDetails = ({token}) => {
           <ProjectsList token={token}></ProjectsList>
         </div>
         <div className="pages-box-shadow p-3 mt-3">
-          <button
-            onClick={() => setMode("create")}
-            disabled={mode === "create"}
-            className="custom-button-primary"
-          >
-            Create
-          </button>
-          <button
-            onClick={() => setMode("edit")}
-            disabled={mode === "edit"}
-            className="custom-button-primary"
-          >
-            Edit
-          </button>
-          <h5 className="h3-custom">
-            {mode === "edit" ? "Edit Project" : "Create Project"}
-          </h5>
-
+          <h5 className="h3-custom">Create Project </h5>
           <Form onSubmit={handleSubmit} className="formLabel mt-2 p-3">
             <Form.Group controlId="formProjectId">
               <Form.Label>Project ID</Form.Label>
@@ -181,7 +145,7 @@ const ContractorProjectDetails = ({token}) => {
                 required="true"
               />
             </Form.Group>
-{/* 
+            {/* 
             <Form.Group controlId="formEmail" className="mt-3">
               <Form.Label>Email</Form.Label>
               <Form.Control
@@ -194,9 +158,9 @@ const ContractorProjectDetails = ({token}) => {
             </Form.Group> */}
 
             <div className="button-container mt-3">
-              <Button type="submit" className="custom-button-primary">
-                {mode === "edit" ? "Update" : "Create"}
-              </Button>
+                <Button type="submit" className="custom-button-primary">
+                  Create
+                </Button>
               {error && <p className="error mt-3">{error}</p>}
               {successMessage && (
                 <p className="success mt-3">{successMessage}</p>
@@ -206,14 +170,9 @@ const ContractorProjectDetails = ({token}) => {
         </div>
       </Container>
 
-      <div>
-      </div>
-    
+      <div></div>
     </div>
   );
 };
 
 export default ContractorProjectDetails;
-
-
-

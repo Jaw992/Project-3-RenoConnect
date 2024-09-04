@@ -15,21 +15,21 @@ export default function ProjectsList() {
 
   return (
     <>
-      <h1>Projects List</h1>
+      <h1 className="mb-5">Projects List</h1>
       <div>
         {projects.length === 0 ? (
           <p>No projects available.</p>
         ) : (
           projects.project.map((projects) => (
             <div key={projects._id}>
-              <h2>{projects.projectAddress}</h2>
-              <p>Project ID: {projects.projectId}</p>
+              <h2>Project ID: {projects.projectId}</h2>
+              <p>Project Address: {projects.projectAddress}</p>
               <p>Total Phases: {projects.projectPhaseCount}</p>
               <p>Down Payment: ${projects.projectDownPayment}</p>
               <p>Payment Received: ${projects.projectPaymentReceived}</p>
               <p>Total Cost: ${projects.projectTotalCost}</p>
-              <Link to={`/projectdetails/${projects._id}`}>
-                <button>Edit</button>
+              <Link to={`/projectdetails/edit/${projects._id}`}>
+                <button className="mb-5">Edit</button>
               </Link>
             </div>
           ))
