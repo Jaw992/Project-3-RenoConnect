@@ -26,6 +26,8 @@ const ContractorProjectDetails = ({ token }) => {
 
   const [create, setCreate] = useState({
     projectId: "",
+    startDate: "",
+    endDate: "",
     projectAddress: "",
     projectPhaseCount: 0,
     projectDownPayment: 0,
@@ -105,6 +107,28 @@ const ContractorProjectDetails = ({ token }) => {
                 name="projectPhaseCount"
                 placeholder="Enter total phases"
                 value={formData.projectPhaseCount}
+                onChange={handleChange}
+                required="true"
+              />
+            </Form.Group>
+
+            <Form.Group controlId="formStartDate" className="mt-3">
+              <Form.Label>Start Date</Form.Label>
+              <Form.Control
+                type="date"
+                name="startDate"
+                value={formData.startDate}
+                onChange={handleChange}
+                required="true"
+              />
+            </Form.Group>
+
+            <Form.Group controlId="formEndDate" className="mt-3">
+              <Form.Label>End Date</Form.Label>
+              <Form.Control
+                type="date"
+                name="endDate"
+                value={formData.endDate}
                 onChange={handleChange}
                 required="true"
               />
