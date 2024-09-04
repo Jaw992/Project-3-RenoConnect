@@ -122,9 +122,17 @@ function App() {
         />
         <Route
           path="/contractor/create"
-          element={<ContractorCreate token={token} />}
+          element={
+            <ContractorCreate
+              token={token}
+              contractorProfile={contractorProfile}
+            />
+          }
         />
-        <Route path="/contractor/change" element={<ContractorChange token={token} />} />
+        <Route
+          path="/contractor/change"
+          element={<ContractorChange token={token} />}
+        />
         <Route path="/customer" element={<CustomerDashboard token={token} />} />
         <Route
           path="/customer/projectdetails"
