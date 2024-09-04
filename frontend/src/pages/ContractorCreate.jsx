@@ -17,7 +17,7 @@ const ContractorCreate = ({ contractorProfile, token }) => {
     startDate: "",
     endDate: "",
     cost: "",
-    project: "66d7fd973b3e15c918cbf78d",
+    project: "66d853440e899c20a4b19f23",
     contractor: contractorProfile?.contractorUser?._id,
   });
 
@@ -94,8 +94,8 @@ const ContractorCreate = ({ contractorProfile, token }) => {
         cost: "",
         // project: req.body.projectId,
         // contractor: req.user.id,
-        project: "66d71e55bef8c4ca1423eda1",
-        contractor: "66d71da5bef8c4ca1423ed9e",
+        project: "66d853440e899c20a4b19f23",
+        contractor: "66d852ff0e899c20a4b19f1a",
       });
 
       // Fetch updated list of phases after every time a phase is created

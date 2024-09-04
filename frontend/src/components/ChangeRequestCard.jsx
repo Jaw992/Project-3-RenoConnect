@@ -6,7 +6,7 @@ import { getChangeLog, fetchPhases } from "../services/apiPhase";
 const ChangeRequestCard = ({ token }) => {
   const [phases, setPhases] = useState([]);
   const [selectedPhaseId, setSelectedPhaseId] = useState("");
-  const [changeLog, setChangeLog] = useState("");
+  const [changeLog, setChangeLog] = useState([]);
 
   // Fetch phases for the dropdown
   useEffect(() => {
