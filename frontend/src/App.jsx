@@ -31,6 +31,9 @@ function App() {
   const [contractorProfile, setContractorProfile] = useState("");
   const [projectId, setProjectId] = useState("");
 
+
+  console.log("in apps",projectId);
+
   return (
     <div className="homeContent">
       {isContractorLoggedIn ? (
@@ -114,7 +117,7 @@ function App() {
         />
         <Route
           path="/customer/signup"
-          element={<CustomerSignup setToken={setToken} />}
+          element={<CustomerSignup projectId={projectId} setToken={setToken} />}
         />
         <Route
           path="/contractor"

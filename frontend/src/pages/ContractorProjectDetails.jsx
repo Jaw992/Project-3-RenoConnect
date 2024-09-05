@@ -31,7 +31,8 @@ const ContractorProjectDetails = ({ projectId, setProjectId, token }) => {
   };
 
   const handleSubmit = async (event) => {
-    event.preventDefault(); // Prevent default form submission
+    event.preventDefault();
+
     try {
       if (mode === "edit") {
         await contractorProjectDetailsEdit(formData, token);
