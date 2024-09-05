@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom"; // Import useParams and useNavigate
+import { useParams, useNavigate } from "react-router-dom"; // Import useParams and useNavigate
 import { Container, Form, Button } from "react-bootstrap";
 import ProjectDetailsCard from "../components/ProjectDetailsCard";
 import { projectDetailsLoad } from "../services/apiProject";
@@ -10,9 +10,11 @@ import ProjectsList from "../components/ProjectList";
 import { Link } from "react-router-dom";
 
 const ContractorProjectDetails = ({ token }) => {
-  // const { projectId } = useParams();
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     projectId: "",
+    startDate: "",
+    endDate: "",
     projectAddress: "",
     projectPhaseCount: "",
     projectDownPayment: "",
@@ -26,6 +28,8 @@ const ContractorProjectDetails = ({ token }) => {
 
   const [create, setCreate] = useState({
     projectId: "",
+    startDate: "",
+    endDate: "",
     projectAddress: "",
     projectPhaseCount: 0,
     projectDownPayment: 0,
@@ -42,7 +46,7 @@ const ContractorProjectDetails = ({ token }) => {
   };
 
   const handleSubmit = async (event) => {
-    event.preventDefault();
+    // event.preventDefault(); -> to show details immediately
     try {
       if (mode === "edit") {
         await contractorProjectDetailsEdit(formData, token);
@@ -83,6 +87,34 @@ const ContractorProjectDetails = ({ token }) => {
                 required="true"
               />
             </Form.Group>
+
+            <Form.Group controlId="formProjectAddress" className="mt-3">
+              <Form.Label>
+                Start Date
+              </Form.Label>
+              <Form.Control
+                type="text"
+                name="startDate"
+                placeholder="Enter start date"
+                value={formData.startDate}
+                onChange={handleChange}
+                required="true"
+                />
+                </Form.Group>
+
+                <Form.Group controlId="formProjectAddress" className="mt-3">
+              <Form.Label>
+                End Date
+              </Form.Label>
+                <Form.Control
+                type="text"
+                name="endDate"
+                placeholder="Enter end date"
+                value={formData.endDate}
+                onChange={handleChange}
+                required="true"
+                />
+                </Form.Group>
 
             <Form.Group controlId="formProjectAddress" className="mt-3">
               <Form.Label>
@@ -145,17 +177,6 @@ const ContractorProjectDetails = ({ token }) => {
                 required="true"
               />
             </Form.Group>
-            {/* 
-            <Form.Group controlId="formEmail" className="mt-3">
-              <Form.Label>Email</Form.Label>
-              <Form.Control
-                type="email"
-                name="email"
-                placeholder="Enter your email"
-                value={formData.email}
-                onChange={handleChange}
-              />
-            </Form.Group> */}
 
             <div className="button-container mt-3">
                 <Button type="submit" className="custom-button-primary">

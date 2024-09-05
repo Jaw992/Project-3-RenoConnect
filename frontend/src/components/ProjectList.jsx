@@ -23,14 +23,18 @@ export default function ProjectsList() {
           projects.project.map((projects) => (
             <div key={projects._id}>
               <h2>Project ID: {projects.projectId}</h2>
+              <p>Start Date: {projects.startDate}</p>
+              <p>End Date: {projects.endDate}</p>
               <p>Project Address: {projects.projectAddress}</p>
               <p>Total Phases: {projects.projectPhaseCount}</p>
               <p>Down Payment: ${projects.projectDownPayment}</p>
               <p>Payment Received: ${projects.projectPaymentReceived}</p>
               <p>Total Cost: ${projects.projectTotalCost}</p>
-              <Link to={`/projectdetails/edit/${projects._id}`}>
-                <button className="mb-5">Edit</button>
-              </Link>
+              <div className="button-container mt-3 mb-5">
+                <Link to={`/projectdetails/edit/${projects._id}`}>
+                  <button className="custom-button-primary">Edit</button>
+                </Link>
+              </div>
             </div>
           ))
         )}

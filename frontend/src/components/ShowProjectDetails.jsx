@@ -21,18 +21,22 @@ export default function ShowProjectDetails({token}) {
 
   if (!projects) return <div>Loading...</div>;
   return (
-    <div>
-      <h1>Project Details Updated</h1>
+    <div className="mt-3">
+      <h1 className="mt-4">Project Details Updated</h1>
       <div key={projects._id}>
         <h2>{projects.projectAddress}</h2>
         <p>Project ID: {projects.projectId}</p>
+        <p>Start Date: {projects.startDate}</p>
+        <p>End Date: {projects.endDate}</p>
         <p>Total Phases: {projects.projectPhaseCount}</p>
         <p>Down Payment: ${projects.projectDownPayment}</p>
         <p>Payment Received: ${projects.projectPaymentReceived}</p>
         <p>Total Cost: ${projects.projectTotalCost}</p>
+        <div className="button-container mt-3">
         <Link to={`/contractor/projectdetails`}>
-          <button>Back</button>
+          <button type="submit" className="custom-button-primary">Back</button>
         </Link>
+        </div>
       </div>
     </div>
   );

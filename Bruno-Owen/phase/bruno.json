@@ -1,0 +1,9 @@
+{
+  "version": "1",
+  "name": "phase",
+  "type": "collection",
+  "ignore": [
+    "node_modules",
+    ".git"
+  ]
+}
