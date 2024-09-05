@@ -23,9 +23,8 @@ const Footer = () => {
       </footer>
 
       {/*Test Routes */}
-      <div className="bg-light py-3">
+      {/* <div className="bg-light py-3">
         <Container>
-          {/* Contractor Links */}
           <Row className="mb-3">
             <Col>
               <h5 className="text-center">Contractor Routes</h5>
@@ -54,7 +53,6 @@ const Footer = () => {
             </Col>
           </Row>
 
-          {/* Customer Links */}
           <Row className="mt-4 mb-3">
             <Col>
               <h5 className="text-center">Customer Routes</h5>
@@ -77,7 +75,7 @@ const Footer = () => {
             </Col>
           </Row>
         </Container>
-      </div>
+      </div> */}
     </>
   );
 };

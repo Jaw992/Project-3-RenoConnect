@@ -42,12 +42,14 @@ function App() {
           setIsContractorLoggedIn={setIsContractorLoggedIn}
           setToken={setToken}
           contractorProfile={contractorProfile}
+          projectDetails={projectDetails}
         />
       ) : isCustomerLoggedIn ? (
         <CustomerBar
           setIsCustomerLoggedIn={setIsCustomerLoggedIn}
           setToken={setToken}
           customerProfile={customerProfile}
+          projectDetails={projectDetails}
         />
       ) : (
         <Navibar />

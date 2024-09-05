@@ -3,13 +3,18 @@ import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import { Link, useNavigate } from "react-router-dom";
 
-function CustomerBar({ setIsCustomerLoggedIn, setToken, customerProfile }) {
+function CustomerBar({
+  setIsCustomerLoggedIn,
+  setToken,
+  customerProfile,
+  projectDetails,
+}) {
   console.log("customerProfile Prop:", customerProfile?.customer?.name); // Debugging line
   console.log("customerProfile Object:", customerProfile); // Debugging line
 
   const userName = customerProfile?.customer?.name || "";
-  const projectId = "#123";
-  const address = "Street 123";
+  const projectAddress = projectDetails?.[0]?.projectAddress || "#Address";
+
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -44,9 +49,7 @@ function CustomerBar({ setIsCustomerLoggedIn, setToken, customerProfile }) {
             <div style={{ fontWeight: "300" }}>
               <span>{userName}</span>
               <span> | </span>
-              <span>{projectId}</span>
-              <span> | </span>
-              <span>Address: {address}</span>
+              <span>{projectAddress}</span>
             </div>
           </div>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
