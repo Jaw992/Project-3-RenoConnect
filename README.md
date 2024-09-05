@@ -1,6 +1,6 @@
 # Project 3 - RenoConnect
 
-# Reno-Connect Objective
+## Reno-Connect Objective
 
 - Tracking application that helps Users and Contractors to track the different phases of the the renovation works
 
@@ -10,7 +10,7 @@
 
 - Users will be alerted and able to approve of work as completed to move on to the next phase of renovation work
 
-# User Stories
+## User Stories
 
 Contractor Side
 
@@ -66,7 +66,7 @@ Project Dashboard
 
 - Customers will be able to click “approved” or “reject” for submitted renovation works for review.
 
-# React Libraries Used
+## React Libraries Used
 
 - React Bootstrap
 - react-circular-progressbar
