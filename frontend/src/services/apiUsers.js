@@ -146,3 +146,41 @@ export async function getCustomer(token) {
     throw error;
   }
 }
+
+//* PUT changeLog
+export async function updateChangeLog(customerId, projectId, phaseId, changeLogId, status, token) {
+  const url = `/api/customers/${customerId}/${projectId}/phases/${phaseId}/changeLogs/${changeLogId}`;
+  try {
+    const response = await fetch(url, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ status }), // Send status in the request body
+    });
+
+    if (!response.ok) {
+      if (response.status === 404) {
+        const responseText = await response.text();
+        if (responseText.includes("Project not found")) {
+          throw new Error("Not Found: The specified project could not be found.");
+        } else if (responseText.includes("Phase not found")) {
+          throw new Error("Not Found: The specified phase could not be found.");
+        } else if (responseText.includes("Change log entry not found")) {
+          throw new Error("Not Found: The specified change log entry could not be found.");
+        } else {
+          throw new Error("Not Found: The specified resource could not be found.");
+        }
+      } else {
+        const errorText = await response.text();
+        throw new Error(`Server Error: ${errorText}`);
+      }
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error("Error updating change log:", error.message);
+    throw error;
+  }
+}

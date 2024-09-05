@@ -1,0 +1,32 @@
+meta {
+  name: Update status changeLog Customer
+  type: http
+  seq: 20
+}
+
+put {
+  url: http://localhost:3000/api/customers/:customerId/:projectId/phases/:phaseId/changeLogs/:changeLogId
+  body: json
+  auth: bearer
+}
+
+params:path {
+  customerId: {{customerId}}
+  projectId: 66d997a36119d6a9c537b6da
+  phaseId: 66d998c46119d6a9c537cd78
+  changeLogId: 66d9e1746cc249df26ac6dc2
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+    "reviewStatus": "Approved"
+  }
+}
+
+script:pre-request {
+  customerId = bru.getVar("customerId")
+}

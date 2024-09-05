@@ -17,7 +17,7 @@ export default function ProjectsList({ projectId, setProjectId, token }) {
 
   return (
     <>
-      <h1 className="mb-5">Projects List</h1>
+      {/* <h1 className="mb-5">Projects List</h1> */}
       <div>
         {projects.length === 0 ? (
           <p>No projects available.</p>

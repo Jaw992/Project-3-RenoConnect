@@ -121,6 +121,63 @@ router.get("/:customerId", verifyTokenCustomer, async (req, res) => {
     }
 });
 
+// PUT endpoint to update a change log
+router.put('/:customerId/:projectId/phases/:phaseId/changeLogs/:changeLogId', verifyTokenCustomer, async (req, res) => {
+  try {
+      const { projectId, phaseId, changeLogId } = req.params;
+      const { reviewStatus } = req.body; // Expecting status to be passed in the request body
+
+      // Validate input
+      // if (!status || !['Approved', 'Rejected'].includes(status)) {
+      //     return res.status(400).json({ error: "Invalid status value. It must be 'approved' or 'rejected'." });
+      // }
+
+      // Find the project
+      const project = await Project.findById(projectId);
+      if (!project) {
+          return res.status(404).json({ error: "Project not found" });
+      }
+
+      // Find the phase within the project
+      const phase = await Phase.findById(phaseId);
+      if (!phase) {
+          return res.status(404).json({ error: "Phase not found" });
+      }
+
+      // Find the change log within the phase
+      const changeLogEntry = phase.changeLog.id(changeLogId);
+      if (!changeLogEntry) {
+          return res.status(404).json({ error: "Change log entry not found" });
+      }
+
+      // Update the change log status
+      changeLogEntry.reviewStatus = reviewStatus;
+
+      // If reviewStatus is Approved, apply changes to the phase
+      if (reviewStatus === "Approved") {
+      if (changeLogEntry.newTaskDescription) {
+        phase.taskDescription = changeLogEntry.newTaskDescription;
+      }
+      if (changeLogEntry.newStartDate) {
+        phase.startDate = changeLogEntry.newStartDate;
+      }
+      if (changeLogEntry.newEndDate) {
+        phase.endDate = changeLogEntry.newEndDate;
+      }
+      if (changeLogEntry.newCost) {
+        phase.cost = changeLogEntry.newCost;
+      }
+    }
+      await phase.save();
+
+      // Send updated change log as response
+      res.status(200).json(changeLogEntry);
+  } catch (error) {
+      console.error("Error updating change log:", error); // Log the full error
+      res.status(500).json({ error: error.message });
+  }
+});
+
 module.exports = router;
 
 

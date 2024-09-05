@@ -5,7 +5,7 @@ import ProjectDetailsCard from "../components/ProjectDetailsCard";
 import ProjectsListCust from "../components/ProjectListCust";
 
 
-const CustomerProjectDetails = () => {
+const CustomerProjectDetails = ({ token }) => {
   const [formData, setFormData] = useState({
     projectId: "",
     startDate: "",
@@ -22,7 +22,7 @@ const CustomerProjectDetails = () => {
       <Container className="pages-custom-container">
         <h4 className="h3-custom">Project Details</h4>
         <div className="pages-box-shadow p-3 p-projectTracking">
-          <ProjectsListCust />
+          <ProjectsListCust token={token}/>
         </div>
       </Container>
     </div>
