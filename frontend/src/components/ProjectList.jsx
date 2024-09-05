@@ -17,11 +17,7 @@ export default function ProjectsList({ projectId, setProjectId, token }) {
       }
     };
     loadProjects();
-<<<<<<< HEAD
   }, [setProjectId, token]);
-=======
-  }, [token]);
->>>>>>> main
 
   return (
     <>
