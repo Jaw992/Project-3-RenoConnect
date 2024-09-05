@@ -4,7 +4,7 @@ import { extractPayload } from "../../utils/jwUtils";
 
 //* Contractor Signup
 export async function contractorSignup(data) {
-  const url = "http://localhost:3000/api/contractors/signup"; // can change
+  const url = "/api/contractors/signup"; // can change
   try {
     const response = await fetch(url, {
       method: "POST",
@@ -27,7 +27,7 @@ export async function contractorSignup(data) {
 
 //* Contracor Login
 export async function contractorLogin(data) {
-  const url = "http://localhost:3000/api/contractors/login"; // can change
+  const url = "/api/contractors/login"; // can change
   try {
     const response = await fetch(url, {
       method: "POST",
@@ -53,7 +53,7 @@ export async function contractorLogin(data) {
   //* Load contractor Profile
   export async function contractorLoad(token) {
     const contractorId = extractPayload(token)._id;
-    const url = `http://localhost:3000/api/contractors/${contractorId}`;
+    const url = `/api/contractors/${contractorId}`;
     try {
       const response = await fetch(url, {
         method: "GET",
@@ -78,7 +78,7 @@ export async function contractorLogin(data) {
 
 //* Customer Signup
 export async function customerSignup(data) {
-  const url = "http://localhost:3000/api/customers/signup"; // can change
+  const url = "/api/customers/signup"; // can change
   try {
     const response = await fetch(url, {
       method: "POST",
@@ -101,7 +101,7 @@ export async function customerSignup(data) {
 
 //* Customer Login
 export async function customerLogin(data) {
-  const url = "http://localhost:3000/api/customers/login"; //can change
+  const url = "/api/customers/login"; //can change
   try {
     const response = await fetch(url, {
       method: "POST",
@@ -126,7 +126,7 @@ export async function customerLogin(data) {
 
 export async function getCustomer(token) {
   const customerId = extractPayload(token)._id;
-  const url = `http://localhost:3000/api/customers/${customerId}`;
+  const url = `/api/customers/${customerId}`;
   try {
     const response = await fetch(url, {
       method: "GET",
