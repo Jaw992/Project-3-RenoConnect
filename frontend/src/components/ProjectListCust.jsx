@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import { projectDetailsLoad } from "../services/apiProject";
 
 export default function ProjectsList() {
@@ -30,11 +29,6 @@ export default function ProjectsList() {
               <p>Down Payment: ${projects.projectDownPayment}</p>
               <p>Payment Received: ${projects.projectPaymentReceived}</p>
               <p>Total Cost: ${projects.projectTotalCost}</p>
-              <div className="button-container mt-3 mb-5">
-                <Link to={`/projectdetails/edit/${projects._id}`}>
-                  <button className="custom-button-primary">Edit</button>
-                </Link>
-              </div>
             </div>
           ))
         )}
