@@ -16,6 +16,8 @@ const EditProjectDetails = ({ token }) => {
 
   const [formData, setFormData] = useState({
     projectId: "",
+    startDate: "",
+    endDate: "",
     projectAddress: "",
     projectPhaseCount: "",
     projectDownPayment: "",
@@ -32,6 +34,8 @@ const EditProjectDetails = ({ token }) => {
         setProjects(data.project);
         setFormData({
           projectId: data.project.projectId,
+          startDate: data.project.startDate,
+          endDate: data.project.endDate,
           projectAddress: data.project.projectAddress,
           projectPhaseCount: data.project.projectPhaseCount,
           projectDownPayment: data.project.projectDownPayment,
@@ -117,6 +121,28 @@ const EditProjectDetails = ({ token }) => {
                 name="projectPhaseCount"
                 placeholder="Enter total phases"
                 value={formData.projectPhaseCount}
+                onChange={handleChange}
+                required="true"
+              />
+            </Form.Group>
+
+            <Form.Group controlId="formStartDate" className="mt-3">
+              <Form.Label>Start Date</Form.Label>
+              <Form.Control
+                type="date"
+                name="startDate"
+                value={formData.startDate}
+                onChange={handleChange}
+                required="true"
+              />
+            </Form.Group>
+
+            <Form.Group controlId="formEndDate" className="mt-3">
+              <Form.Label>End Date</Form.Label>
+              <Form.Control
+                type="date"
+                name="endDate"
+                value={formData.endDate}
                 onChange={handleChange}
                 required="true"
               />

@@ -13,6 +13,8 @@ const ContractorProjectDetails = ({ token }) => {
   // const { projectId } = useParams();
   const [formData, setFormData] = useState({
     projectId: "",
+    startDate: "",
+    endDate: "",
     projectAddress: "",
     projectPhaseCount: "",
     projectDownPayment: "",

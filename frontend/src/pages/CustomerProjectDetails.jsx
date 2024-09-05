@@ -6,6 +6,8 @@ import ProjectDetailsCard from "../components/ProjectDetailsCard";
 const CustomerProjectDetails = () => {
   const [formData, setFormData] = useState({
     projectId: "",
+    startDate: "",
+    endDate: "",
     projectAddress: "",
     projectPhaseCount: "",
     projectDownPayment: "",
