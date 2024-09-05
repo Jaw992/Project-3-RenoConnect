@@ -14,7 +14,7 @@ export default function ProjectsList({ projectId, setProjectId, token }) {
       console.log("project id:", projectId);
     };
     loadProjects();
-  }, [projectId, setProjectId, token]);
+  }, [token]);
 
   return (
     <>
