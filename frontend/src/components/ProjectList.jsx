@@ -2,9 +2,12 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { projectDetailsLoad } from "../services/apiProject";
 import { format, parseISO } from "date-fns";
+import { deleteProjectDetails } from "../services/apiProject";
 
 export default function ProjectsList({ projectId, setProjectId, token }) {
   const [projects, setProjects] = useState({ project: [] }); //reminder: api is an object with drinks array in it
+  const [successMessage, setSuccess] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
     const loadProjects = async () => {
@@ -18,6 +21,24 @@ export default function ProjectsList({ projectId, setProjectId, token }) {
     };
     loadProjects();
   }, [setProjectId, token]);
+
+  const handleDelete = async (event) => {
+    try {
+      const response = await deleteProjectDetails(projectId, token); // Assuming deleteProjectDetails returns a response object
+      if (!response.ok) {
+        const result = await response.json();
+        throw new Error(result.error || "Failed to delete project");
+      }
+      setProjects((prevProjects) =>
+        prevProjects.project.filter((project) => project._id !== projectId),
+      );
+      setErrorMessage("");
+    } catch (error) {
+      setSuccess("Project Deleted!");
+      console.error(error);
+    }
+  };
+
 
   return (
     <>
@@ -48,8 +69,15 @@ export default function ProjectsList({ projectId, setProjectId, token }) {
               <p>Total Cost: ${projects.projectTotalCost}</p>
               <div className="button-container mt-3 mb-5">
                 <Link to={`/projectdetails/edit/${projects._id}`}>
-                  <button className="custom-button-primary">Edit</button>
+                  <button className="custom-button-primary me-4">Edit</button>
                 </Link>
+                <button onClick={() => handleDelete(projects._id)}>
+                  Delete
+                </button>
+                {errorMessage && <p className="error mt-3">{errorMessage}</p>}
+                {successMessage && (
+                  <p className="success mt-3">{successMessage}</p>
+                )}
               </div>
             </div>
           ))
