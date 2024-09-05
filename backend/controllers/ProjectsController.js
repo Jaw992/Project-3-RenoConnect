@@ -10,30 +10,64 @@ router.use(verifyTokenContractor);
 router.use(verifyTokenCustomer);
 
 //* Create new project
+// router.post("/", async (req, res) => {
+//     try {
+//         const { projectId } = req.body;
+//         if (!projectId) {
+//             return res.status(400).json({error: "projectId is required."});
+//         }
+
+//         const existingProject = await Project.findOne({ projectId });
+//         if (existingProject) {
+//             return res.status(400).json({ error: "Project number used." });
+//         }
+
+//         // if (Project.length > 1) {
+//         //     return res.status(400).json({ error: "Only one project at a time." });
+//         // }
+
+//         req.body.contractor = req.contractor._id;
+//         const project = await Project.create(req.body);
+//         debug(project);
+//         res.status(201).json({project});
+//     } catch (error) {
+//         res.status(500).json({ error: error.message });
+//     }
+// });
+
+// allow only one creation of project
 router.post("/", async (req, res) => {
     try {
         const { projectId } = req.body;
+
+        // Ensure got Id
         if (!projectId) {
-            return res.status(400).json({error: "projectId is required."});
+            return res.status(400).json({ error: "Project ID is required." });
         }
+        // contractor id
+        const contractorId = req.contractor._id;
 
-        const existingProject = await Project.findOne({ projectId });
+        // Check if the contractor already has an existing project
+        const existingProject = await Project.findOne({ contractor: contractorId });
         if (existingProject) {
-            return res.status(400).json({ error: "Project number used." });
+            return res.status(400).json({ error: "You already have an existing project. Please delete it before creating a new one." });
         }
 
-        // if (Project.length > 1) {
-        //     return res.status(400).json({ error: "Only one project at a time." });
-        // }
+        // Check if the projectId is already used by another project
+        const duplicateProjectId = await Project.findOne({ projectId });
+        if (duplicateProjectId) {
+            return res.status(400).json({ error: "Project ID already in use." });
+        }
 
-        req.body.contractor = req.contractor._id;
+        // If no existing project and projectId is unique, create a new project
+        req.body.contractor = contractorId;
         const project = await Project.create(req.body);
-        debug(project);
-        res.status(201).json({project});
+        res.status(201).json({ project });
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
 });
+
 
 //* Get All Projects
 router.get("/", async (req, res) => {

@@ -8,13 +8,16 @@ export default function ProjectsList({ projectId, setProjectId, token }) {
 
   useEffect(() => {
     const loadProjects = async () => {
-      const dataProjects = await projectDetailsLoad(token);
-      setProjects(dataProjects);
-      setProjectId(dataProjects.project.map((p) => p._id));
-      console.log("project id:", projectId);
+      try {
+        const dataProjects = await projectDetailsLoad(token);
+        setProjects(dataProjects);
+        setProjectId(dataProjects.project.map((p) => p._id));
+      } catch (error) {
+        console.error("Error loading projects: ", error);
+      }
     };
     loadProjects();
-  }, [projectId, setProjectId, token]);
+  }, [setProjectId, token]);
 
   return (
     <>
@@ -28,8 +31,18 @@ export default function ProjectsList({ projectId, setProjectId, token }) {
               <h2>Project ID: {projects.projectId}</h2>
               <p>Project Address: {projects.projectAddress}</p>
               <p>Total Phases: {projects.projectPhaseCount}</p>
-              <p>Start Date: {projects.startDate ? format(parseISO(projects.startDate), 'dd/MM/yy') : 'N/A'}</p>
-              <p>End Date: {projects.endDate ? format(parseISO(projects.startDate), 'dd/MM/yy') : 'N/A'}</p>
+              <p>
+                Start Date:{" "}
+                {projects.startDate
+                  ? format(parseISO(projects.startDate), "dd/MM/yy")
+                  : "N/A"}
+              </p>
+              <p>
+                End Date:{" "}
+                {projects.endDate
+                  ? format(parseISO(projects.startDate), "dd/MM/yy")
+                  : "N/A"}
+              </p>
               <p>Down Payment: ${projects.projectDownPayment}</p>
               <p>Payment Received: ${projects.projectPaymentReceived}</p>
               <p>Total Cost: ${projects.projectTotalCost}</p>
