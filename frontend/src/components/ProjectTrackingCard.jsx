@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Container, Form, Button, Row, Col } from "react-bootstrap";
 import GanttChart from "./GanttChart";
 
