@@ -5,7 +5,7 @@ import ProjectsList from "../components/ProjectList";
 import { contractorProjectDetailsEdit, contractorProjectDetails } from "../services/apiProject";
 import { format, parseISO } from "date-fns";
 
-const ContractorProjectDetails = ({ token }) => {
+const ContractorProjectDetails = ({ projectId, setProjectId, token }) => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     projectId: "",
@@ -31,7 +31,7 @@ const ContractorProjectDetails = ({ token }) => {
   };
 
   const handleSubmit = async (event) => {
-    // event.preventDefault(); // Prevent default form submission
+    event.preventDefault(); // Prevent default form submission
     try {
       if (mode === "edit") {
         await contractorProjectDetailsEdit(formData, token);
@@ -53,7 +53,7 @@ const ContractorProjectDetails = ({ token }) => {
       <Container className="pages-custom-container">
         <h4 className="h3-custom">Project Details</h4>
         <div className="pages-box-shadow p-3 p-projectTracking">
-          <ProjectsList token={token} />
+          <ProjectsList token={token} projectId={projectId} setProjectId={setProjectId} />
         </div>
         <div className="pages-box-shadow p-3 mt-3">
           <h5 className="h3-custom">Create Project</h5>

@@ -48,6 +48,26 @@ router.get("/", async (req, res) => {
     }
 });
 
+// router.get("/", async (req, res) => {
+//     try {
+//       if (!req.contractor || !req.contractor._id) {
+//         return res.status(401).json({ error: "Unauthorized" });
+//       }
+  
+//       const contractorId = req.contractor._id;
+//       const projects = await Project.find({ contractor: contractorId }).populate("contractor");
+  
+//       if (projects.length === 0) {
+//         return res.status(404).json({ error: "No projects found" });
+//       }
+  
+//       res.status(200).json({ projects });
+//     } catch (error) {
+//       res.status(500).json({ error: error.message });
+//     }
+//   });
+  
+
 //* Get a single project
 router.get("/:projectId", async (req, res) => {
     const { projectId } = req.params;

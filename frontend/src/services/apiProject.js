@@ -1,9 +1,9 @@
 import { extractPayload } from "../../utils/jwUtils";
 
 //get
-export async function projectDetailsLoad() {
+export async function projectDetailsLoad(token) {
   // const projectId = extractPayload(token)._id;
-  const token = localStorage.getItem("authToken");
+  // const token = localStorage.getItem("authToken");
 
   const url = `/api/projects`;
   try {
@@ -19,6 +19,8 @@ export async function projectDetailsLoad() {
     }
 
     const json = await response.json();
+    console.log("token here: ", token);
+
     // localStorage.setItem("authToken", json.token);
     return json;
   } catch (error) {
@@ -28,10 +30,10 @@ export async function projectDetailsLoad() {
 }
 
 //show
-export async function showProjectDetails(id) {
+export async function showProjectDetails(id, token) {
   const url = `/api/projects/${id}`;
   try {
-    const token = localStorage.getItem("authToken");
+    // const token = localStorage.getItem("authToken");
     const response = await fetch(url, {
       method: "GET",
       headers: {
@@ -52,10 +54,10 @@ export async function showProjectDetails(id) {
 }
 
 // create
-export async function contractorProjectDetails(data) {
+export async function contractorProjectDetails(data, token) {
   const url = "/api/projects";
   try {
-    const token = localStorage.getItem("authToken");
+    // const token = localStorage.getItem("authToken");
     const response = await fetch(url, {
       method: "POST",
       headers: {
@@ -81,7 +83,7 @@ export async function contractorProjectDetailsEdit(id, formData, token) {
   // const projectId = extractPayload(token)._id;
   const url = `/api/projects/${id}`;
   try {
-    const token = localStorage.getItem("authToken");
+    // const token = localStorage.getItem("authToken");
     const response = await fetch(url, {
       method: "PUT",
       headers: {

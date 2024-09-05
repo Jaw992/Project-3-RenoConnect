@@ -3,16 +3,18 @@ import { Link } from "react-router-dom";
 import { projectDetailsLoad } from "../services/apiProject";
 import { format, parseISO } from "date-fns";
 
-export default function ProjectsList() {
+export default function ProjectsList({ projectId, setProjectId, token }) {
   const [projects, setProjects] = useState({ project: [] }); //reminder: api is an object with drinks array in it
 
   useEffect(() => {
     const loadProjects = async () => {
-      const dataProjects = await projectDetailsLoad();
+      const dataProjects = await projectDetailsLoad(token);
       setProjects(dataProjects);
+      setProjectId(dataProjects.project.map((p) => p._id));
+      console.log("project id:", projectId);
     };
     loadProjects();
-  }, []);
+  }, [projectId, setProjectId, token]);
 
   return (
     <>
