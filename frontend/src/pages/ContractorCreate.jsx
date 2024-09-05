@@ -6,7 +6,8 @@ import { createPhase, fetchPhases } from "../services/apiPhase";
 // const TOTAL_PHASES = "";
 const TOTAL_PHASES = 10;
 
-const ContractorCreate = ({ contractorProfile, token }) => {
+const ContractorCreate = ({ contractorProfile, projectId, token }) => {
+  console.log(projectId);
   console.log("Contractor Profile: ", contractorProfile);
   console.log("Contractor ID: ", contractorProfile.contractorUser._id);
   const [phases, setPhases] = useState([]);
@@ -19,7 +20,7 @@ const ContractorCreate = ({ contractorProfile, token }) => {
     startDate: "",
     endDate: "",
     cost: "",
-    project: "66d997a36119d6a9c537b6da",
+    project: projectId,
     // contractor: contractorProfile?.contractorUser?._id,
     // contractor: "66d87acb20a6bfb11191e583",
     contractor: contractorProfile.contractorUser._id,
@@ -53,9 +54,9 @@ const ContractorCreate = ({ contractorProfile, token }) => {
 
   const availablePhases = Array.from(
     { length: TOTAL_PHASES },
-    (_, i) => `Phase ${i + 1}`,
+    (_, i) => `Phase ${i + 1}`
   ).filter(
-    (phaseName) => !phases.some((phase) => phase.phaseName === phaseName),
+    (phaseName) => !phases.some((phase) => phase.phaseName === phaseName)
   );
 
   const handleChange = (e) => {
@@ -98,7 +99,7 @@ const ContractorCreate = ({ contractorProfile, token }) => {
         cost: "",
         // project: req.body.projectId,
         // contractor: req.user.id, //
-        project: "66d997a36119d6a9c537b6da",
+        project: projectId,
         // contractor: contractorProfile?.contractorUser?._id,
         // contractor: "66d87acb20a6bfb11191e583",
         contractor: contractorProfile.contractorUser._id,
@@ -110,7 +111,7 @@ const ContractorCreate = ({ contractorProfile, token }) => {
     } catch (error) {
       console.error(
         "Error creating phase:",
-        error.response ? error.response.data : error.message,
+        error.response ? error.response.data : error.message
       );
       setError(error.response ? error.response.data.message : error.message);
       setSuccess("");
