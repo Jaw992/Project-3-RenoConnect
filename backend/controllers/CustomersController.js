@@ -105,13 +105,13 @@ router.get("/:customerId", verifyTokenCustomer, async (req, res) => {
         if (!customerId) {
             return res.status(401).json({ error: "Unauthorized" })
         }
-        const customer = await Customer.findById(req.customer._id).populate("project");
+        const customer = await Customer.findById(customerId);
         if (!customer) {
             res.status(404).json({ error: "Profile not found."});
         }
-
-        const phases = await Phase.find({ project: customer.project._id});
-        res.json({ project: customer.project, phases });
+        const project = await Project.findOne({projectId: customer.projectId});
+        const phases = await Phase.find({ project: project._id});
+        res.json({ project, phases });
     } catch (error) {
         if (res.statusCode === 404) {
             res.status(404).json({ error: error.message });

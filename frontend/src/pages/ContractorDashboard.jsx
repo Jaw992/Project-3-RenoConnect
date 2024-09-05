@@ -4,12 +4,55 @@ import PhaseDetailsCard from "../components/PhaseDetailsCard";
 import ProjectTrackingCard from "../components/ProjectTrackingCard";
 import ChangeRequestCard from "../components/ChangeRequestCard";
 import { fetchPhases, deletePhase } from "../services/apiPhase";
+import { projectDetailsLoad } from "../services/apiProject";
 
-const ContractorDashboard = ({ token }) => {
+const ContractorDashboard = ({ setProjectDetails, setProjectId, token }) => {
   const [phases, setPhases] = useState([]);
   const [selectedPhase, setSelectedPhase] = useState("");
   const [error, setError] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
+
+  // useEffect(() => {
+  //   const loadProjectDetails = async () => {
+  //     try {
+  //       const dataProjects = await projectDetailsLoad(token);
+  //       if (dataProjects && dataProjects.project) {
+  //         const projectData = dataProjects.project;
+  //         setProjectDetails(projectData);
+  //         setProjectId(projectData.map((p) => p._id));
+  //       } else {
+  //         setError("No project details found.");
+  //       }
+  //     } catch (error) {
+  //       setError("Failed to load project details.");
+  //     }
+  //   };
+
+  //   loadProjectDetails(); // Load project details on component mount
+  // }, [token, setProjectDetails, setProjectId]);
+
+  useEffect(() => {
+    const loadProjectDetails = async () => {
+      try {
+        const projectsData = await projectDetailsLoad(token);
+        console.log("Projects data:", projectsData);
+
+        if (Array.isArray(projectsData)) {
+          setProjectDetails(projectsData);
+          if (projectsData.length > 0) {
+            setProjectId(projectsData.map((p) => p._id));
+          }
+        } else {
+          setError("Invalid data format received.");
+        }
+      } catch (error) {
+        setError("Failed to load project details.");
+        console.error("Error fetching projects:", error);
+      }
+    };
+
+    loadProjectDetails(); // Load project details on component mount
+  }, [token]);
 
   useEffect(() => {
     const loadPhases = async () => {
