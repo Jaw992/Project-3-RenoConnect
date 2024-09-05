@@ -29,7 +29,10 @@ function App() {
   const [isCustomerLoggedIn, setIsCustomerLoggedIn] = useState(false);
   const [customerProfile, setCustomerProfile] = useState("");
   const [contractorProfile, setContractorProfile] = useState("");
-  const [project, setProject] = useState({ project: [] });
+  const [projectId, setProjectId] = useState("");
+
+
+  console.log("in apps",projectId);
 
   return (
     <div className="homeContent">
@@ -114,7 +117,7 @@ function App() {
         />
         <Route
           path="/customer/signup"
-          element={<CustomerSignup setToken={setToken} />}
+          element={<CustomerSignup projectId={projectId} setToken={setToken} />}
         />
         <Route
           path="/contractor"
@@ -122,7 +125,9 @@ function App() {
         />
         <Route
           path="/contractor/projectdetails"
-          element={<ContractorProjectDetails token={token} />}
+          element={<ContractorProjectDetails token={token} 
+          projectId={projectId}
+          setProjectId={setProjectId}/>}
         />
         <Route
           path="/contractor/create"

@@ -1,15 +1,11 @@
 import { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom"; // Import useParams and useNavigate
+import { useNavigate } from "react-router-dom"; // Only use navigate if needed
 import { Container, Form, Button } from "react-bootstrap";
-import ProjectDetailsCard from "../components/ProjectDetailsCard";
-import { projectDetailsLoad } from "../services/apiProject";
-// import ProjectTrackingCard from "../components/ProjectTrackingCard";
-import { contractorProjectDetailsEdit } from "../services/apiProject";
-import { contractorProjectDetails } from "../services/apiProject";
 import ProjectsList from "../components/ProjectList";
-import { Link } from "react-router-dom";
+import { contractorProjectDetailsEdit, contractorProjectDetails } from "../services/apiProject";
+import { format, parseISO } from "date-fns";
 
-const ContractorProjectDetails = ({ token }) => {
+const ContractorProjectDetails = ({ projectId, setProjectId, token }) => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     projectId: "",
@@ -26,17 +22,6 @@ const ContractorProjectDetails = ({ token }) => {
   const [error, setError] = useState("");
   const [mode, setMode] = useState("create");
 
-  const [create, setCreate] = useState({
-    projectId: "",
-    startDate: "",
-    endDate: "",
-    projectAddress: "",
-    projectPhaseCount: 0,
-    projectDownPayment: 0,
-    projectPaymentReceived: 0,
-    projectTotalCost: 0,
-  });
-
   const handleChange = (event) => {
     const { name, value } = event.target;
     setFormData({
@@ -47,6 +32,7 @@ const ContractorProjectDetails = ({ token }) => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+
     try {
       if (mode === "edit") {
         await contractorProjectDetailsEdit(formData, token);
@@ -56,7 +42,6 @@ const ContractorProjectDetails = ({ token }) => {
         setSuccess("Project Details Created!");
       }
       setError("");
-      setCreate(formData);
       setMode("create");
     } catch (error) {
       setError(error.message);
@@ -69,11 +54,10 @@ const ContractorProjectDetails = ({ token }) => {
       <Container className="pages-custom-container">
         <h4 className="h3-custom">Project Details</h4>
         <div className="pages-box-shadow p-3 p-projectTracking">
-          {/* <ProjectDetailsCard phase={formData} viewMode={mode} /> */}
-          <ProjectsList token={token}></ProjectsList>
+          <ProjectsList token={token} projectId={projectId} setProjectId={setProjectId} />
         </div>
         <div className="pages-box-shadow p-3 mt-3">
-          <h5 className="h3-custom">Create Project </h5>
+          <h5 className="h3-custom">Create Project</h5>
           <Form onSubmit={handleSubmit} className="formLabel mt-2 p-3">
             <Form.Group controlId="formProjectId">
               <Form.Label>Project ID</Form.Label>
@@ -84,7 +68,7 @@ const ContractorProjectDetails = ({ token }) => {
                 value={formData.projectId}
                 onChange={handleChange}
                 disabled={mode === "edit"} // Disable input in edit mode
-                required="true"
+                required
               />
             </Form.Group>
 
@@ -98,7 +82,7 @@ const ContractorProjectDetails = ({ token }) => {
                 placeholder="Enter your project address"
                 value={formData.projectAddress}
                 onChange={handleChange}
-                required="true"
+                required
               />
             </Form.Group>
 
@@ -110,7 +94,7 @@ const ContractorProjectDetails = ({ token }) => {
                 placeholder="Enter total phases"
                 value={formData.projectPhaseCount}
                 onChange={handleChange}
-                required="true"
+                required
               />
             </Form.Group>
 
@@ -121,7 +105,7 @@ const ContractorProjectDetails = ({ token }) => {
                 name="startDate"
                 value={formData.startDate}
                 onChange={handleChange}
-                required="true"
+                required
               />
             </Form.Group>
 
@@ -132,7 +116,7 @@ const ContractorProjectDetails = ({ token }) => {
                 name="endDate"
                 value={formData.endDate}
                 onChange={handleChange}
-                required="true"
+                required
               />
             </Form.Group>
 
@@ -144,7 +128,7 @@ const ContractorProjectDetails = ({ token }) => {
                 placeholder="Enter down payment percentage"
                 value={formData.projectDownPayment}
                 onChange={handleChange}
-                required="true"
+                required
               />
             </Form.Group>
 
@@ -156,7 +140,7 @@ const ContractorProjectDetails = ({ token }) => {
                 placeholder="Enter down payment received"
                 value={formData.projectPaymentReceived}
                 onChange={handleChange}
-                required="true"
+                required
               />
             </Form.Group>
 
@@ -168,14 +152,14 @@ const ContractorProjectDetails = ({ token }) => {
                 placeholder="Enter total project cost"
                 value={formData.projectTotalCost}
                 onChange={handleChange}
-                required="true"
+                required
               />
             </Form.Group>
 
             <div className="button-container mt-3">
-                <Button type="submit" className="custom-button-primary">
-                  Create
-                </Button>
+              <Button type="submit" className="custom-button-primary">
+                {mode === "edit" ? "Update" : "Create"}
+              </Button>
               {error && <p className="error mt-3">{error}</p>}
               {successMessage && (
                 <p className="success mt-3">{successMessage}</p>
@@ -184,8 +168,6 @@ const ContractorProjectDetails = ({ token }) => {
           </Form>
         </div>
       </Container>
-
-      <div></div>
     </div>
   );
 };
