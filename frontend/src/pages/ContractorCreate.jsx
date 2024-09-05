@@ -97,7 +97,7 @@ const ContractorCreate = ({ contractorProfile, token }) => {
         endDate: "",
         cost: "",
         // project: req.body.projectId,
-        // contractor: req.user.id,
+        // contractor: req.user.id, //
         project: "66d87b4520a6bfb11191e58d",
         // contractor: contractorProfile?.contractorUser?._id,
         // contractor: "66d87acb20a6bfb11191e583",
