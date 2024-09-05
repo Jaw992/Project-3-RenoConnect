@@ -3,8 +3,9 @@ const router = express.Router();
 const bcrypt = require("bcrypt");
 const Customer = require("../models/Customer");
 const jwt = require("jsonwebtoken");
-const verifyTokenCustomer = require('../middleware/verifyTokenCustomer');
+const verifyTokenCustomer = require("../middleware/verifyTokenCustomer");
 const Project = require("../models/Project");
+const { customerSignup } = require("../../frontend/src/services/apiUsers");
 
 const SALT_LENGTH = 12;
 
@@ -42,41 +43,47 @@ router.post("/signup", async (req, res) => {
         res.status(400).json({ error: error.message });
     }
 });
-
+  
 // log in
 router.post("/login", async (req, res) => {
-    try {
-        const customer = await Customer.findOne({ username: req.body.username });
-        if (customer && bcrypt.compareSync(req.body.password, customer.hashedPassword)) {
-            const token = jwt.sign({ username: customer.username, _id: customer._id }, process.env.JWT_SECRET);
-            res.status(200).json({ token });
-        } else {
-            res.status(401).json({ error: "Invalid username or password."});
-        }
-    } catch (error) {
-        res.status(400).json({ error: error.message });
+  try {
+    const customer = await Customer.findOne({ username: req.body.username });
+    if (
+      customer &&
+      bcrypt.compareSync(req.body.password, customer.hashedPassword)
+    ) {
+      const token = jwt.sign(
+        { username: customer.username, _id: customer._id },
+        process.env.JWT_SECRET,
+      );
+      res.status(200).json({ token });
+    } else {
+      res.status(401).json({ error: "Invalid username or password." });
     }
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
 });
 
 // get customer profile
 router.get("/:customerId", verifyTokenCustomer, async (req, res) => {
-    try {
-        if (req.customer._id !== req.params.customerId) {
-            return res.status(401).json({ error: "Unauthorized" })
-        }
-        const customer = await Customer.findById(req.customer._id);
-        if (!customer) {
-            res.status(404)
-            throw new Error("Profile not found.");
-        }
-        res.json({ customer });
-    } catch (error) {
-        if (res.statusCode === 404) {
-            res.status(404).json({ error: error.message });
-        } else {
-        res.status(500).json({ error: error.message });
-        }
+  try {
+    if (req.customer._id !== req.params.customerId) {
+      return res.status(401).json({ error: "Unauthorized" });
     }
+    const customer = await Customer.findById(req.customer._id);
+    if (!customer) {
+      res.status(404);
+      throw new Error("Profile not found.");
+    }
+    res.json({ customer });
+  } catch (error) {
+    if (res.statusCode === 404) {
+      res.status(404).json({ error: error.message });
+    } else {
+      res.status(500).json({ error: error.message });
+    }
+  }
 });
 
 module.exports = router;
