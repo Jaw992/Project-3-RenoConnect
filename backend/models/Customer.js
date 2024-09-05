@@ -1,24 +1,17 @@
 const mongoose = require("mongoose");
 
 const customerSchema = new mongoose.Schema({
-  username: {
-    type: String,
-    unique: true,
-    required: true,
-  },
-  hashedPassword: {
-    type: String,
-    required: true,
-  },
-  name: {type: String, required: true},
-  contact: {type: String, required: true},
-  email: {type: String, required: true},
-  project: { type: mongoose.Schema.Types.ObjectId, ref: "Project" },
+  username: { type: String, unique: true, required: true },
+  hashedPassword: { type: String, required: true },
+  name: { type: String, required: true },
+  contact: { type: String, required: true },
+  email: { type: String, required: true },
+  projectId: { type: String, required: true },
 });
 
 customerSchema.set("toJSON", {
-  tranform: (document, returnObject) => {
-    delete returnObject.hashPassword;
+  transform: (document, returnObject) => {
+    delete returnObject.hashedPassword;
   },
 });
 
