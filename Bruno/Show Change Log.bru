@@ -1,7 +1,7 @@
 meta {
   name: Show Change Log
   type: http
-  seq: 17
+  seq: 13
 }
 
 get {
@@ -11,36 +11,10 @@ get {
 }
 
 params:path {
-  changeLogId: 66d8521c0e899c20a4b19f02
-  phaseId: 66d850000e899c20a4b19eb7
+  changeLogId: 66d97bc85bdedd78cea1defb
+  phaseId: 66d97a246a42c82fd1a818d2
 }
 
 auth:bearer {
   token: {{token}}
-}
-
-body:json {
-  {
-    "_id": "66d6869396b35022405f2104",
-    "phaseName": "1",
-    "task": "Painting",
-    "taskDescription": "Paint Living Room",
-    "startDate": "2024-09-20T00:00:00.000Z",
-    "endDate": "2024-10-01T00:00:00.000Z",
-    "project": {
-      "_id": "66d67e609090d077cb6e09b2",
-      "projectId": "CL123",
-      "startDate": "2024-09-01T00:00:00.000Z",
-      "endDate": "2024-11-30T00:00:00.000Z",
-      "projectAddress": "Blk 49 clementi ave 6",
-      "projectPhaseCount": 5,
-      "projectDownPayment": 15,
-      "projectPaymentReceived": 7500,
-      "projectTotalCost": 50000,
-      "contractor": "66d67290f475115fecdec7d4",
-      "__v": 0
-    },
-    "changeLog": [],
-    "__v": 0
-  }
 }

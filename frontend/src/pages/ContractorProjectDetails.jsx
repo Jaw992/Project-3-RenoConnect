@@ -33,7 +33,8 @@ const ContractorProjectDetails = ({ projectId, setProjectId, token }) => {
   };
 
   const handleSubmit = async (event) => {
-    event.preventDefault(); // Prevent default form submission
+    event.preventDefault();
+
     try {
       const response = await contractorProjectDetails(formData, token);
       setSuccess("Project Details Created!");
