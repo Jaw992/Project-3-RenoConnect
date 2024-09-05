@@ -29,7 +29,7 @@ function App() {
   const [isCustomerLoggedIn, setIsCustomerLoggedIn] = useState(false);
   const [customerProfile, setCustomerProfile] = useState("");
   const [contractorProfile, setContractorProfile] = useState("");
-  const [project, setProject] = useState({ project: [] });
+  const [projectId, setProjectId] = useState("");
 
   return (
     <div className="homeContent">
@@ -122,7 +122,9 @@ function App() {
         />
         <Route
           path="/contractor/projectdetails"
-          element={<ContractorProjectDetails token={token} />}
+          element={<ContractorProjectDetails token={token} 
+          projectId={projectId}
+          setProjectId={setProjectId}/>}
         />
         <Route
           path="/contractor/create"
