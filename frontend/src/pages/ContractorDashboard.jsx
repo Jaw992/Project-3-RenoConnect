@@ -4,12 +4,32 @@ import PhaseDetailsCard from "../components/PhaseDetailsCard";
 import ProjectTrackingCard from "../components/ProjectTrackingCard";
 import ChangeRequestCard from "../components/ChangeRequestCard";
 import { fetchPhases, deletePhase } from "../services/apiPhase";
+import { projectDetailsLoad } from "../services/apiProject";
 
-const ContractorDashboard = ({ token }) => {
+const ContractorDashboard = ({ setProjectDetails, setProjectId, token }) => {
   const [phases, setPhases] = useState([]);
   const [selectedPhase, setSelectedPhase] = useState("");
   const [error, setError] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
+
+  useEffect(() => {
+    const loadProjectDetails = async () => {
+      try {
+        const dataProjects = await projectDetailsLoad(token); // Fetch project details
+        if (dataProjects && dataProjects.project) {
+          const projectData = dataProjects.project;
+          setProjectDetails(projectData); // Use setProjectDetails function to set the project details
+          setProjectId(projectData.map((p) => p._id)); // Use setProjectId function to set the project IDs
+        } else {
+          setError("No project details found.");
+        }
+      } catch (error) {
+        setError("Failed to load project details.");
+      }
+    };
+
+    loadProjectDetails(); // Load project details on component mount
+  }, [token, setProjectDetails, setProjectId]);
 
   useEffect(() => {
     const loadPhases = async () => {
