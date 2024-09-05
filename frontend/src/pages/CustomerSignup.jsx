@@ -13,7 +13,7 @@ const CustomerSignup = () => {
     email: "",
     username: "",
     password: "",
-    project: "",
+    projectId: "",
   });
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
@@ -89,8 +89,8 @@ const CustomerSignup = () => {
             <Form.Control
               type="text"
               placeholder="Enter your project ID"
-              name="project"
-              value={formData.project}
+              name="projectId"
+              value={formData.projectId}
               onChange={handleChange}
             />
           </Form.Group>

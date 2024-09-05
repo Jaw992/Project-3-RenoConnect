@@ -19,7 +19,6 @@ export default function ProjectsList({ projectId, setProjectId, token }) {
     loadProjects();
   }, [setProjectId, token]);
 
-
   return (
     <>
       <h1 className="mb-5">Projects List</h1>
