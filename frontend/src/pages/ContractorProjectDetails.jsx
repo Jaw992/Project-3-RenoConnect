@@ -46,7 +46,7 @@ const ContractorProjectDetails = ({ token }) => {
   };
 
   const handleSubmit = async (event) => {
-    // event.preventDefault(); -> to show details immediately
+    event.preventDefault();
     try {
       if (mode === "edit") {
         await contractorProjectDetailsEdit(formData, token);
@@ -87,34 +87,6 @@ const ContractorProjectDetails = ({ token }) => {
                 required="true"
               />
             </Form.Group>
-
-            <Form.Group controlId="formProjectAddress" className="mt-3">
-              <Form.Label>
-                Start Date
-              </Form.Label>
-              <Form.Control
-                type="text"
-                name="startDate"
-                placeholder="Enter start date"
-                value={formData.startDate}
-                onChange={handleChange}
-                required="true"
-                />
-                </Form.Group>
-
-                <Form.Group controlId="formProjectAddress" className="mt-3">
-              <Form.Label>
-                End Date
-              </Form.Label>
-                <Form.Control
-                type="text"
-                name="endDate"
-                placeholder="Enter end date"
-                value={formData.endDate}
-                onChange={handleChange}
-                required="true"
-                />
-                </Form.Group>
 
             <Form.Group controlId="formProjectAddress" className="mt-3">
               <Form.Label>
