@@ -17,6 +17,8 @@ const CustomerDashboard = ({ token }) => {
   //   console.log("Phase deleted: ", selectedPhase);
   // };
 
+  console.log(token);
+
   const [phases, setPhases] = useState([]);
   const [selectedPhase, setSelectedPhase] = useState("");
   const [error, setError] = useState("");

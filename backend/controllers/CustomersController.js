@@ -5,6 +5,7 @@ const Customer = require("../models/Customer");
 const jwt = require("jsonwebtoken");
 const verifyTokenCustomer = require("../middleware/verifyTokenCustomer");
 const Project = require("../models/Project");
+const Phase = require("../models/Phase");
 
 const SALT_LENGTH = 12;
 
@@ -97,25 +98,30 @@ router.post("/login", async (req, res) => {
   }
 });
 
-// get customer profile
+// get customer profile with project and phases
 router.get("/:customerId", verifyTokenCustomer, async (req, res) => {
-  try {
-    if (req.customer._id !== req.params.customerId) {
-      return res.status(401).json({ error: "Unauthorized" });
+    try {
+        const { customerId } = req.params;
+        if (!customerId) {
+            return res.status(401).json({ error: "Unauthorized" })
+        }
+        const customer = await Customer.findById(req.customer._id).populate("project");
+        if (!customer) {
+            res.status(404).json({ error: "Profile not found."});
+        }
+
+        const phases = await Phase.find({ project: customer.project._id});
+        res.json({ project: customer.project, phases });
+    } catch (error) {
+        if (res.statusCode === 404) {
+            res.status(404).json({ error: error.message });
+        } else {
+        res.status(500).json({ error: error.message });
+        }
     }
-    const customer = await Customer.findById(req.customer._id);
-    if (!customer) {
-      res.status(404);
-      throw new Error("Profile not found.");
-    }
-    res.json({ customer });
-  } catch (error) {
-    if (res.statusCode === 404) {
-      res.status(404).json({ error: error.message });
-    } else {
-      res.status(500).json({ error: error.message });
-    }
-  }
 });
 
 module.exports = router;
+
+
+// req.customer._id !== req.params.customerId
