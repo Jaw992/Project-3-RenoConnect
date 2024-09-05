@@ -17,7 +17,7 @@ const ContractorCreate = ({ contractorProfile, token }) => {
     startDate: "",
     endDate: "",
     cost: "",
-    project: "66d87b4520a6bfb11191e58d",
+    project: "66d8cb8076bf2709a6cc2e58",
     contractor: contractorProfile?.contractorUser?._id,
   });
 
@@ -49,9 +49,9 @@ const ContractorCreate = ({ contractorProfile, token }) => {
 
   const availablePhases = Array.from(
     { length: TOTAL_PHASES },
-    (_, i) => `Phase ${i + 1}`
+    (_, i) => `Phase ${i + 1}`,
   ).filter(
-    (phaseName) => !phases.some((phase) => phase.phaseName === phaseName)
+    (phaseName) => !phases.some((phase) => phase.phaseName === phaseName),
   );
 
   const handleChange = (e) => {
@@ -104,7 +104,7 @@ const ContractorCreate = ({ contractorProfile, token }) => {
     } catch (error) {
       console.error(
         "Error creating phase:",
-        error.response ? error.response.data : error.message
+        error.response ? error.response.data : error.message,
       );
       setError(error.response ? error.response.data.message : error.message);
       setSuccess("");
