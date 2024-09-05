@@ -1,0 +1,28 @@
+meta {
+  name: create proj
+  type: http
+  seq: 2
+}
+
+post {
+  url: http://localhost:3000/api/projects
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im93ZW4iLCJfaWQiOiI2NmQ4NWRiOWY2MmY2NmEzZmE0OWMyOTgiLCJpYXQiOjE3MjU1MzYzMDMsImV4cCI6NDg4MTI5NjMwM30.YshaG9S9AbD9IUJkseI6qBE7CQs778gCAqHBhc03YhQ
+}
+
+body:json {
+  {
+    projectId: "",
+      startDate: "",
+      endDate: "",
+      projectAddress: "",
+      projectPhaseCount: "",
+      projectDownPayment: "",
+      projectPaymentReceived: "",
+      projectTotalCost: "",
+  }
+}

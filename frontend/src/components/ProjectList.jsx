@@ -8,13 +8,17 @@ export default function ProjectsList({ projectId, setProjectId, token }) {
 
   useEffect(() => {
     const loadProjects = async () => {
-      const dataProjects = await projectDetailsLoad(token);
-      setProjects(dataProjects);
-      setProjectId(dataProjects.project.map((p) => p._id));
-      console.log("project id:", projectId);
+      try {
+        const dataProjects = await projectDetailsLoad(token);
+        setProjects(dataProjects);
+        setProjectId(dataProjects.project.map((p) => p._id));
+      } catch (error) {
+        console.error("Error loading projects: ", error);
+      }
     };
     loadProjects();
-  }, [token]);
+  }, [setProjectId, token]);
+
 
   return (
     <>

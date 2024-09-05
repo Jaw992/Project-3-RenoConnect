@@ -2,8 +2,10 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom"; // Only use navigate if needed
 import { Container, Form, Button } from "react-bootstrap";
 import ProjectsList from "../components/ProjectList";
-import { contractorProjectDetailsEdit, contractorProjectDetails } from "../services/apiProject";
-import { format, parseISO } from "date-fns";
+import {
+  contractorProjectDetailsEdit,
+  contractorProjectDetails,
+} from "../services/apiProject";
 
 const ContractorProjectDetails = ({ projectId, setProjectId, token }) => {
   const navigate = useNavigate();
@@ -19,8 +21,8 @@ const ContractorProjectDetails = ({ projectId, setProjectId, token }) => {
   });
 
   const [successMessage, setSuccess] = useState("");
-  const [error, setError] = useState("");
-  const [mode, setMode] = useState("create");
+  const [errorMessage, setErrorMessage] = useState("");
+
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -34,27 +36,25 @@ const ContractorProjectDetails = ({ projectId, setProjectId, token }) => {
     event.preventDefault();
 
     try {
-      if (mode === "edit") {
-        await contractorProjectDetailsEdit(formData, token);
-        setSuccess("Project Details Updated!");
-      } else {
-        await contractorProjectDetails(formData, token);
-        setSuccess("Project Details Created!");
-      }
-      setError("");
-      setMode("create");
+      const response = await contractorProjectDetails(formData, token);
+      setSuccess("Project Details Created!");
+      setErrorMessage("");
     } catch (error) {
-      setError(error.message);
+      setErrorMessage("You already have an existing project. Please delete it before creating a new one.");
       setSuccess("");
     }
-  };
+  };  
 
   return (
     <div className="contractor-bg pages-pad">
       <Container className="pages-custom-container">
         <h4 className="h3-custom">Project Details</h4>
         <div className="pages-box-shadow p-3 p-projectTracking">
-          <ProjectsList token={token} projectId={projectId} setProjectId={setProjectId} />
+          <ProjectsList
+            token={token}
+            projectId={projectId}
+            setProjectId={setProjectId}
+          />
         </div>
         <div className="pages-box-shadow p-3 mt-3">
           <h5 className="h3-custom">Create Project</h5>
@@ -67,7 +67,6 @@ const ContractorProjectDetails = ({ projectId, setProjectId, token }) => {
                 placeholder="Enter your project ID"
                 value={formData.projectId}
                 onChange={handleChange}
-                disabled={mode === "edit"} // Disable input in edit mode
                 required
               />
             </Form.Group>
@@ -158,9 +157,9 @@ const ContractorProjectDetails = ({ projectId, setProjectId, token }) => {
 
             <div className="button-container mt-3">
               <Button type="submit" className="custom-button-primary">
-                {mode === "edit" ? "Update" : "Create"}
+                Create
               </Button>
-              {error && <p className="error mt-3">{error}</p>}
+              {errorMessage && <p className="error mt-3">{errorMessage}</p>}
               {successMessage && (
                 <p className="success mt-3">{successMessage}</p>
               )}
