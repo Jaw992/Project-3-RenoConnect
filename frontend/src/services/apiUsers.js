@@ -140,7 +140,7 @@ export async function getCustomer(token) {
     }
 
     const json = await response.json();
-    return json.phases;
+    return json;
   } catch (error) {
     console.error(error.message);
     throw error;

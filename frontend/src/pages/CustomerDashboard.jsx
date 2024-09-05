@@ -2,8 +2,7 @@ import { useState, useEffect } from "react";
 import { Container, Form } from "react-bootstrap";
 import PhaseDetailsCard from "../components/PhaseDetailsCard";
 import ProjectTrackingCard from "../components/ProjectTrackingCard";
-import ChangeRequestCard from "../components/ChangeRequestCard";
-// import { fetchPhases } from "../services/apiPhase";
+import ChangeRequestCardCust from "../components/ChangeRequestCardCust";
 import { getCustomer } from "../services/apiUsers"
 
 const CustomerDashboard = ({ token }) => {
@@ -13,24 +12,24 @@ const CustomerDashboard = ({ token }) => {
   const [successMessage, setSuccessMessage] = useState("");
 
   useEffect(() => {
-    const loadPhases = async () => {
+    const loadCustomerData = async () => {
       try {
-        const phasesData = await getCustomer(token);
-        if (Array.isArray(phasesData)) {
-          setPhases(phasesData);
-          if (phasesData.length > 0) {
-            setSelectedPhase(phasesData[0]._id); // Set the first phase as selected by default
+        const customerData = await getCustomer(token);
+        if (Array.isArray(customerData.phases)) {
+          setPhases(customerData.phases);
+          if (customerData.phases.length > 0) {
+            setSelectedPhase(customerData.phases[0]._id); // Default to the first phase
           }
         } else {
           setError("Invalid data format received.");
         }
       } catch (error) {
-        setError("Failed to load phases.");
-        console.error("Error fetching phases:", error);
+        setError("Failed to load data.");
+        console.error("Error fetching data:", error);
       }
     };
 
-    loadPhases();
+    loadCustomerData();
   }, [token]);
 
   const handleChange = (e) => {
@@ -51,7 +50,7 @@ const CustomerDashboard = ({ token }) => {
         <div className="pages-box-shadow p-3 mt-3">
           <h5 className="h3-custom">Change Requests: Pending Approval</h5>
           {selectedPhase && (
-            <ChangeRequestCard
+            <ChangeRequestCardCust
               phase={phases.find((p) => p._id === selectedPhase)}
               token={token}
             />
