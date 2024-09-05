@@ -179,6 +179,3 @@ router.put('/:customerId/:projectId/phases/:phaseId/changeLogs/:changeLogId', ve
 });
 
 module.exports = router;
-
-
-// req.customer._id !== req.params.customerId

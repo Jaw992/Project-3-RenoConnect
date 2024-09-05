@@ -94,8 +94,6 @@ export default function ProjectsList({ projectId, setProjectId, token }) {
               <p>Payment Received: ${project.projectPaymentReceived}</p>
               <p>Total Cost: ${project.projectTotalCost}</p>
               <div className="button-container mt-3 mb-5">
-                <Link to={`/projectdetails/edit/${projects._id}`}>
-                  <button className="custom-button-primary me-4">Edit</button>
                 <Link to={`/projectdetails/edit/${project._id}`}>
                   <button className="custom-button-primary">Edit</button>
                 </Link>
