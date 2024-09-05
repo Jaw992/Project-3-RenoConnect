@@ -8,14 +8,6 @@ const verifyTokenCustomer = require("../middleware/verifyTokenCustomer");
 //* Verify Token
 router.use(verifyTokenContractor);
 router.use(verifyTokenCustomer);
-/* 
-Create a new phase: "/"
-Get a single phase by ID: "/:phaseId"
-Update a phase and add a change log entry: "/update/:phaseId"
-Approve a phase: "/approve/:phaseId"
-Reject a phase: "/reject/:phaseId"
-Delete a phase: "/:phaseId"
-*/
 
 // Create a new phase
 router.post("/", async (req, res) => {
@@ -211,83 +203,5 @@ router.put("/:phaseId/ChangeLog/:changeLogId", async (req, res) => {
     res.status(500).json({ message: "Server error", error });
   }
 });
-
-// // Update a phase and add a change log entry
-// router.put("/update/:phaseId", async (req, res) => {
-//   try {
-//     const phase = await Phase.findById(req.params.phaseId);
-//     if (!phase) {
-//       return res.status(404).json({ message: "Phase not found" });
-//     }
-
-//     // Create a change log entry
-//     const changeLogEntry = {
-//       oldTaskDescription: phase.taskDescription,
-//       newTaskDescription: req.body.taskDescription || phase.taskDescription,
-//       oldStartDate: phase.startDate,
-//       newStartDate: req.body.startDate || phase.startDate,
-//       oldEndDate: phase.endDate,
-//       newEndDate: req.body.endDate || phase.endDate,
-//       oldCost: phase.cost,
-//       newCost: req.body.cost || phase.cost,
-//       reviewStatus: "Pending",
-//     };
-
-//     // Update the phase and add the change log entry
-//     phase.changeLog.push(changeLogEntry);
-//     Object.assign(phase, req.body);
-//     const updatedPhase = await phase.save();
-
-//     res.status(200).json(updatedPhase);
-//   } catch (error) {
-//     res.status(500).json(error);
-//   }
-// });
-
-// // Approve a phase
-// router.put("/:phaseId/approve", async (req, res) => {
-//   try {
-//     const phase = await Phase.findById(req.params.phaseId);
-//     if (!phase) {
-//       return res.status(404).json({ message: "Phase not found" });
-//     }
-
-//     // Find the latest change log entry and update its review status
-//     const latestChangeLog = phase.changeLog[phase.changeLog.length - 1];
-//     if (latestChangeLog) {
-//       latestChangeLog.reviewStatus = "Approved";
-//     }
-
-//     // Save the updated phase
-//     const approvedPhase = await phase.save();
-
-//     res.status(200).json(approvedPhase);
-//   } catch (error) {
-//     res.status(500).json(error);
-//   }
-// });
-
-// // Reject a phase
-// router.put("/:phaseId/reject", async (req, res) => {
-//   try {
-//     const phase = await Phase.findById(req.params.phaseId);
-//     if (!phase) {
-//       return res.status(404).json({ message: "Phase not found" });
-//     }
-
-//     // Find the latest change log entry and update its review status
-//     const latestChangeLog = phase.changeLog[phase.changeLog.length - 1];
-//     if (latestChangeLog) {
-//       latestChangeLog.reviewStatus = "Rejected";
-//     }
-
-//     // Save the updated phase
-//     const rejectedPhase = await phase.save();
-
-//     res.status(200).json(rejectedPhase);
-//   } catch (error) {
-//     res.status(500).json(error);
-//   }
-// });
 
 module.exports = router;
