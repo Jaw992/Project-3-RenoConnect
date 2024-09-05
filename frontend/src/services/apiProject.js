@@ -90,7 +90,7 @@ export async function contractorProjectDetailsEdit(id, formData, token) {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-       body: JSON.stringify(formData),
+      body: JSON.stringify(formData),
     });
     if (!response.ok) {
       throw new Error(`Response status: ${response.status}`);
@@ -101,3 +101,25 @@ export async function contractorProjectDetailsEdit(id, formData, token) {
     throw error;
   }
 }
+
+// delete
+export async function deleteProjectDetails(id, token) {
+  const url = `/api/projects/${id}`;
+  try {
+    const response = await fetch(url, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ id })
+    });
+    if (!response.ok) {
+      throw new Error(`Response status: ${response.status}`);
+    }
+    await response.json();
+  } catch (error) {
+    console.error(error.message);
+    throw error;
+  }
+};

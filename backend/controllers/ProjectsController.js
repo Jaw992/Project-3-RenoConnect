@@ -158,4 +158,30 @@ router.put("/:projectId", async (req, res) => {
   }
 });
 
-module.exports = router;
+// delete project
+router.delete("/:projectId", async (req, res) => {
+    try {
+      const project = await Project.findById(req.params.projectId);
+      
+      if (!project) {
+        return res.status(404).send("Project not found");
+      }
+  
+      if (!project.contractor.equals(req.contractor._id)) {
+        return res.status(403).send("You're not allowed to do that!");
+      }
+  
+      const deletedProject = await Project.findByIdAndDelete(req.params.projectId);
+      
+      if (!deletedProject) {
+        return res.status(404).send("Project could not be deleted");
+      }
+  
+      res.status(200).json(deletedProject);
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  });
+  module.exports = router;
+
+
