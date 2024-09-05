@@ -3,9 +3,11 @@ const router = express.Router();
 const Phase = require("../models/Phase");
 const Project = require("../models/Project");
 const verifyTokenContractor = require("../middleware/verifyTokenContractor");
+const verifyTokenCustomer = require("../middleware/verifyTokenCustomer");
 
 //* Verify Token
 router.use(verifyTokenContractor);
+router.use(verifyTokenCustomer);
 /* 
 Create a new phase: "/"
 Get a single phase by ID: "/:phaseId"
