@@ -12,24 +12,47 @@ const ContractorDashboard = ({ setProjectDetails, setProjectId, token }) => {
   const [error, setError] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
 
+  // useEffect(() => {
+  //   const loadProjectDetails = async () => {
+  //     try {
+  //       const dataProjects = await projectDetailsLoad(token);
+  //       if (dataProjects && dataProjects.project) {
+  //         const projectData = dataProjects.project;
+  //         setProjectDetails(projectData);
+  //         setProjectId(projectData.map((p) => p._id));
+  //       } else {
+  //         setError("No project details found.");
+  //       }
+  //     } catch (error) {
+  //       setError("Failed to load project details.");
+  //     }
+  //   };
+
+  //   loadProjectDetails(); // Load project details on component mount
+  // }, [token, setProjectDetails, setProjectId]);
+
   useEffect(() => {
     const loadProjectDetails = async () => {
       try {
-        const dataProjects = await projectDetailsLoad(token); // Fetch project details
-        if (dataProjects && dataProjects.project) {
-          const projectData = dataProjects.project;
-          setProjectDetails(projectData); // Use setProjectDetails function to set the project details
-          setProjectId(projectData.map((p) => p._id)); // Use setProjectId function to set the project IDs
+        const projectsData = await projectDetailsLoad(token);
+        console.log("Projects data:", projectsData);
+
+        if (Array.isArray(projectsData)) {
+          setProjectDetails(projectsData);
+          if (projectsData.length > 0) {
+            setProjectId(projectsData.map((p) => p._id));
+          }
         } else {
-          setError("No project details found.");
+          setError("Invalid data format received.");
         }
       } catch (error) {
         setError("Failed to load project details.");
+        console.error("Error fetching projects:", error);
       }
     };
 
     loadProjectDetails(); // Load project details on component mount
-  }, [token, setProjectDetails, setProjectId]);
+  }, [token]);
 
   useEffect(() => {
     const loadPhases = async () => {

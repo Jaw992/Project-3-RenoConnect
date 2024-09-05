@@ -23,7 +23,6 @@ const ContractorProjectDetails = ({ projectId, setProjectId, token }) => {
   const [successMessage, setSuccess] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
 
-
   const handleChange = (event) => {
     const { name, value } = event.target;
     setFormData({
@@ -40,10 +39,12 @@ const ContractorProjectDetails = ({ projectId, setProjectId, token }) => {
       setSuccess("Project Details Created!");
       setErrorMessage("");
     } catch (error) {
-      setErrorMessage("You already have an existing project. Please delete it before creating a new one.");
+      setErrorMessage(
+        "You already have an existing project. Please delete it before creating a new one."
+      );
       setSuccess("");
     }
-  };  
+  };
 
   return (
     <div className="contractor-bg pages-pad">
