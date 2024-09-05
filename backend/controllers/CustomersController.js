@@ -111,7 +111,7 @@ router.get("/:customerId", verifyTokenCustomer, async (req, res) => {
         }
         const project = await Project.findOne({projectId: customer.projectId});
         const phases = await Phase.find({ project: project._id});
-        res.json({ project, phases });
+        res.json({ customer, project, phases });
     } catch (error) {
         if (res.statusCode === 404) {
             res.status(404).json({ error: error.message });

@@ -148,7 +148,7 @@ export async function getCustomer(token) {
 }
 
 //* PUT changeLog
-export async function updateChangeLog(customerId, projectId, phaseId, changeLogId, status, token) {
+export async function updateChangeLog(customerId, projectId, phaseId, changeLogId, reviewStatus, token) {
   const url = `/api/customers/${customerId}/${projectId}/phases/${phaseId}/changeLogs/${changeLogId}`;
   try {
     const response = await fetch(url, {
@@ -157,7 +157,7 @@ export async function updateChangeLog(customerId, projectId, phaseId, changeLogI
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify({ status }), // Send status in the request body
+      body: JSON.stringify({ reviewStatus }),
     });
 
     if (!response.ok) {
