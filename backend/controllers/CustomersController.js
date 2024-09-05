@@ -43,6 +43,39 @@ router.post("/signup", async (req, res) => {
         res.status(400).json({ error: error.message });
     }
 });
+
+// router.post("/signup", async (req, res) => {
+//     // check if there is project ref Id entered
+//     const { username, hashedPassword, name, contact, email, projectId } =
+//       req.body;
+//     const project = await Project.findOne({ projectId });
+//     if (!project) {
+//       return res.status(400).json({ error: "No Project Id, please enter." });
+//     }
+
+//     // check if project ref Id entered matches any created Project ref Id
+//     const newCustomer = new Customer({
+//       username,
+//       hashedPassword,
+//       name,
+//       contact,
+//       email,
+//       projectId, // Link customer to the project by business ID
+//     });
+//     // create new user with hashed password
+//     try {
+//         const savedCustomer = await newCustomer.save();
+//         res.status(201).json(savedCustomer);
+//         const token = jwt.sign(
+//             { username: customer.username, _id: customer._id },
+//             process.env.JWT_SECRET,
+//           );
+//           res.status(201).json({ customer, token });
+      
+//     } catch (error) {
+//       res.status(400).json({ error: "Error creating customer" });
+//     }
+// });
   
 // log in
 router.post("/login", async (req, res) => {
