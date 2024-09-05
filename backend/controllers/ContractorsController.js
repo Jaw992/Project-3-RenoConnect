@@ -11,7 +11,7 @@ const SALT_LENGTH = 12;
 const createJWT = (contractor) => {
     const payload = { username: contractor.username, _id: contractor._id };
     const secret = process.env.JWT_SECRET;
-    const options = { expiresIn: "100y" };
+    const options = { expiresIn: "1h" };
     return jwt.sign(payload, secret, options);
   };
 

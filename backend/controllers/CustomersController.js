@@ -45,36 +45,44 @@ const SALT_LENGTH = 12;
 // });
 
 router.post("/signup", async (req, res) => {
-    // check if there is project ref Id entered
-    const { username, hashedPassword, name, contact, email, projectId } =
-      req.body;
+  const { username, password, name, contact, email, projectId } = req.body;
+
+  try {
+    // Find the project by business projectId
     const project = await Project.findOne({ projectId });
     if (!project) {
-      return res.status(400).json({ error: "No Project Id, please enter." });
+      return res.status(404).json({ error: "Project not found" });
     }
 
-    // check if project ref Id entered matches any created Project ref Id
-    const newCustomer = new Customer({
+    // Hash the password
+    const hashedPassword = bcrypt.hashSync(password, SALT_LENGTH);
+
+    // Create a new customer and link to the project
+    const customer = await Customer.create({
       username,
       hashedPassword,
       name,
       contact,
       email,
-      projectId, // Link customer to the project by business ID
+      projectId,
     });
-    // create new user with hashed password
-    try {
-        const savedCustomer = await newCustomer.save();
-        res.status(201).json(savedCustomer);
-        const token = jwt.sign(
-            { username: Customer.username, _id: Customer._id },
-            process.env.JWT_SECRET,
-          );
-          res.status(201).json({ Customer, token });
-      
-    } catch (error) {
-      res.status(400).json({ error: "Error creating customer" });
-    }
+
+    // Generate JWT token
+    const token = jwt.sign(
+      { username: customer.username, _id: customer._id },
+      process.env.JWT_SECRET,
+      { expiresIn: "1h" } // Token expiration time
+    );
+
+    // Respond with the customer data and token
+    res.status(201).json({
+      customer,
+      token,
+    });
+  } catch (error) {
+    console.error("Error creating customer:", error);
+    res.status(400).json({ error: "Error creating customer" });
+  }
 });
   
 // log in
