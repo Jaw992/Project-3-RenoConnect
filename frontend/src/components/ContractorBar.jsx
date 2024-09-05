@@ -8,13 +8,15 @@ function ContractorBar({
   setIsContractorLoggedIn,
   setToken,
   contractorProfile,
+  projectDetails,
 }) {
   console.log("Prop:", contractorProfile?.contractorUser?.name);
 
   console.log("Profile", contractorProfile);
 
   const userName = contractorProfile?.contractorUser?.name || "";
-  const projectId = "#123";
+  const projectAddress = projectDetails?.[0]?.projectAddress || "#Address";
+  console.log("Project Details: ", projectDetails);
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -49,7 +51,7 @@ function ContractorBar({
             <div style={{ fontWeight: "300" }}>
               <span>{userName}</span>
               <span> | </span>
-              <span>{projectId}</span>
+              <span>{projectAddress}</span>
             </div>
           </div>
 
