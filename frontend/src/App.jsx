@@ -126,7 +126,12 @@ function App() {
         />
         <Route
           path="/contractor/create"
-          element={<ContractorCreate token={token} />}
+          element={
+            <ContractorCreate
+              contractorProfile={contractorProfile}
+              token={token}
+            />
+          }
         />
         <Route
           path="/contractor/change"
@@ -146,7 +151,6 @@ function App() {
           element={<EditProjectDetails token={token} />}
         />
       </Routes>
-          
 
       <Footer />
     </div>

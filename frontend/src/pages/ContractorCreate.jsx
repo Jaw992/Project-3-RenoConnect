@@ -7,6 +7,8 @@ import { createPhase, fetchPhases } from "../services/apiPhase";
 const TOTAL_PHASES = 10;
 
 const ContractorCreate = ({ contractorProfile, token }) => {
+  console.log("Contractor Profile: ", contractorProfile);
+  console.log("Contractor ID: ", contractorProfile.contractorUser._id);
   const [phases, setPhases] = useState([]);
   const [successMessage, setSuccess] = useState("");
   const [error, setError] = useState("");
@@ -17,8 +19,10 @@ const ContractorCreate = ({ contractorProfile, token }) => {
     startDate: "",
     endDate: "",
     cost: "",
-    project: "66d84f640e899c20a4b19eae",
-    contractor: contractorProfile?.contractorUser?._id,
+    project: "66d87b4520a6bfb11191e58d",
+    // contractor: contractorProfile?.contractorUser?._id,
+    // contractor: "66d87acb20a6bfb11191e583",
+    contractor: contractorProfile.contractorUser._id,
   });
 
   const [appendPhase, setAppendPhase] = useState({
@@ -93,9 +97,11 @@ const ContractorCreate = ({ contractorProfile, token }) => {
         endDate: "",
         cost: "",
         // project: req.body.projectId,
-        // contractor: req.user.id,
-        project: "66d84f640e899c20a4b19eae",
-        contractor: contractorProfile?.contractorUser?._id,
+        // contractor: req.user.id, //
+        project: "66d87b4520a6bfb11191e58d",
+        // contractor: contractorProfile?.contractorUser?._id,
+        // contractor: "66d87acb20a6bfb11191e583",
+        contractor: contractorProfile.contractorUser._id,
       });
 
       // Fetch updated list of phases after every time a phase is created
