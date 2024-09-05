@@ -1,8 +1,6 @@
-const BASE_URL = "http://localhost:3000/api";
-
 //* Create a new phase
 export async function createPhase(data, token) {
-  const url = `${BASE_URL}/phases`;
+  const url = `/api/phases`;
   try {
     const response = await fetch(url, {
       method: "POST",
@@ -23,7 +21,7 @@ export async function createPhase(data, token) {
 }
 
 export const fetchPhases = async (token) => {
-  const url = `${BASE_URL}/phases`;
+  const url = `/api/phases`;
   try {
     const response = await fetch(url, {
       method: "GET",
@@ -47,7 +45,7 @@ export const fetchPhases = async (token) => {
 
 //* GET a specific phase by ID
 export async function getPhase(phaseId, token) {
-  const url = `${BASE_URL}/phases/${phaseId}`;
+  const url = `/api/phases/${phaseId}`;
   try {
     const response = await fetch(url, {
       method: "GET",
@@ -129,7 +127,7 @@ export async function getPhase(phaseId, token) {
 
 //* Create new changeLog when phase details changes
 export async function createChangeLog(phaseId, data, token) {
-  const url = `${BASE_URL}/phases/${phaseId}/changeLog`;
+  const url = `/api/phases/${phaseId}/changeLog`;
   try {
     const response = await fetch(url, {
       method: "POST",
@@ -155,7 +153,7 @@ export async function createChangeLog(phaseId, data, token) {
 
 //* Get details on just 1 changeLog detail
 export async function getChangeLog(phaseId, changeLogId, token) {
-  const url = `${BASE_URL}/phases/${phaseId}/changeLog/${changeLogId}`;
+  const url = `/api/phases/${phaseId}/changeLog/${changeLogId}`;
   try {
     const response = await fetch(url, {
       method: "GET",
@@ -180,7 +178,7 @@ export async function getChangeLog(phaseId, changeLogId, token) {
 
 //* Update reviewStatus and update Phase details with new changeLog that is approved
 export async function updatePhase(phaseId, changeLogId, token) {
-  const url = `${BASE_URL}/phases/${phaseId}/changeLog/${changeLogId}`;
+  const url = `/api/phases/${phaseId}/changeLog/${changeLogId}`;
   try {
     const response = await fetch(url, {
       method: "PUT",
@@ -215,7 +213,7 @@ export async function updatePhase(phaseId, changeLogId, token) {
 
 //* Delete a specific phase by ID
 export async function deletePhase(phaseId, token) {
-  const url = `${BASE_URL}/phases/delete/${phaseId}`;
+  const url = `/api/phases/delete/${phaseId}`;
   try {
     const response = await fetch(url, {
       method: "DELETE",
