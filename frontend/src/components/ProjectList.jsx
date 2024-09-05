@@ -14,7 +14,7 @@ export default function ProjectsList({ projectId, setProjectId, token }) {
       console.log("project id:", projectId);
     };
     loadProjects();
-  }, [projectId, setProjectId, token]);
+  }, [token]);
 
   return (
     <>
@@ -28,8 +28,18 @@ export default function ProjectsList({ projectId, setProjectId, token }) {
               <h2>Project ID: {projects.projectId}</h2>
               <p>Project Address: {projects.projectAddress}</p>
               <p>Total Phases: {projects.projectPhaseCount}</p>
-              <p>Start Date: {projects.startDate ? format(parseISO(projects.startDate), 'dd/MM/yy') : 'N/A'}</p>
-              <p>End Date: {projects.endDate ? format(parseISO(projects.startDate), 'dd/MM/yy') : 'N/A'}</p>
+              <p>
+                Start Date:{" "}
+                {projects.startDate
+                  ? format(parseISO(projects.startDate), "dd/MM/yy")
+                  : "N/A"}
+              </p>
+              <p>
+                End Date:{" "}
+                {projects.endDate
+                  ? format(parseISO(projects.startDate), "dd/MM/yy")
+                  : "N/A"}
+              </p>
               <p>Down Payment: ${projects.projectDownPayment}</p>
               <p>Payment Received: ${projects.projectPaymentReceived}</p>
               <p>Total Cost: ${projects.projectTotalCost}</p>
