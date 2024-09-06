@@ -1,11 +1,11 @@
-import { extractPayload } from "../../utils/jwUtils";
+const BACKEND_URL = import.meta.env.VITE_EXPRESS_BACKEND_URL;
 
 //get
 export async function projectDetailsLoad(token) {
   // const projectId = extractPayload(token)._id;
   // const token = localStorage.getItem("authToken");
 
-  const url = `/api/projects`;
+  const url = `${BACKEND_URL}/api/projects`;
   try {
     const response = await fetch(url, {
       method: "GET",
@@ -31,7 +31,7 @@ export async function projectDetailsLoad(token) {
 
 //show
 export async function showProjectDetails(id, token) {
-  const url = `/api/projects/${id}`;
+  const url = `${BACKEND_URL}/api/projects/${id}`;
   try {
     // const token = localStorage.getItem("authToken");
     const response = await fetch(url, {
@@ -55,7 +55,7 @@ export async function showProjectDetails(id, token) {
 
 // create
 export async function contractorProjectDetails(data, token) {
-  const url = "/api/projects";
+  const url = `${BACKEND_URL}/api/projects`;
   try {
     // const token = localStorage.getItem("authToken");
     const response = await fetch(url, {
@@ -81,7 +81,7 @@ export async function contractorProjectDetails(data, token) {
 //edit
 export async function contractorProjectDetailsEdit(id, formData, token) {
   // const projectId = extractPayload(token)._id;
-  const url = `/api/projects/${id}`;
+  const url = `${BACKEND_URL}/api/projects/${id}`;
   try {
     // const token = localStorage.getItem("authToken");
     const response = await fetch(url, {
@@ -104,7 +104,7 @@ export async function contractorProjectDetailsEdit(id, formData, token) {
 
 // delete
 export async function deleteProjectDetails(id, token) {
-  const url = `/api/projects/${id}`;
+  const url = `${BACKEND_URL}/api/projects/${id}`;
   try {
     const response = await fetch(url, {
       method: "DELETE",
