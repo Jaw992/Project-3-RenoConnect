@@ -1,10 +1,11 @@
 import { extractPayload } from "../../utils/jwUtils";
+const BACKEND_URL = import.meta.env.VITE_EXPRESS_BACKEND_URL;
 
 //? Contractor APIs
 
 //* Contractor Signup
 export async function contractorSignup(data) {
-  const url = "/api/contractors/signup"; // can change
+  const url = `${BACKEND_URL}/api/contractors/signup`; // can change
   try {
     const response = await fetch(url, {
       method: "POST",
@@ -27,7 +28,7 @@ export async function contractorSignup(data) {
 
 //* Contracor Login
 export async function contractorLogin(data) {
-  const url = "/api/contractors/login"; // can change
+  const url = `${BACKEND_URL}/api/contractors/login`; // can change
   try {
     const response = await fetch(url, {
       method: "POST",
@@ -53,7 +54,7 @@ export async function contractorLogin(data) {
   //* Load contractor Profile
   export async function contractorLoad(token) {
     const contractorId = extractPayload(token)._id;
-    const url = `/api/contractors/${contractorId}`;
+    const url = `${BACKEND_URL}/api/contractors/${contractorId}`;
     try {
       const response = await fetch(url, {
         method: "GET",
@@ -78,7 +79,7 @@ export async function contractorLogin(data) {
 
 //* Customer Signup
 export async function customerSignup(data) {
-  const url = "/api/customers/signup"; // can change
+  const url = `${BACKEND_URL}/api/customers/signup`; // can change
   try {
     const response = await fetch(url, {
       method: "POST",
@@ -101,7 +102,7 @@ export async function customerSignup(data) {
 
 //* Customer Login
 export async function customerLogin(data) {
-  const url = "/api/customers/login"; //can change
+  const url = `${BACKEND_URL}/api/customers/login`; //can change
   try {
     const response = await fetch(url, {
       method: "POST",
@@ -126,7 +127,7 @@ export async function customerLogin(data) {
 
 export async function getCustomer(token) {
   const customerId = extractPayload(token)._id;
-  const url = `/api/customers/${customerId}`;
+  const url = `${BACKEND_URL}/api/customers/${customerId}`;
   try {
     const response = await fetch(url, {
       method: "GET",
@@ -149,7 +150,7 @@ export async function getCustomer(token) {
 
 //* PUT changeLog
 export async function updateChangeLog(customerId, projectId, phaseId, changeLogId, reviewStatus, token) {
-  const url = `/api/customers/${customerId}/${projectId}/phases/${phaseId}/changeLogs/${changeLogId}`;
+  const url = `${BACKEND_URL}/api/customers/${customerId}/${projectId}/phases/${phaseId}/changeLogs/${changeLogId}`;
   try {
     const response = await fetch(url, {
       method: "PUT",
