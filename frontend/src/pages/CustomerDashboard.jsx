@@ -43,7 +43,7 @@ const CustomerDashboard = ({ token }) => {
         <div className="pages-box-shadow p-3">
           <h5 className="h3-custom mb-4">Project Tracking</h5>
           <div>
-            <ProjectTrackingCard />
+            <ProjectTrackingCard token={token}/>
           </div>
         </div>
 
