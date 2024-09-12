@@ -38,6 +38,8 @@ app.use("/api/phases", phasesRouter);
 // app.use("/api/changeLog", changeLogRouter);
 app.use("/api/projects", projectRouter);
 
+app.use(express.static("../frontend/dist"));
+
 app.listen(port, () => {
   debug(`Example app listening on port ${port}`);
 });
