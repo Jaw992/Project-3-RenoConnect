@@ -12,7 +12,7 @@
 
 - Users will be alerted and able to approve of work as completed to move on to the next phase of renovation work
 
-## Project Timeline
+## Time Frame
 Planning + Development
 - 2+ Weeks
 
