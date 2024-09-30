@@ -12,6 +12,10 @@
 
 - Users will be alerted and able to approve of work as completed to move on to the next phase of renovation work
 
+## Project Timeline
+Planning + Development
+- 2+ Weeks
+
 ## User Stories
 
 Contractor Side
@@ -67,12 +71,6 @@ Project Dashboard
 - Customers will see phase details and changeLog that requires approval for changes to the plans made.
 
 - Customers will be able to click “approved” or “reject” for submitted renovation works for review.
-
-## Project Timeline
-
-Planning + Development
-
-- 2+ Weeks
 
 ## React Libraries Used
 
